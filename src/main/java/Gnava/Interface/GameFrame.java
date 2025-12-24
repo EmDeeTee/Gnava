@@ -2,20 +2,35 @@ package Gnava.Interface;
 
 import Gnava.Game.Events.GameEvent;
 import Gnava.Game.GameState;
+import Gnava.Game.Settlement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class GameFrame extends JFrame {
+    private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
     private static GameFrame instance = null;
+
+    private final DefaultListModel<String> settlementListModel = new DefaultListModel<>();
+    private final DefaultListModel<GameEvent> eventListModel = new DefaultListModel<>();
+    private final JLabel currentDayValueLabel = new JLabel("0");
+
+    private final Consumer<List<Settlement>> settlementListener = this::onSettlementsChanged;
+    private final Consumer<Integer> timeListener = this::onTimeAdvanced;
 
     private GameFrame() {
         super("Gnava");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 600);
+        setSize(PREFERRED_SIZE);
         setResizable(false);
 
         setupGui();
+        registerListeners();
+
+        pack();
+        setLocationRelativeTo(null);
     }
 
     public static GameFrame getInstance() {
@@ -26,51 +41,14 @@ public class GameFrame extends JFrame {
     }
 
     public void messagePlayer(String msg) {
-
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(this, msg, "Message", JOptionPane.INFORMATION_MESSAGE);
+        });
     }
 
     private void setupGui() {
-        JPanel topPanel = new JPanel();
-        topPanel.setBackground(Color.LIGHT_GRAY);
-
-        JLabel currentTimeLabel = new JLabel("Current day: ");
-        JLabel currentTimeLabelValue = new JLabel("0");
-        JButton advanceTimeButton = new JButton("Pass time");
-        topPanel.add(advanceTimeButton);
-        topPanel.add(currentTimeLabel);
-        topPanel.add(currentTimeLabelValue);
-
-        advanceTimeButton.addActionListener(e -> {
-            GameState.getInstance().advanceTime();
-        });
-        GameState.getInstance().addTimeListener(day -> {
-            SwingUtilities.invokeLater(() -> {
-                currentTimeLabelValue.setText(String.valueOf(day));
-            });
-        });
-
-        JList<GameEvent> eventList = new JList<>();
-        JScrollPane eventScrollPane = new JScrollPane(eventList);
-        eventScrollPane.setBorder(BorderFactory.createTitledBorder("Events"));
-
-        DefaultListModel<String> settlementModel = new DefaultListModel<>();
-        JList<String> settlementList = new JList<>(settlementModel);
-        JScrollPane settlementScrollPane = new JScrollPane(settlementList);
-        settlementScrollPane.setBorder(BorderFactory.createTitledBorder("Settlements"));
-
-        GameState.getInstance().addSettlementListener(list -> {
-            SwingUtilities.invokeLater(() -> {
-                settlementModel.clear();
-                for (var s : list) {
-                    settlementModel.addElement(s.getName());
-                }
-            });
-        });
-
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(2, 1, 5, 5));
-        bottomPanel.add(eventScrollPane);
-        bottomPanel.add(settlementScrollPane);
+        JPanel topPanel = buildTopPanel();
+        JPanel bottomPanel = buildBottomPanel();
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         splitPane.setTopComponent(topPanel);
@@ -79,6 +57,56 @@ public class GameFrame extends JFrame {
         splitPane.setDividerSize(0);
         splitPane.setEnabled(false);
 
-        add(splitPane);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(splitPane, BorderLayout.CENTER);
+    }
+
+    private JPanel buildTopPanel() {
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
+        topPanel.setBackground(Color.LIGHT_GRAY);
+
+        JLabel currentTimeLabel = new JLabel("Current day:");
+        JButton advanceTimeButton = new JButton("Pass time");
+
+        advanceTimeButton.addActionListener(e -> GameState.getInstance().advanceTime());
+
+        topPanel.add(advanceTimeButton);
+        topPanel.add(currentTimeLabel);
+        topPanel.add(currentDayValueLabel);
+
+        return topPanel;
+    }
+
+    private JPanel buildBottomPanel() {
+        JList<GameEvent> eventList = new JList<>(eventListModel);
+        JScrollPane eventScrollPane = new JScrollPane(eventList);
+        eventScrollPane.setBorder(BorderFactory.createTitledBorder("Events"));
+
+        JList<String> settlementList = new JList<>(settlementListModel);
+        JScrollPane settlementScrollPane = new JScrollPane(settlementList);
+        settlementScrollPane.setBorder(BorderFactory.createTitledBorder("Settlements"));
+
+        JPanel bottom = new JPanel(new GridLayout(2, 1, 5, 5));
+        bottom.add(eventScrollPane);
+        bottom.add(settlementScrollPane);
+        return bottom;
+    }
+
+    private void registerListeners() {
+        GameState.getInstance().addSettlementListener(settlementListener);
+        GameState.getInstance().addTimeListener(timeListener);
+    }
+
+    private void onSettlementsChanged(List<Settlement> settlements) {
+        SwingUtilities.invokeLater(() -> {
+            settlementListModel.clear();
+            for (Settlement s : settlements) {
+                settlementListModel.addElement(s.getName());
+            }
+        });
+    }
+
+    private void onTimeAdvanced(Integer day) {
+        SwingUtilities.invokeLater(() -> currentDayValueLabel.setText(String.valueOf(day)));
     }
 }
