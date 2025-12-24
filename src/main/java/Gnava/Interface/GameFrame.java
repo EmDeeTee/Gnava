@@ -2,7 +2,7 @@ package Gnava.Interface;
 
 import Gnava.Game.Events.GameEvent;
 import Gnava.Game.GameState;
-import Gnava.Game.Settlement;
+import Gnava.Game.Settlements.Settlement;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -120,7 +120,7 @@ public class GameFrame extends JFrame {
             if (!e.getValueIsAdjusting()) {
                 Settlement selected = settlementList.getSelectedValue();
                 if (selected != null) {
-                    messagePlayer("Selected: " + selected.getName());
+                    messagePlayer("Selected: " + selected.name() + " with pop type of " + selected.populationType());
                 }
             }
         };

@@ -1,5 +1,7 @@
 package Gnava.Game;
 
+import Gnava.Game.Settlements.Settlement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
