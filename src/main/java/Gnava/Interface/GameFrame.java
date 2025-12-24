@@ -33,6 +33,22 @@ public class GameFrame extends JFrame {
         JPanel topPanel = new JPanel();
         topPanel.setBackground(Color.LIGHT_GRAY);
 
+        JLabel currentTimeLabel = new JLabel("Current day: ");
+        JLabel currentTimeLabelValue = new JLabel("0");
+        JButton advanceTimeButton = new JButton("Pass time");
+        topPanel.add(advanceTimeButton);
+        topPanel.add(currentTimeLabel);
+        topPanel.add(currentTimeLabelValue);
+
+        advanceTimeButton.addActionListener(e -> {
+            GameState.getInstance().advanceTime();
+        });
+        GameState.getInstance().addTimeListener(day -> {
+            SwingUtilities.invokeLater(() -> {
+                currentTimeLabelValue.setText(String.valueOf(day));
+            });
+        });
+
         JList<GameEvent> eventList = new JList<>();
         JScrollPane eventScrollPane = new JScrollPane(eventList);
         eventScrollPane.setBorder(BorderFactory.createTitledBorder("Events"));
@@ -44,7 +60,6 @@ public class GameFrame extends JFrame {
 
         GameState.getInstance().addSettlementListener(list -> {
             SwingUtilities.invokeLater(() -> {
-                System.out.println("Hello");
                 settlementModel.clear();
                 for (var s : list) {
                     settlementModel.addElement(s.getName());

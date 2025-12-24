@@ -7,9 +7,11 @@ import java.util.function.Consumer;
 public class GameState {
     private static GameState instance = null;
 
-    private final int currentDay = 0;
+    private Integer currentDay = 0;
     private final List<Settlement> settlements = new ArrayList<>();
+
     private final List<Consumer<List<Settlement>>> settlementListeners = new ArrayList<>();
+    private final List<Consumer<Integer>> timeListeners = new ArrayList<>();
 
     private GameState() { }
 
@@ -18,6 +20,11 @@ public class GameState {
             instance = new GameState();
         }
         return instance;
+    }
+
+    public void advanceTime() {
+        currentDay++;
+        notifyTimeListeners();
     }
 
     public void addSettlement(Settlement settlement) {
@@ -33,10 +40,20 @@ public class GameState {
         settlementListeners.add(listener);
     }
 
+    public void addTimeListener(Consumer<Integer> listener) {
+        timeListeners.add(listener);
+    }
+
     private void notifySettlementListeners() {
         List<Settlement> snapshot = List.copyOf(this.settlements);
         for (Consumer<List<Settlement>> listener : settlementListeners) {
             listener.accept(snapshot);
+        }
+    }
+
+    private void notifyTimeListeners() {
+        for (Consumer<Integer> listener : timeListeners) {
+            listener.accept(currentDay);
         }
     }
 }
