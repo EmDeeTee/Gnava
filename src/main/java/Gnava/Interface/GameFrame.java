@@ -2,18 +2,14 @@ package Gnava.Interface;
 
 import Gnava.Game.Events.GameEvent;
 import Gnava.Game.GameState;
-import Gnava.Game.Settlement;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class GameFrame extends JFrame {
     private static GameFrame instance = null;
 
-    private final DefaultListModel<String> settlementListModel = new DefaultListModel<>();
-
-    public GameFrame() {
+    private GameFrame() {
         super("Gnava");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 600);
@@ -48,6 +44,7 @@ public class GameFrame extends JFrame {
 
         GameState.getInstance().addSettlementListener(list -> {
             SwingUtilities.invokeLater(() -> {
+                System.out.println("Hello");
                 settlementModel.clear();
                 for (var s : list) {
                     settlementModel.addElement(s.getName());

@@ -5,7 +5,7 @@ import Gnava.Interface.Popups.CreateSettlementPopup;
 
 public class Main {
     public static void main(String[] args) {
-        GameFrame gameFrame = new GameFrame();
+        GameFrame gameFrame = GameFrame.getInstance();
         gameFrame.setVisible(true);
         CreateSettlementPopup popup = new CreateSettlementPopup();
         popup.show();
