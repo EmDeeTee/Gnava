@@ -5,20 +5,24 @@ import Gnava.Game.GameState;
 import Gnava.Game.Settlement;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.List;
 import java.util.function.Consumer;
 
+// TODO: Put all components into private fields
 public class GameFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
     private static GameFrame instance = null;
 
-    private final DefaultListModel<String> settlementListModel = new DefaultListModel<>();
+    private final DefaultListModel<Settlement> settlementListModel = new DefaultListModel<>();
     private final DefaultListModel<GameEvent> eventListModel = new DefaultListModel<>();
-    private final JLabel currentDayValueLabel = new JLabel("0");
 
     private final Consumer<List<Settlement>> settlementListener = this::onSettlementsChanged;
     private final Consumer<Integer> timeListener = this::onTimeAdvanced;
+
+    private final JList<Settlement> settlementList = new JList<>(settlementListModel);
+    private final JLabel currentDayValueLabel = new JLabel("0");
 
     private GameFrame() {
         super("Gnava");
@@ -82,7 +86,7 @@ public class GameFrame extends JFrame {
         JScrollPane eventScrollPane = new JScrollPane(eventList);
         eventScrollPane.setBorder(BorderFactory.createTitledBorder("Events"));
 
-        JList<String> settlementList = new JList<>(settlementListModel);
+        settlementList.addListSelectionListener(onSettlementSelected());
         JScrollPane settlementScrollPane = new JScrollPane(settlementList);
         settlementScrollPane.setBorder(BorderFactory.createTitledBorder("Settlements"));
 
@@ -101,12 +105,23 @@ public class GameFrame extends JFrame {
         SwingUtilities.invokeLater(() -> {
             settlementListModel.clear();
             for (Settlement s : settlements) {
-                settlementListModel.addElement(s.getName());
+                settlementListModel.addElement(s);
             }
         });
     }
 
     private void onTimeAdvanced(Integer day) {
         SwingUtilities.invokeLater(() -> currentDayValueLabel.setText(String.valueOf(day)));
+    }
+
+    private ListSelectionListener onSettlementSelected() {
+        return e -> {
+            if (!e.getValueIsAdjusting()) {
+                Settlement selected = settlementList.getSelectedValue();
+                if (selected != null) {
+                    messagePlayer("Selected: " + selected.getName());
+                }
+            }
+        };
     }
 }

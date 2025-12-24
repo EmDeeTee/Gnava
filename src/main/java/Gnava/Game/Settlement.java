@@ -11,6 +11,11 @@ public class Settlement {
         this.maxPopulation = maxPopulation;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
     public String getName() {
         return name;
     }
