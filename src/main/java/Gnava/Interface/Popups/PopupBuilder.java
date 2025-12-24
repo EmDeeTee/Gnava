@@ -4,12 +4,21 @@ import Gnava.Interface.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.function.Consumer;
 
 public class PopupBuilder {
     private final JDialog dialog;
+
     private JPanel contentPanel = new JPanel(new BorderLayout());
+    private final JPanel buttonPanel = new JPanel();
+    private final JButton okButton = new JButton("OK");
+    private final JButton cancelButton = new JButton("Cancel");
+
     private boolean withDefaultActions = false;
+
     private Consumer<JButton> okAction = null;
     private Consumer<JButton> cancelAction = null;
 
@@ -44,27 +53,23 @@ public class PopupBuilder {
         dialog.add(contentPanel, BorderLayout.CENTER);
 
         if (withDefaultActions) {
-            JPanel buttonPanel = new JPanel();
             JButton okButton = new JButton("OK");
             JButton cancelButton = new JButton("Cancel");
 
-            okButton.addActionListener(e -> {
-                if (okAction != null) {
-                    okAction.accept(okButton);
-                }
-            });
+            Action okActionDefault = createOkAction(okButton);
+            Action cancelActionDefault = createCancelAction(cancelButton);
 
-            cancelButton.addActionListener(e -> {
-                if (cancelAction != null) {
-                    cancelAction.accept(cancelButton);
-                } else {
-                    dialog.dispose();
-                }
-            });
+            okButton.setAction(okActionDefault);
+            okButton.setText("OK");
+
+            cancelButton.setAction(cancelActionDefault);
+            cancelButton.setText("Cancel");
 
             buttonPanel.add(okButton);
             buttonPanel.add(cancelButton);
             dialog.add(buttonPanel, BorderLayout.SOUTH);
+
+            bindKeys(okActionDefault, cancelActionDefault);
         }
 
         dialog.setVisible(true);
@@ -72,5 +77,42 @@ public class PopupBuilder {
 
     public JDialog getDialog() {
         return dialog;
+    }
+
+    private Action createOkAction(JButton button) {
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (okAction != null) {
+                    okAction.accept(button);
+                }
+            }
+        };
+    }
+
+    private Action createCancelAction(JButton button) {
+        return new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cancelAction != null) {
+                    cancelAction.accept(button);
+                } else {
+                    dialog.dispose();
+                }
+            }
+        };
+    }
+
+    private void bindKeys(Action okAction, Action cancelAction) {
+        JRootPane root = dialog.getRootPane();
+
+        InputMap inputMap = root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        ActionMap actionMap = root.getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ok");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cancel");
+
+        actionMap.put("ok", okAction);
+        actionMap.put("cancel", cancelAction);
     }
 }
