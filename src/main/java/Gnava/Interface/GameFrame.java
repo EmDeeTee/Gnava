@@ -86,7 +86,6 @@ public class GameFrame extends JFrame {
         JScrollPane eventScrollPane = new JScrollPane(eventList);
         eventScrollPane.setBorder(BorderFactory.createTitledBorder("Events"));
 
-        settlementList.addListSelectionListener(onSettlementSelected());
         JScrollPane settlementScrollPane = new JScrollPane(settlementList);
         settlementScrollPane.setBorder(BorderFactory.createTitledBorder("Settlements"));
 
@@ -99,6 +98,8 @@ public class GameFrame extends JFrame {
     private void registerListeners() {
         GameState.getInstance().addSettlementListener(settlementListener);
         GameState.getInstance().addTimeListener(timeListener);
+
+        settlementList.addListSelectionListener(onSettlementSelected());
     }
 
     private void onSettlementsChanged(List<Settlement> settlements) {
