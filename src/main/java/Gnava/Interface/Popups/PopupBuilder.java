@@ -5,11 +5,11 @@ import Gnava.Interface.GameFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.function.Consumer;
 
-public class PopupBuilder {
+@Deprecated
+public final class PopupBuilder {
     private final JDialog dialog;
 
     private JPanel contentPanel = new JPanel(new BorderLayout());
