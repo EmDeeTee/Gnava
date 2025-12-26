@@ -13,8 +13,15 @@ public final class CreateSettlementPopup extends Popup {
     private final JComboBox<SettlementPopulationType> populationTypeCombo = new JComboBox<>(SettlementPopulationType.values());
 
     public CreateSettlementPopup() {
+        this(false);
+    }
+
+    public CreateSettlementPopup(boolean forced) {
         super("Create Settlement", new Dimension(300, 200));
         withDefaultOk(this::submit);
+        if (!forced) {
+            withDefaultCancel(null);
+        }
     }
 
     @Override
