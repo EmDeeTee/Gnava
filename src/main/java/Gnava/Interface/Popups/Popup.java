@@ -3,6 +3,7 @@ package Gnava.Interface.Popups;
 import Gnava.Interface.GameFrame;
 import Gnava.Interface.Popups.Buttons.ButtonCancel;
 import Gnava.Interface.Popups.Buttons.ButtonOk;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,12 +51,12 @@ public abstract class Popup {
         dialog.dispose();
     }
 
-    protected void withDefaultOk(Runnable actionOk) {
+    protected void withDefaultOk(@Nullable Runnable actionOk) {
         withDefaultOk = true;
         okAction = actionOk;
     }
 
-    protected void withDefaultCancel(Runnable actionCancel) {
+    protected void withDefaultCancel(@Nullable Runnable actionCancel) {
         withDefaultCancel = true;
         cancelAction = actionCancel;
     }
