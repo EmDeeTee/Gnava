@@ -7,6 +7,7 @@ import Gnava.Game.Settlements.Settlement;
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.net.URL;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -25,10 +26,15 @@ public class GameFrame extends JFrame {
     private final JLabel currentDayValueLabel = new JLabel("0");
 
     private GameFrame() {
-        super("Gnava");
+        super("Kingdoms of Gnava");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setMinimumSize(PREFERRED_SIZE);
         setSize(PREFERRED_SIZE);
         setResizable(false);
+
+        URL iconUrl = getClass().getClassLoader().getResource("icon.png");
+        assert iconUrl != null;
+        setIconImage(new ImageIcon(iconUrl).getImage());
 
         setupGui();
         registerListeners();
