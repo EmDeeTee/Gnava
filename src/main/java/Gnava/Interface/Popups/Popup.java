@@ -1,26 +1,31 @@
 package Gnava.Interface.Popups;
 
 import Gnava.Interface.GameFrame;
+import Gnava.Interface.Popups.Buttons.ButtonCancel;
+import Gnava.Interface.Popups.Buttons.ButtonOk;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
-// NOTE: What if you enable default actions and then override button rendering?
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Popup {
     protected final JDialog dialog;
     private final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-    private boolean withDefaultActions = false;
+    private boolean withDefaultOk = false;
+    private boolean withDefaultCancel = false;
 
     private Runnable okAction;
     private Runnable cancelAction;
+    List<JButton> buttonBuffer = new ArrayList<>();
 
     protected Popup(String title, Dimension size) {
         dialog = new JDialog(GameFrame.getInstance(), title, true);
-        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.setSize(size);
+        dialog.setResizable(false);
         dialog.setLayout(new BorderLayout());
         dialog.setLocationRelativeTo(GameFrame.getInstance());
 
@@ -28,7 +33,6 @@ public abstract class Popup {
     }
 
     public final void show() {
-        registerKeyBindings();
         dialog.add(buildContent(), BorderLayout.CENTER);
         buttonPanel.removeAll();
         for (JButton btn : buildButtons()) {
@@ -36,6 +40,7 @@ public abstract class Popup {
         }
         buttonPanel.revalidate();
         buttonPanel.repaint();
+        registerKeyBindings();
         dialog.setVisible(true);
     }
 
@@ -45,15 +50,19 @@ public abstract class Popup {
         dialog.dispose();
     }
 
-    protected void enableDefaultActions(Runnable actionOk, Runnable actionCancel) {
-        withDefaultActions = true;
+    protected void withDefaultOk(Runnable actionOk) {
+        withDefaultOk = true;
         okAction = actionOk;
+    }
+
+    protected void withDefaultCancel(Runnable actionCancel) {
+        withDefaultCancel = true;
         cancelAction = actionCancel;
     }
 
     protected JButton[] buildButtons() {
-        if (withDefaultActions) {
-            JButton okButton = new JButton("OK");
+        if (withDefaultOk) {
+            ButtonOk okButton = new ButtonOk();
             okButton.addActionListener(e -> {
                 if (okAction != null) {
                     okAction.run();
@@ -61,22 +70,24 @@ public abstract class Popup {
                     onOk();
                 }
             });
-            buttonPanel.add(okButton);
 
-            JButton cancelButton = new JButton("Cancel");
+            buttonBuffer.add(okButton);
+        }
+
+        if (withDefaultCancel) {
+            ButtonCancel cancelButton = new ButtonCancel();
             cancelButton.addActionListener(e -> {
-                if (cancelAction != null){
+                if (cancelAction != null) {
                     cancelAction.run();
                 } else {
                     onCancel();
                 }
             });
-            buttonPanel.add(cancelButton);
 
-            return new JButton[] {okButton, cancelButton};
+            buttonBuffer.add(cancelButton);
         }
 
-        return new JButton[0];
+        return buttonBuffer.toArray(new JButton[0]);
     }
 
     // Default action
@@ -94,7 +105,8 @@ public abstract class Popup {
         InputMap inputMap = root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = root.getActionMap();
 
-        if (withDefaultActions) {
+        if (buttonBuffer.stream().anyMatch(btn -> btn instanceof ButtonOk)) {
+            System.out.println("OK HAS");
             inputMap.put(KeyStroke.getKeyStroke("ENTER"), "ok");
             actionMap.put("ok", new AbstractAction() {
                 @Override
@@ -107,6 +119,9 @@ public abstract class Popup {
                 }
             });
 
+        }
+
+        if (buttonBuffer.stream().anyMatch(btn -> btn instanceof ButtonCancel)) {
             inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), "cancel");
             actionMap.put("cancel", new AbstractAction() {
                 @Override

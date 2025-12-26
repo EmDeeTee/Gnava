@@ -14,7 +14,7 @@ public final class CreateSettlementPopup extends Popup {
 
     public CreateSettlementPopup() {
         super("Create Settlement", new Dimension(300, 200));
-        enableDefaultActions(this::submit, null);
+        withDefaultOk(this::submit);
     }
 
     @Override
