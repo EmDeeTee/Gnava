@@ -44,7 +44,7 @@ public final class CreateSettlementPopup extends Popup {
             return;
         }
 
-        GameState.getInstance().addSettlement(
+        GameState.getInstance().getSettlementManager().addSettlement(
             new Settlement(
                 name,
                 1,

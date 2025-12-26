@@ -102,7 +102,7 @@ public class GameFrame extends JFrame {
     }
 
     private void registerListeners() {
-        GameState.getInstance().addSettlementListener(settlementListener);
+        GameState.getInstance().getSettlementManager().addSettlementListener(settlementListener);
         GameState.getInstance().addTimeListener(timeListener);
 
         settlementList.addListSelectionListener(onSettlementSelected());
