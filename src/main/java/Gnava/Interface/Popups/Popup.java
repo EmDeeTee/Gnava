@@ -11,12 +11,13 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Popup {
+public abstract class Popup<T> {
     protected final JDialog dialog;
     private final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
     private boolean withDefaultOk = false;
     private boolean withDefaultCancel = false;
+    private T result = null;
 
     private Runnable okAction;
     private Runnable cancelAction;
@@ -33,7 +34,7 @@ public abstract class Popup {
         dialog.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public final void show() {
+    public final T show() {
         dialog.add(buildContent(), BorderLayout.CENTER);
         buttonPanel.removeAll();
         for (JButton btn : buildButtons()) {
@@ -43,6 +44,8 @@ public abstract class Popup {
         buttonPanel.repaint();
         registerKeyBindings();
         dialog.setVisible(true);
+
+        return result;
     }
 
     protected abstract JComponent buildContent();
@@ -101,13 +104,16 @@ public abstract class Popup {
         close();
     }
 
+    protected void setResult(T object) {
+        result = object;
+    }
+
     private void registerKeyBindings() {
         JRootPane root = dialog.getRootPane();
         InputMap inputMap = root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = root.getActionMap();
 
         if (buttonBuffer.stream().anyMatch(btn -> btn instanceof ButtonOk)) {
-            System.out.println("OK HAS");
             inputMap.put(KeyStroke.getKeyStroke("ENTER"), "ok");
             actionMap.put("ok", new AbstractAction() {
                 @Override

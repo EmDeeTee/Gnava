@@ -1,6 +1,7 @@
 package Gnava.Game;
 
 import Gnava.Game.Managers.SettlementManager;
+import Gnava.Game.Settlements.Settlement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,22 @@ public class GameState {
         return instance;
     }
 
-    public SettlementManager getSettlementManager() {
-        return settlementManager;
+    // TODO: It can fail, but you don't know why
+    public boolean tryCreateSettlement(Settlement settlement) {
+        if (!canCreateSettlement(settlement)) {
+            return false;
+        }
+
+        settlementManager.createSettlement(settlement);
+        return true;
+    }
+
+    public Settlement[] getSettlements() {
+        return settlementManager.getSettlements();
+    }
+
+    public void addSettlementCreatedListener(Consumer<Settlement> listener) {
+        settlementManager.addSettlementCreatedListener(listener);
     }
 
     public void advanceTime() {
@@ -40,5 +55,9 @@ public class GameState {
         for (Consumer<Integer> listener : timeListeners) {
             listener.accept(currentDay);
         }
+    }
+
+    private boolean canCreateSettlement(Settlement settlement) {
+        return true;
     }
 }

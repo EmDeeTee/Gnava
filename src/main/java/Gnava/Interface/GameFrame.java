@@ -3,6 +3,7 @@ package Gnava.Interface;
 import Gnava.Game.Events.GameEvent;
 import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
+import Gnava.Interface.Menu.GameFrameMenuBar;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -15,11 +16,12 @@ import java.util.function.Consumer;
 public class GameFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
     private static GameFrame instance = null;
+    private final GameFrameMenuBar menu = new GameFrameMenuBar();
 
     private final DefaultListModel<Settlement> settlementListModel = new DefaultListModel<>();
     private final DefaultListModel<GameEvent> eventListModel = new DefaultListModel<>();
 
-    private final Consumer<List<Settlement>> settlementListener = this::onSettlementsChanged;
+    private final Consumer<Settlement> settlementListener = this::onSettlementsChanged;
     private final Consumer<Integer> timeListener = this::onTimeAdvanced;
 
     private final JList<Settlement> settlementList = new JList<>(settlementListModel);
@@ -69,6 +71,8 @@ public class GameFrame extends JFrame {
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(splitPane, BorderLayout.CENTER);
+
+        setJMenuBar(menu);
     }
 
     private JPanel buildTopPanel() {
@@ -102,16 +106,16 @@ public class GameFrame extends JFrame {
     }
 
     private void registerListeners() {
-        GameState.getInstance().getSettlementManager().addSettlementListener(settlementListener);
+        GameState.getInstance().addSettlementCreatedListener(settlementListener);
         GameState.getInstance().addTimeListener(timeListener);
 
         settlementList.addListSelectionListener(onSettlementSelected());
     }
 
-    private void onSettlementsChanged(List<Settlement> settlements) {
+    private void onSettlementsChanged(Settlement newSettlement) {
         SwingUtilities.invokeLater(() -> {
             settlementListModel.clear();
-            for (Settlement s : settlements) {
+            for (Settlement s : GameState.getInstance().getSettlements()) {
                 settlementListModel.addElement(s);
             }
         });

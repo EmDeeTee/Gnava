@@ -8,7 +8,7 @@ import Gnava.Interface.Popups.Popup;
 import javax.swing.*;
 import java.awt.*;
 
-public final class CreateSettlementPopup extends Popup {
+public final class CreateSettlementPopup extends Popup<Settlement> {
     private final JTextField nameField = new JTextField(15);
     private final JComboBox<SettlementPopulationType> populationTypeCombo = new JComboBox<>(SettlementPopulationType.values());
 
@@ -44,7 +44,7 @@ public final class CreateSettlementPopup extends Popup {
             return;
         }
 
-        GameState.getInstance().getSettlementManager().addSettlement(
+        setResult(
             new Settlement(
                 name,
                 1,

@@ -8,27 +8,26 @@ import java.util.function.Consumer;
 
 public class SettlementManager {
     private final List<Settlement> settlements = new ArrayList<>();
-    private final List<Consumer<List<Settlement>>> settlementListeners = new ArrayList<>();
+    private final List<Consumer<Settlement>> settlementListeners = new ArrayList<>();
 
     public SettlementManager() { }
 
-    public void addSettlement(Settlement settlement) {
+    public void createSettlement(Settlement settlement) {
         this.settlements.add(settlement);
-        notifySettlementListeners();
+        notifySettlementListeners(settlement);
     }
 
-    public List<Settlement> getSettlements() {
-        return List.copyOf(this.settlements);
+    public Settlement[] getSettlements() {
+        return List.copyOf(this.settlements).toArray(new Settlement[0]);
     }
 
-    public void addSettlementListener(Consumer<List<Settlement>> listener) {
+    public void addSettlementCreatedListener(Consumer<Settlement> listener) {
         settlementListeners.add(listener);
     }
 
-    private void notifySettlementListeners() {
-        List<Settlement> snapshot = List.copyOf(this.settlements);
-        for (Consumer<List<Settlement>> listener : settlementListeners) {
-            listener.accept(snapshot);
+    private void notifySettlementListeners(Settlement newSettlement) {
+        for (Consumer<Settlement> listener : settlementListeners) {
+            listener.accept(newSettlement);
         }
     }
 }
