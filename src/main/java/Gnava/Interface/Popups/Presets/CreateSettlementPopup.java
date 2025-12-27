@@ -1,6 +1,5 @@
 package Gnava.Interface.Popups.Presets;
 
-import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
 import Gnava.Game.Settlements.SettlementPopulationType;
 import Gnava.Interface.Popups.Popup;

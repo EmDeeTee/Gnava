@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Popup<T> {
     protected final JDialog dialog;
@@ -34,7 +35,7 @@ public abstract class Popup<T> {
         dialog.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public final T show() {
+    public final Optional<T> show() {
         dialog.add(buildContent(), BorderLayout.CENTER);
         buttonPanel.removeAll();
         for (JButton btn : buildButtons()) {
@@ -45,7 +46,7 @@ public abstract class Popup<T> {
         registerKeyBindings();
         dialog.setVisible(true);
 
-        return result;
+        return Optional.ofNullable(result);
     }
 
     protected abstract JComponent buildContent();

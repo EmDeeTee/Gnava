@@ -8,7 +8,6 @@ public class Main {
     public static void main(String[] args) {
         GameFrame gameFrame = GameFrame.getInstance();
         gameFrame.setVisible(true);
-        CreateSettlementPopup initialSettlementPopup = new CreateSettlementPopup(true);
-        GameState.getInstance().tryCreateSettlement(initialSettlementPopup.show());
+        new CreateSettlementPopup(true).show().ifPresent(s -> GameState.getInstance().tryCreateSettlement(s));
     }
 }

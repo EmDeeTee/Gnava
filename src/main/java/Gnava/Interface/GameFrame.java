@@ -1,6 +1,6 @@
 package Gnava.Interface;
 
-import Gnava.Game.Events.GameEvent;
+import Gnava.Game.Events.Simulation.GameEvent;
 import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
 import Gnava.Interface.Menu.GameFrameMenuBar;
@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.net.URL;
-import java.util.List;
 import java.util.function.Consumer;
 
 // TODO: Put all components into private fields

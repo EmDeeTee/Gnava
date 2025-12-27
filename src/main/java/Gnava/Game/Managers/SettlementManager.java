@@ -25,6 +25,7 @@ public class SettlementManager {
         settlementListeners.add(listener);
     }
 
+    // TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
     private void notifySettlementListeners(Settlement newSettlement) {
         for (Consumer<Settlement> listener : settlementListeners) {
             listener.accept(newSettlement);

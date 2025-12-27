@@ -10,6 +10,6 @@ public class CreateSettlementAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Create settlement action");
-        GameState.getInstance().tryCreateSettlement(new CreateSettlementPopup().show());
+        new CreateSettlementPopup().show().ifPresent(s -> GameState.getInstance().tryCreateSettlement(s));
     }
 }

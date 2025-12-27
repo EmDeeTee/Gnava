@@ -1,4 +1,4 @@
-package Gnava.Game.Events;
+package Gnava.Game.Events.Simulation;
 
 public abstract class GameEvent {
     private final String title;
