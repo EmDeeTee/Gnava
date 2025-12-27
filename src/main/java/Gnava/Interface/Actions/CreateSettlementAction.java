@@ -1,4 +1,4 @@
-package Gnava.Interface.Menu.Actions;
+package Gnava.Interface.Actions;
 
 import Gnava.Game.GameState;
 import Gnava.Interface.Popups.Presets.CreateSettlementPopup;

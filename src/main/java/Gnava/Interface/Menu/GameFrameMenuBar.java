@@ -1,6 +1,6 @@
 package Gnava.Interface.Menu;
 
-import Gnava.Interface.Menu.Actions.CreateSettlementAction;
+import Gnava.Interface.Actions.CreateSettlementAction;
 
 import javax.swing.*;
 
