@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class Popup<T> {
+    protected static final Dimension DEFAULT_DIMENSION = new Dimension(300, 200);
+
     protected final JDialog dialog;
     private final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -24,12 +26,20 @@ public abstract class Popup<T> {
     private Runnable cancelAction;
     List<JButton> buttonBuffer = new ArrayList<>();
 
+    protected Popup() {
+        this("Popup", DEFAULT_DIMENSION);
+    }
+
+    protected Popup(String title) {
+        this(title, DEFAULT_DIMENSION);
+    }
+
     protected Popup(String title, Dimension size) {
         dialog = new JDialog(GameFrame.getInstance(), title, true);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        dialog.setSize(size);
         dialog.setResizable(false);
         dialog.setLayout(new BorderLayout());
+        dialog.setSize(size);
         dialog.setLocationRelativeTo(GameFrame.getInstance());
 
         dialog.add(buttonPanel, BorderLayout.SOUTH);

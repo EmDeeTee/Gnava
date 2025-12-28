@@ -16,7 +16,7 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
     }
 
     public CreateSettlementPopup(boolean forced) {
-        super("Create Settlement", new Dimension(300, 200));
+        super("Create Settlement");
         withDefaultOk(this::submit);
         if (!forced) {
             withDefaultCancel(null);
