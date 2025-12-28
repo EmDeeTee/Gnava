@@ -9,12 +9,12 @@ public abstract class GameEvent {
         this.description = description;
     }
 
-    public GameEvent(String title) {
-        this(title, "");
-    }
-
     @Override
     public String toString() {
         return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

@@ -1,9 +1,11 @@
 package Gnava.Interface;
 
+import Gnava.Game.Events.Simulation.DebugEvent;
 import Gnava.Game.Events.Simulation.GameEvent;
 import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
 import Gnava.Interface.Menu.GameFrameMenuBar;
+import Gnava.Interface.Popups.Presets.PlaintextPopup;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -24,6 +26,7 @@ public class GameFrame extends JFrame {
     private final Consumer<Integer> timeListener = this::onTimeAdvanced;
 
     private final JList<Settlement> settlementList = new JList<>(settlementListModel);
+    private final JList<GameEvent> eventList = new JList<>(eventListModel);
     private final JLabel currentDayValueLabel = new JLabel("0");
 
     private GameFrame() {
@@ -91,7 +94,28 @@ public class GameFrame extends JFrame {
     }
 
     private JPanel buildBottomPanel() {
-        JList<GameEvent> eventList = new JList<>(eventListModel);
+        insertEvent(new DebugEvent("Debug event", "This is a placeholder event"));
+        insertEvent(new DebugEvent("Debug event2", "This is a placeholder event"));
+        eventList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(
+                    JList<?> list,
+                    Object value,
+                    int index,
+                    boolean isSelected,
+                    boolean cellHasFocus
+            ) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+                if (index == 0) {
+                    setFont(getFont().deriveFont(Font.BOLD, 14f));
+                } else {
+                    setFont(getFont().deriveFont(Font.PLAIN, 14f));
+                }
+
+                return this;
+            }
+        });
         JScrollPane eventScrollPane = new JScrollPane(eventList);
         eventScrollPane.setBorder(BorderFactory.createTitledBorder("Events"));
 
@@ -109,6 +133,7 @@ public class GameFrame extends JFrame {
         GameState.getInstance().addTimeListener(timeListener);
 
         settlementList.addListSelectionListener(onSettlementSelected());
+        eventList.addListSelectionListener(onEventSelected());
     }
 
     private void onSettlementsChanged(Settlement newSettlement) {
@@ -118,6 +143,10 @@ public class GameFrame extends JFrame {
                 settlementListModel.addElement(s);
             }
         });
+    }
+
+    private void insertEvent(GameEvent e) {
+        eventListModel.add(0, e);
     }
 
     private void onTimeAdvanced(Integer day) {
@@ -130,6 +159,17 @@ public class GameFrame extends JFrame {
                 Settlement selected = settlementList.getSelectedValue();
                 if (selected != null) {
                     messagePlayer("Selected: " + selected.name() + " with pop type of " + selected.populationType());
+                }
+            }
+        };
+    }
+
+    private ListSelectionListener onEventSelected() {
+        return e -> {
+            if (!e.getValueIsAdjusting()) {
+                GameEvent selected = eventList.getSelectedValue();
+                if (selected != null) {
+                    new PlaintextPopup(selected.getDescription()).show();
                 }
             }
         };
