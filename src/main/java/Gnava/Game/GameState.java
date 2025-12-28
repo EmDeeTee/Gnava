@@ -2,7 +2,6 @@ package Gnava.Game;
 
 import Gnava.Game.Managers.SettlementManager;
 import Gnava.Game.Settlements.Settlement;
-import org.jetbrains.annotations.CheckReturnValue;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,8 @@
 package Gnava.Interface.Menu;
 
-import Gnava.Interface.Actions.CreateSettlementAction;
+import Gnava.Interface.Commands.CommandAction;
+import Gnava.Interface.Commands.CreateSettlementCommand;
+import Gnava.Interface.Popups.Presets.CreateSettlementPopup;
 
 import javax.swing.*;
 
@@ -12,7 +14,10 @@ public class GameFrameMenuBar extends JMenuBar {
         super();
         actionsMenu.add(createSettlementItem);
 
-        createSettlementItem.addActionListener(new CreateSettlementAction());
+        createSettlementItem.addActionListener(new CommandAction<>(
+            new CreateSettlementCommand(),
+            () -> new CreateSettlementPopup().show()
+        ));
 
         add(actionsMenu);
     }
