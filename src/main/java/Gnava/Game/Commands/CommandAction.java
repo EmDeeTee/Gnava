@@ -1,4 +1,4 @@
-package Gnava.Interface.Commands;
+package Gnava.Game.Commands;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,7 +1,7 @@
 package Gnava.Interface.Menu;
 
-import Gnava.Interface.Commands.CommandAction;
-import Gnava.Interface.Commands.CreateSettlementCommand;
+import Gnava.Game.Commands.CommandAction;
+import Gnava.Game.Commands.CreateSettlementCommand;
 import Gnava.Interface.Popups.Presets.CreateSettlementPopup;
 
 import javax.swing.*;

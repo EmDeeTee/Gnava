@@ -1,4 +1,4 @@
-package Gnava.Interface.Commands;
+package Gnava.Game.Commands;
 
 import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
