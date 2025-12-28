@@ -6,6 +6,7 @@ import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
 import Gnava.Interface.Menu.GameFrameMenuBar;
 import Gnava.Interface.Popups.Presets.PlaintextPopup;
+import Gnava.Interface.Translations.TranslationKey;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -30,7 +31,7 @@ public class GameFrame extends JFrame {
     private final JLabel currentDayValueLabel = new JLabel("0");
 
     private GameFrame() {
-        super("Kingdoms of Gnava");
+        super(GameState.getInstance().getTranslationTable().t(TranslationKey.GKINGDOMS));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(PREFERRED_SIZE);
         setSize(PREFERRED_SIZE);

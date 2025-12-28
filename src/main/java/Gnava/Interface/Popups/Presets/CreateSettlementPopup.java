@@ -1,8 +1,10 @@
 package Gnava.Interface.Popups.Presets;
 
+import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
 import Gnava.Game.Settlements.SettlementPopulationType;
 import Gnava.Interface.Popups.Popup;
+import Gnava.Interface.Translations.TranslationKey;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +18,7 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
     }
 
     public CreateSettlementPopup(boolean forced) {
-        super("Create Settlement");
+        super(GameState.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT));
         withDefaultOk(this::submit);
         if (!forced) {
             withDefaultCancel(null);
