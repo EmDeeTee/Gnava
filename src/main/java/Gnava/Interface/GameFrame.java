@@ -85,7 +85,7 @@ public class GameFrame extends JFrame {
         JLabel currentTimeLabel = new JLabel("Current day:");
         JButton advanceTimeButton = new JButton("Pass time");
 
-        advanceTimeButton.addActionListener(e -> GameState.getInstance().advanceTime());
+        advanceTimeButton.addActionListener(e -> GameState.getInstance() .advanceTime());
 
         topPanel.add(advanceTimeButton);
         topPanel.add(currentTimeLabel);
@@ -131,7 +131,7 @@ public class GameFrame extends JFrame {
 
     private void registerListeners() {
         GameState.getInstance().addSettlementCreatedListener(settlementListener);
-        GameState.getInstance().addTimeListener(timeListener);
+        GameState.getInstance().getTimeDispatcher().addListener(timeListener);
 
         settlementList.addListSelectionListener(onSettlementSelected());
         eventList.addListSelectionListener(onEventSelected());

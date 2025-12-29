@@ -1,34 +1,29 @@
 package Gnava.Game.Managers;
 
+import Gnava.Game.EventDispatcher;
 import Gnava.Game.Settlements.Settlement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
-public class SettlementManager {
+// TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
+public class SettlementManager implements DispatchableManager<Settlement> {
     private final List<Settlement> settlements = new ArrayList<>();
-    private final List<Consumer<Settlement>> settlementListeners = new ArrayList<>();
+    private final EventDispatcher<Settlement> dispatcher = new EventDispatcher<>();
 
     public SettlementManager() { }
 
     public void createSettlement(Settlement settlement) {
         this.settlements.add(settlement);
-        notifySettlementListeners(settlement);
+        dispatcher.dispatch(settlement);
     }
 
     public Settlement[] getSettlements() {
         return List.copyOf(this.settlements).toArray(new Settlement[0]);
     }
 
-    public void addSettlementCreatedListener(Consumer<Settlement> listener) {
-        settlementListeners.add(listener);
-    }
-
-    // TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
-    private void notifySettlementListeners(Settlement newSettlement) {
-        for (Consumer<Settlement> listener : settlementListeners) {
-            listener.accept(newSettlement);
-        }
+    @Override
+    public EventDispatcher<Settlement> getDispatcher() {
+        return dispatcher;
     }
 }

@@ -1,25 +1,21 @@
 package Gnava.Game;
 
 import Gnava.Game.Managers.SettlementManager;
+import Gnava.Game.Managers.TimeManager;
 import Gnava.Game.Settlements.Settlement;
 import Gnava.Interface.Translations.TranslationTable;
 import Gnava.Interface.Translations.TranslationTableCrustyDutch;
 import Gnava.Interface.Translations.TranslationTableEnglish;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class GameState {
     private static GameState instance = null;
     private final SettlementManager settlementManager = new SettlementManager();
+    private final TimeManager timeManager = new TimeManager();
     private final TranslationTable translationTable = System.getProperty("os.name").startsWith("Windows")
         ? new TranslationTableEnglish()
         : new TranslationTableCrustyDutch();
-
-    private Integer currentDay = 0;
-
-    private final List<Consumer<Integer>> timeListeners = new ArrayList<>();
 
     private GameState() { }
 
@@ -30,6 +26,7 @@ public class GameState {
         return instance;
     }
 
+    // SETTLEMENT MANAGER
     // TODO: It can fail, but you don't know why
     public boolean tryCreateSettlement(Settlement settlement) {
         if (!canCreateSettlement(settlement)) {
@@ -45,26 +42,20 @@ public class GameState {
     }
 
     public void addSettlementCreatedListener(Consumer<Settlement> listener) {
-        settlementManager.addSettlementCreatedListener(listener);
+        settlementManager.getDispatcher().addListener(listener);
     }
 
+    // TIME MANAGER
     public void advanceTime() {
-        currentDay++;
-        notifyTimeListeners();
+        timeManager.advanceTime();
     }
 
-    public void addTimeListener(Consumer<Integer> listener) {
-        timeListeners.add(listener);
+    public EventDispatcher<Integer> getTimeDispatcher() {
+        return timeManager.getDispatcher();
     }
 
     public TranslationTable getTranslationTable() {
         return translationTable;
-    }
-
-    private void notifyTimeListeners() {
-        for (Consumer<Integer> listener : timeListeners) {
-            listener.accept(currentDay);
-        }
     }
 
     private boolean canCreateSettlement(Settlement settlement) {
