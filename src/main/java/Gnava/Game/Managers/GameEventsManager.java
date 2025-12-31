@@ -9,7 +9,7 @@ public class GameEventsManager implements DispatchableManager<GameEvent> {
     private final EventDispatcher<GameEvent> dispatcher = new EventDispatcher<>();
 
     public void generate() {
-        GameEvent gameEvent = new PopulationGrowthEvent(100, GameState.getInstance().getSettlements()[0]);
+        GameEvent gameEvent = new PopulationGrowthEvent(GameState.getInstance().getRandomSettlement());
         dispatcher.dispatch(gameEvent);
         gameEvent.happen();
     }

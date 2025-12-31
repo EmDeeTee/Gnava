@@ -1,6 +1,5 @@
 package Gnava.Interface;
 
-import Gnava.Game.Events.Simulation.DebugEvent;
 import Gnava.Game.Events.Simulation.GameEvent;
 import Gnava.Game.Events.Simulation.NothingEvent;
 import Gnava.Game.GameState;
@@ -96,8 +95,6 @@ public class GameFrame extends JFrame {
     }
 
     private JPanel buildBottomPanel() {
-        insertEvent(new DebugEvent("Debug event", "This is a placeholder event"));
-        insertEvent(new DebugEvent("Debug event2", "This is a placeholder event"));
         eventList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(

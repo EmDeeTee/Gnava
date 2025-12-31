@@ -46,6 +46,10 @@ public class GameState {
         return settlementManager.getSettlements();
     }
 
+    public Settlement getRandomSettlement() {
+        return settlementManager.getRandomSettlement();
+    }
+
     public void addSettlementCreatedListener(Consumer<Settlement> listener) {
         settlementManager.getDispatcher().addListener(listener);
     }

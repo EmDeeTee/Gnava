@@ -5,6 +5,7 @@ import Gnava.Game.Settlements.Settlement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 // TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
 public class SettlementsManager implements DispatchableManager<Settlement> {
@@ -20,6 +21,11 @@ public class SettlementsManager implements DispatchableManager<Settlement> {
 
     public Settlement[] getSettlements() {
         return List.copyOf(this.settlements).toArray(new Settlement[0]);
+    }
+
+    public Settlement getRandomSettlement() {
+        Random random = new Random();
+        return settlements.get(random.nextInt(settlements.size()));
     }
 
     @Override
