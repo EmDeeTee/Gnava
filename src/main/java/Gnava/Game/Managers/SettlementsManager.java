@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
-public class SettlementManager implements DispatchableManager<Settlement> {
+public class SettlementsManager implements DispatchableManager<Settlement> {
     private final List<Settlement> settlements = new ArrayList<>();
     private final EventDispatcher<Settlement> dispatcher = new EventDispatcher<>();
 
-    public SettlementManager() { }
+    public SettlementsManager() { }
 
     public void createSettlement(Settlement settlement) {
         this.settlements.add(settlement);

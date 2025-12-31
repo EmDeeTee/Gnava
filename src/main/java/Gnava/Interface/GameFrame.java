@@ -2,6 +2,7 @@ package Gnava.Interface;
 
 import Gnava.Game.Events.Simulation.DebugEvent;
 import Gnava.Game.Events.Simulation.GameEvent;
+import Gnava.Game.Events.Simulation.NothingEvent;
 import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
 import Gnava.Interface.Menu.GameFrameMenuBar;
@@ -132,6 +133,7 @@ public class GameFrame extends JFrame {
     private void registerListeners() {
         GameState.getInstance().addSettlementCreatedListener(settlementListener);
         GameState.getInstance().getTimeDispatcher().addListener(timeListener);
+        GameState.getInstance().getGameEventDispatcher().addListener(this::onReceivedGameEvent);
 
         settlementList.addListSelectionListener(onSettlementSelected());
         eventList.addListSelectionListener(onEventSelected());
@@ -152,6 +154,14 @@ public class GameFrame extends JFrame {
 
     private void onTimeAdvanced(Integer day) {
         SwingUtilities.invokeLater(() -> currentDayValueLabel.setText(String.valueOf(day)));
+
+        GameState.getInstance().generateGameEvent();
+    }
+
+    private void onReceivedGameEvent(GameEvent gameEvent) {
+        if (!(gameEvent instanceof NothingEvent)) {
+            insertEvent(gameEvent);
+        }
     }
 
     private ListSelectionListener onSettlementSelected() {

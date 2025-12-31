@@ -1,6 +1,8 @@
 package Gnava.Game;
 
-import Gnava.Game.Managers.SettlementManager;
+import Gnava.Game.Events.Simulation.GameEvent;
+import Gnava.Game.Managers.GameEventsManager;
+import Gnava.Game.Managers.SettlementsManager;
 import Gnava.Game.Managers.TimeManager;
 import Gnava.Game.Settlements.Settlement;
 import Gnava.Interface.Translations.TranslationTable;
@@ -11,8 +13,11 @@ import java.util.function.Consumer;
 
 public class GameState {
     private static GameState instance = null;
-    private final SettlementManager settlementManager = new SettlementManager();
+
+    private final SettlementsManager settlementManager = new SettlementsManager();
     private final TimeManager timeManager = new TimeManager();
+    private final GameEventsManager gameEventsManager = new GameEventsManager();
+
     private final TranslationTable translationTable = System.getProperty("os.name").startsWith("Windows")
         ? new TranslationTableEnglish()
         : new TranslationTableCrustyDutch();
@@ -45,6 +50,10 @@ public class GameState {
         settlementManager.getDispatcher().addListener(listener);
     }
 
+    private boolean canCreateSettlement(Settlement settlement) {
+        return true;
+    }
+
     // TIME MANAGER
     public void advanceTime() {
         timeManager.advanceTime();
@@ -54,11 +63,16 @@ public class GameState {
         return timeManager.getDispatcher();
     }
 
-    public TranslationTable getTranslationTable() {
-        return translationTable;
+    // GAME EVENTS MANAGER
+    public EventDispatcher<GameEvent> getGameEventDispatcher() {
+        return gameEventsManager.getDispatcher();
     }
 
-    private boolean canCreateSettlement(Settlement settlement) {
-        return true;
+    public void generateGameEvent() {
+        gameEventsManager.generate();
+    }
+
+    public TranslationTable getTranslationTable() {
+        return translationTable;
     }
 }
