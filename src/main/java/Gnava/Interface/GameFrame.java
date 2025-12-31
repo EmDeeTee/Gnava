@@ -169,7 +169,13 @@ public class GameFrame extends JFrame {
             if (!e.getValueIsAdjusting()) {
                 Settlement selected = settlementList.getSelectedValue();
                 if (selected != null) {
-                    messagePlayer("Selected: " + selected.name() + " with pop type of " + selected.populationType());
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Settlement: ").append(selected.getName()).append("<br>");
+                    sb.append("Population type: ").append(selected.getPopulationType()).append("<br>");
+                    sb.append("Population: ").append(selected.getTotalPopulation()).append("/").append(selected.getTotalPopulation()).append("<br>");
+
+                    new PlaintextPopup(sb.toString()).show();
+                    settlementList.setSelectedValue(null, false);
                 }
             }
         };
@@ -181,6 +187,7 @@ public class GameFrame extends JFrame {
                 GameEvent selected = eventList.getSelectedValue();
                 if (selected != null) {
                     new PlaintextPopup(selected.getDescription()).show();
+                    eventList.setSelectedValue(null, false);
                 }
             }
         };

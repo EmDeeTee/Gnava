@@ -17,4 +17,8 @@ public abstract class GameEvent {
     public String getDescription() {
         return description;
     }
+
+    public void happen() {
+
+    }
 }
