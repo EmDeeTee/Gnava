@@ -1,5 +1,6 @@
 package Gnava.Game.Events.Simulation;
 
+import Gnava.Game.Events.Conditions.EventCondition;
 import Gnava.Game.Settlements.Settlement;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -9,7 +10,7 @@ public class PopulationGrowthEvent extends GameEvent {
     private final Settlement target;
 
     public PopulationGrowthEvent(Settlement target) {
-        super(String.format("Population grows in %s", target.getName()), "");
+        super(String.format("Population grows in %s", target.getName()), "", new EventCondition[0], true);
 
         this.target = target;
         this.popToAdd = calculatePopulationIncrease(target);

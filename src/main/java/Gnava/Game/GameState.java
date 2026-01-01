@@ -1,16 +1,14 @@
 package Gnava.Game;
 
-import Gnava.Game.Events.Simulation.GameEvent;
+import Gnava.Game.DataTransferObjects.WorldStatistics;
 import Gnava.Game.Managers.GameEventsManager;
 import Gnava.Game.Managers.SettlementsManager;
 import Gnava.Game.Managers.TimeManager;
-import Gnava.Game.Settlements.Settlement;
 import Gnava.Interface.Translations.TranslationTable;
 import Gnava.Interface.Translations.TranslationTableCrustyDutch;
 import Gnava.Interface.Translations.TranslationTableEnglish;
 
-import java.util.function.Consumer;
-
+// FIXME: REVOLUTION! Managers become public, and rules checking, like for adding a settlement will get moved to the respective manager
 public class GameState {
     private static GameState instance = null;
 
@@ -31,56 +29,26 @@ public class GameState {
         return instance;
     }
 
-    // SETTLEMENT MANAGER
-    // TODO: It can fail, but you don't know why
-    public boolean tryCreateSettlement(Settlement settlement) {
-        if (!canCreateSettlement(settlement)) {
-            return false;
-        }
-
-        settlementManager.createSettlement(settlement);
-        return true;
-    }
-
-    private boolean canCreateSettlement(Settlement settlement) {
-        return true;
-    }
-
-    public Settlement[] getSettlements() {
-        return settlementManager.getSettlements();
-    }
-
-    public Settlement getRandomSettlement() {
-        return settlementManager.getRandomSettlement();
-    }
-
-    public void addSettlementCreatedListener(Consumer<Settlement> listener) {
-        settlementManager.getDispatcher().addListener(listener);
-    }
-
-    public Settlement getPlayerSettlement() {
-        return settlementManager.getPlayerSettlement();
-    }
-
-    // TIME MANAGER
-    public void advanceTime() {
-        timeManager.advanceTime();
-    }
-
-    public EventDispatcher<Integer> getTimeDispatcher() {
-        return timeManager.getDispatcher();
-    }
-
-    // GAME EVENTS MANAGER
-    public EventDispatcher<GameEvent> getGameEventDispatcher() {
-        return gameEventsManager.getDispatcher();
-    }
-
-    public void generateGameEvent() {
-        gameEventsManager.generate();
+    public WorldStatistics getWorldStatistics() {
+        return new WorldStatistics(
+            settlementManager.getWorldPopulation(),
+            settlementManager.getSettlementCount()
+        );
     }
 
     public TranslationTable getTranslationTable() {
         return translationTable;
+    }
+
+    public TimeManager getTimeManager() {
+        return timeManager;
+    }
+
+    public GameEventsManager getGameEventsManager() {
+        return gameEventsManager;
+    }
+
+    public SettlementsManager getSettlementManager() {
+        return settlementManager;
     }
 }

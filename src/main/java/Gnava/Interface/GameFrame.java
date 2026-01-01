@@ -85,7 +85,7 @@ public class GameFrame extends JFrame {
         JLabel currentTimeLabel = new JLabel("Current day:");
         JButton advanceTimeButton = new JButton("Pass time");
 
-        advanceTimeButton.addActionListener(e -> GameState.getInstance() .advanceTime());
+        advanceTimeButton.addActionListener(e -> GameState.getInstance().getTimeManager().advanceTime());
 
         topPanel.add(advanceTimeButton);
         topPanel.add(currentTimeLabel);
@@ -98,11 +98,11 @@ public class GameFrame extends JFrame {
         eventList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(
-                    JList<?> list,
-                    Object value,
-                    int index,
-                    boolean isSelected,
-                    boolean cellHasFocus
+                JList<?> list,
+                Object value,
+                int index,
+                boolean isSelected,
+                boolean cellHasFocus
             ) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
@@ -128,9 +128,9 @@ public class GameFrame extends JFrame {
     }
 
     private void registerListeners() {
-        GameState.getInstance().addSettlementCreatedListener(settlementListener);
-        GameState.getInstance().getTimeDispatcher().addListener(timeListener);
-        GameState.getInstance().getGameEventDispatcher().addListener(this::onReceivedGameEvent);
+        GameState.getInstance().getSettlementManager().addSettlementCreatedListener(settlementListener);
+        GameState.getInstance().getTimeManager().addTimeAdvancedListener(timeListener);
+        GameState.getInstance().getGameEventsManager().addEventGeneratedListener(this::onReceivedGameEvent);
 
         settlementList.addListSelectionListener(onSettlementSelected());
         eventList.addListSelectionListener(onEventSelected());
@@ -139,7 +139,7 @@ public class GameFrame extends JFrame {
     private void onSettlementsChanged(Settlement newSettlement) {
         SwingUtilities.invokeLater(() -> {
             settlementListModel.clear();
-            for (Settlement s : GameState.getInstance().getSettlements()) {
+            for (Settlement s : GameState.getInstance().getSettlementManager().getSettlements()) {
                 settlementListModel.addElement(s);
             }
         });
@@ -152,7 +152,7 @@ public class GameFrame extends JFrame {
     private void onTimeAdvanced(Integer day) {
         SwingUtilities.invokeLater(() -> currentDayValueLabel.setText(String.valueOf(day)));
 
-        GameState.getInstance().generateGameEvent();
+        GameState.getInstance().getGameEventsManager().generate();
     }
 
     private void onReceivedGameEvent(GameEvent gameEvent) {

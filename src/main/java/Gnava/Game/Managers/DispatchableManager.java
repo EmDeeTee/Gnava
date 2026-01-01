@@ -2,6 +2,10 @@ package Gnava.Game.Managers;
 
 import Gnava.Game.EventDispatcher;
 
-public interface DispatchableManager<T> {
-    EventDispatcher<T> getDispatcher();
+public abstract class DispatchableManager<T> {
+    protected final EventDispatcher<T> dispatcher = new EventDispatcher<>();
+
+    protected EventDispatcher<T> getDispatcher() {
+        return dispatcher;
+    }
 }
