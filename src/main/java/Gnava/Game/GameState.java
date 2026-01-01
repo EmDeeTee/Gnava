@@ -42,6 +42,10 @@ public class GameState {
         return true;
     }
 
+    private boolean canCreateSettlement(Settlement settlement) {
+        return true;
+    }
+
     public Settlement[] getSettlements() {
         return settlementManager.getSettlements();
     }
@@ -54,8 +58,8 @@ public class GameState {
         settlementManager.getDispatcher().addListener(listener);
     }
 
-    private boolean canCreateSettlement(Settlement settlement) {
-        return true;
+    public Settlement getPlayerSettlement() {
+        return settlementManager.getPlayerSettlement();
     }
 
     // TIME MANAGER
