@@ -1,16 +1,19 @@
 package Gnava.Game.Managers;
 
+import Gnava.Game.EventDispatcher;
+
 import java.util.function.Consumer;
 
-public class TimeManager extends DispatchableManager<Integer> {
+public class TimeManager {
+    private final EventDispatcher<Integer> timeAdvancedDispatcher = new EventDispatcher<>();
     private Integer currentDay = 0;
 
     public void advanceTime() {
         currentDay++;
-        dispatcher.dispatch(currentDay);
+        timeAdvancedDispatcher.dispatch(currentDay);
     }
 
     public void addTimeAdvancedListener(Consumer<Integer> listener) {
-        getDispatcher().addListener(listener);
+        timeAdvancedDispatcher.addListener(listener);
     }
 }

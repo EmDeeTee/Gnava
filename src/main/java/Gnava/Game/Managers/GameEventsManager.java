@@ -1,5 +1,6 @@
 package Gnava.Game.Managers;
 
+import Gnava.Game.EventDispatcher;
 import Gnava.Game.Events.Simulation.GameEvent;
 import Gnava.Game.Events.Simulation.PopulationGrowthEvent;
 import Gnava.Game.Events.Simulation.TextEvent;
@@ -10,7 +11,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
-public class GameEventsManager extends DispatchableManager<GameEvent> {
+public class GameEventsManager {
+    private final EventDispatcher<GameEvent> gameEventDispatcher = new EventDispatcher<>();
     private final GameEvent[] storyEvents = new GameEvent[] {
         new TextEvent("A mysterious figure seen in the distance", ""),
         new TextEvent("KKSID", ""),
@@ -19,13 +21,13 @@ public class GameEventsManager extends DispatchableManager<GameEvent> {
     private final List<GameEvent> pastStoryEvents = new ArrayList<>();
 
     public void addEventGeneratedListener(Consumer<GameEvent> listener) {
-        getDispatcher().addListener(listener);
+        gameEventDispatcher.addListener(listener);
     }
 
     public void generate() {
         GameEvent gameEvent = getNextEvent();
         if (gameEvent.canRun()) {
-            dispatcher.dispatch(gameEvent);
+            gameEventDispatcher.dispatch(gameEvent);
             gameEvent.happen();
             pastStoryEvents.add(gameEvent);
         }
