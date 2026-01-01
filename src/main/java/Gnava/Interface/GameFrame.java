@@ -167,6 +167,10 @@ public class GameFrame extends JFrame {
                 Settlement selected = settlementList.getSelectedValue();
                 if (selected != null) {
                     StringBuilder sb = new StringBuilder();
+
+                    if (selected.isPlayer()) {
+                        sb.append("<b>This is your settlement!</b>").append("<br>").append("<br>");
+                    }
                     sb.append("Settlement: ").append(selected.getName()).append("<br>");
                     sb.append("Population type: ").append(selected.getPopulationType()).append("<br>");
                     sb.append("Population: ").append(selected.getTotalPopulation()).append("/").append(selected.getTotalPopulation()).append("<br>");

@@ -5,17 +5,25 @@ public class Settlement {
     private int totalPopulation;
     private int maxPopulation;
     private final SettlementPopulationType populationType;
+    private final boolean isPlayer;
 
     public Settlement(
         String name,
         int totalPopulation,
         int maxPopulation,
-        SettlementPopulationType populationType
+        SettlementPopulationType populationType,
+        boolean isPlayer
     ) {
         this.name = name;
         this.totalPopulation = totalPopulation;
         this.maxPopulation = maxPopulation;
         this.populationType = populationType;
+        this.isPlayer = isPlayer;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public String getName() {
@@ -42,8 +50,7 @@ public class Settlement {
         return populationType;
     }
 
-    @Override
-    public String toString() {
-        return name;
+    public boolean isPlayer() {
+        return isPlayer;
     }
 }

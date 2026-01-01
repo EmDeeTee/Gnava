@@ -28,6 +28,10 @@ public class SettlementsManager implements DispatchableManager<Settlement> {
         return settlements.get(random.nextInt(settlements.size()));
     }
 
+    public Settlement getPlayerSettlement() {
+        return settlements.stream().filter(Settlement::isPlayer).findFirst().orElseThrow();
+    }
+
     @Override
     public EventDispatcher<Settlement> getDispatcher() {
         return dispatcher;

@@ -12,17 +12,19 @@ import java.awt.*;
 public final class CreateSettlementPopup extends Popup<Settlement> {
     private final JTextField nameField = new JTextField(15);
     private final JComboBox<SettlementPopulationType> populationTypeCombo = new JComboBox<>(SettlementPopulationType.values());
+    private final boolean player;
 
     public CreateSettlementPopup() {
-        this(false);
+        this(false, false);
     }
 
-    public CreateSettlementPopup(boolean forced) {
+    public CreateSettlementPopup(boolean forced, boolean isForPlayer) {
         super(GameState.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT));
         withDefaultOk(this::submit);
         if (!forced) {
             withDefaultCancel(null);
         }
+        player = isForPlayer;
     }
 
     @Override
@@ -50,7 +52,8 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
                 name,
                 1,
                 10,
-                (SettlementPopulationType) populationTypeCombo.getSelectedItem()
+                (SettlementPopulationType) populationTypeCombo.getSelectedItem(),
+                player
             )
         );
 

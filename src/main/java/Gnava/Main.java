@@ -14,7 +14,7 @@ public class Main {
         gameFrame.setVisible(true);
 
         new PlaintextPopup(GameState.getInstance().getTranslationTable().t(TranslationKey.WELCOME_MESSAGE)).show();
-        new CreateSettlementPopup(true).show().ifPresentOrElse(
+        new CreateSettlementPopup(true, true).show().ifPresentOrElse(
                 s -> GameState.getInstance().tryCreateSettlement(s),
                 () -> { throw new IllegalStateException("Settlement creation cancelled"); }
         );
