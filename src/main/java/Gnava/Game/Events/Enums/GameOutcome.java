@@ -1,4 +1,4 @@
-package Gnava.Game.Enums;
+package Gnava.Game.Events.Enums;
 
 public enum GameOutcome {
     GAME_LOST,

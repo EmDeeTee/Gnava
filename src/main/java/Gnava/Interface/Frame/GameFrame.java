@@ -1,6 +1,6 @@
 package Gnava.Interface.Frame;
 
-import Gnava.Game.Enums.GameOutcome;
+import Gnava.Game.Events.Enums.GameOutcome;
 import Gnava.Game.Events.GameOutcomeReceivedEvent;
 import Gnava.Game.Events.GameEvent;
 import Gnava.Game.GameState;

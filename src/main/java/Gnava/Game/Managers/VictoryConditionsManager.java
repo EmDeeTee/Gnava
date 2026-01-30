@@ -1,6 +1,6 @@
 package Gnava.Game.Managers;
 
-import Gnava.Game.Enums.GameOutcome;
+import Gnava.Game.Events.Enums.GameOutcome;
 import Gnava.Game.EventDispatcher;
 import Gnava.Game.Events.GameOutcomeReceivedEvent;
 import Gnava.Game.GameState;
