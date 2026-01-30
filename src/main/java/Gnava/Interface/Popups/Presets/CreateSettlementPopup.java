@@ -1,10 +1,11 @@
 package Gnava.Interface.Popups.Presets;
 
-import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
 import Gnava.Game.Settlements.SettlementPopulationType;
+import Gnava.Interface.GameFrame;
 import Gnava.Interface.Popups.Popup;
 import Gnava.Interface.Translations.TranslationKey;
+import Gnava.Interface.Translations.TranslationManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +15,17 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
     private final JComboBox<SettlementPopulationType> populationTypeCombo = new JComboBox<>(SettlementPopulationType.values());
     private final boolean player;
 
-    public CreateSettlementPopup() {
-        this(false, false);
+    public CreateSettlementPopup(GameFrame gameFrame) {
+        this(
+            gameFrame,
+            TranslationManager.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT),
+            false,
+            false
+        );
     }
 
-    public CreateSettlementPopup(boolean forced, boolean isForPlayer) {
-        super(GameState.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT));
+    public CreateSettlementPopup(GameFrame gameFrame, String title, boolean forced, boolean isForPlayer) {
+        super(gameFrame, title);
         withDefaultOk(this::submit);
         if (!forced) {
             withDefaultCancel(null);

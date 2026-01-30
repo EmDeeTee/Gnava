@@ -22,8 +22,8 @@ public final class PopupBuilder {
     private Consumer<JButton> okAction = null;
     private Consumer<JButton> cancelAction = null;
 
-    public PopupBuilder(String title, int width, int height) {
-        dialog = new JDialog(GameFrame.getInstance(), title, true);
+    public PopupBuilder(GameFrame gameFrame, String title, int width, int height) {
+        dialog = new JDialog(gameFrame, title, true);
         dialog.setSize(width, height);
         dialog.setLayout(new BorderLayout());
         dialog.setLocationRelativeTo(null);

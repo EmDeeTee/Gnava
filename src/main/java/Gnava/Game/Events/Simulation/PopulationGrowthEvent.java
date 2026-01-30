@@ -1,32 +1,25 @@
 package Gnava.Game.Events.Simulation;
 
-import Gnava.Game.Events.Conditions.EventCondition;
 import Gnava.Game.Settlements.Settlement;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PopulationGrowthEvent extends GameEvent {
-    private final int popToAdd;
-    private final Settlement target;
+public final class PopulationGrowthEvent {
+    public static GameEvent populationGrowthEvent(@Nullable Settlement target) {
+        return new GameEventBuilder()
+            .withTitle("Population grows")
+            .withDescription("Population growth event")
+            .when(ctx -> ctx.getGameState().getSettlementManager().getSettlementCount() >= 1)
+            .action(ctx -> {
+                Settlement s = target != null ? target : ctx.getGameState().getSettlementManager().getRandomSettlement();
+                int add = s.getMaxPopulation() > 1000
+                    ? ThreadLocalRandom.current().nextInt(0, 50)
+                    : ThreadLocalRandom.current().nextInt(0, 200);
 
-    public PopulationGrowthEvent(Settlement target) {
-        super(String.format("Population grows in %s", target.getName()), "", new EventCondition[0], true);
-
-        this.target = target;
-        this.popToAdd = calculatePopulationIncrease(target);
-
-        setDescription(String.format("Population of %s grew by %d", target.getName(), popToAdd));
-    }
-
-    @Override
-    public void happen() {
-        target.setMaxPopulation(target.getMaxPopulation() + popToAdd);
-        target.setTotalPopulation(target.getTotalPopulation() + popToAdd);
-    }
-
-    private static int calculatePopulationIncrease(Settlement target) {
-        return target.getMaxPopulation() > 1000
-            ? ThreadLocalRandom.current().nextInt(0, 50)
-            : ThreadLocalRandom.current().nextInt(0, 200);
+                s.setMaxPopulation(s.getMaxPopulation() + add);
+                s.setTotalPopulation(s.getTotalPopulation() + add);
+            })
+            .build();
     }
 }

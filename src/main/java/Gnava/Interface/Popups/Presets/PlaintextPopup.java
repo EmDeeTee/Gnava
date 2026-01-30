@@ -1,15 +1,15 @@
 package Gnava.Interface.Popups.Presets;
 
+import Gnava.Interface.GameFrame;
 import Gnava.Interface.Popups.Popup;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class PlaintextPopup extends Popup<Boolean> {
     private final String message;
 
-    public PlaintextPopup(String message) {
-        super("Message");
+    public PlaintextPopup(GameFrame gameFrame, String message) {
+        super(gameFrame);
         this.message = "<html><div style='width:200px;'>" + message + "</div></html>";
         withDefaultOk(null);
     }

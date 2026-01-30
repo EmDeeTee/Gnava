@@ -1,55 +1,59 @@
 package Gnava.Game.Managers;
 
 import Gnava.Game.EventDispatcher;
+import Gnava.Game.Events.Simulation.EventContext;
 import Gnava.Game.Events.Simulation.GameEvent;
 import Gnava.Game.Events.Simulation.PopulationGrowthEvent;
-import Gnava.Game.Events.Simulation.TextEvent;
+import Gnava.Game.Events.Simulation.k_event;
 import Gnava.Game.GameState;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
-public class GameEventsManager {
+public class GameEventsManager extends GameManager {
     private final EventDispatcher<GameEvent> gameEventDispatcher = new EventDispatcher<>();
-    private final GameEvent[] storyEvents = new GameEvent[] {
-        new TextEvent("A mysterious figure seen in the distance", ""),
-        new TextEvent("KKSID", ""),
-    };
+    private final List<GameEvent> registeredGameEvents = new ArrayList<>();
 
-    private final List<GameEvent> pastStoryEvents = new ArrayList<>();
+    public GameEventsManager(GameState gameState) {
+        super(gameState);
+        gameState.getTimeManager().addTimeAdvancedListener(this::onTimeAdvanced);
+        registerGlobalEvent(PopulationGrowthEvent.populationGrowthEvent(null));
+        registerGlobalEvent(k_event.kk_event());
+    }
 
     public void addEventGeneratedListener(Consumer<GameEvent> listener) {
         gameEventDispatcher.addListener(listener);
     }
 
-    public void generate() {
-        GameEvent gameEvent = getNextEvent();
-        if (gameEvent.canRun()) {
-            gameEventDispatcher.dispatch(gameEvent);
-            gameEvent.happen();
-            pastStoryEvents.add(gameEvent);
-        }
+    public void registerGlobalEvent(GameEvent gameEvent) {
+        registeredGameEvents.add(gameEvent);
     }
 
     public boolean hasEventHappened(GameEvent gameEvent) {
-        return pastStoryEvents.contains(gameEvent);
+        return false;
+        //return registeredGameEvents.contains(gameEvent);
     }
 
-    private GameEvent getNextEvent() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        int chance = random.nextInt(0, 100);
+    private void onTimeAdvanced(Integer currentDay) {
+        for (Iterator<GameEvent> it = registeredGameEvents.iterator(); it.hasNext();) {
+            GameEvent gameEvent = it.next();
+            EventContext ctx = new EventContext(null, gameState);
 
-        // TODO: This needs higher level abstraction
-//        if (chance <= 10 && GameState.getInstance().getWorldPopulation() > 5000) {
-//            pastStoryEvents.add(storyEvents[0]);
-//            return storyEvents[0];
-//        }
-//        if (chance <= 10 && pastStoryEvents.contains(storyEvents[0]) && GameState.getInstance().getWorldPopulation() > 5000) {
-//            pastStoryEvents.add(storyEvents[1]);
-//            return storyEvents[1];
-//        }
-        return new PopulationGrowthEvent(GameState.getInstance().getSettlementManager().getRandomSettlement());
+            if (!gameEvent.canRun(ctx)) {
+                continue;
+            }
+
+            if (gameEvent.isFiresOnce() && gameState.getGameEventsManager().hasEventHappened(gameEvent)) {
+                continue;
+            }
+
+            gameEvent.happen(ctx);
+            gameEventDispatcher.dispatch(gameEvent);
+            if (gameEvent.isFiresOnce()) {
+                it.remove();
+            }
+        }
     }
 }

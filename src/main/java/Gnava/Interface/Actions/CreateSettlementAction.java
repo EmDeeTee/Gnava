@@ -1,12 +1,14 @@
 package Gnava.Interface.Actions;
 
+import Gnava.Game.Commands.Command;
 import Gnava.Game.Commands.CommandAction;
-import Gnava.Game.Commands.CreateSettlementCommand;
 import Gnava.Game.Settlements.Settlement;
-import Gnava.Interface.Popups.Presets.CreateSettlementPopup;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 public class CreateSettlementAction extends CommandAction<Settlement> {
-    public CreateSettlementAction() {
-        super(new CreateSettlementCommand(), () -> new CreateSettlementPopup().show());
+    public CreateSettlementAction(Command<Settlement> command, Supplier<Optional<Settlement>> inputSupplier) {
+        super(command, inputSupplier);
     }
 }

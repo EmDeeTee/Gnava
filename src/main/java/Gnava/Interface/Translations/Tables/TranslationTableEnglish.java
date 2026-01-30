@@ -1,4 +1,6 @@
-package Gnava.Interface.Translations;
+package Gnava.Interface.Translations.Tables;
+
+import Gnava.Interface.Translations.TranslationKey;
 
 import java.util.Collections;
 import java.util.EnumMap;

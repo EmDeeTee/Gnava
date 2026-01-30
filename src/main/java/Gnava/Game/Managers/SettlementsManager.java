@@ -1,6 +1,7 @@
 package Gnava.Game.Managers;
 
 import Gnava.Game.EventDispatcher;
+import Gnava.Game.GameState;
 import Gnava.Game.Settlements.Settlement;
 
 import java.util.ArrayList;
@@ -11,11 +12,13 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 // TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
-public class SettlementsManager {
+public class SettlementsManager extends GameManager {
     private final EventDispatcher<Settlement> settlementCreatedDispatcher = new EventDispatcher<>();
     private final List<Settlement> settlements = new ArrayList<>();
 
-    public SettlementsManager() { }
+    public SettlementsManager(GameState gameState) {
+        super(gameState);
+    }
 
     public Stream<Settlement> stream() {
         return Arrays.stream(getSettlements());
@@ -48,6 +51,10 @@ public class SettlementsManager {
     }
 
     public Settlement getRandomSettlement() {
+        if (getSettlementCount() == 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
         Random random = new Random();
         return settlements.get(random.nextInt(settlements.size()));
     }

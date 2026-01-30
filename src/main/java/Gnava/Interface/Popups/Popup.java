@@ -26,21 +26,21 @@ public abstract class Popup<T> {
     private Runnable cancelAction;
     List<JButton> buttonBuffer = new ArrayList<>();
 
-    protected Popup() {
-        this("Popup", DEFAULT_DIMENSION);
+    protected Popup(GameFrame gameFrame) {
+        this(gameFrame, "Popup", DEFAULT_DIMENSION);
     }
 
-    protected Popup(String title) {
-        this(title, DEFAULT_DIMENSION);
+    protected Popup(GameFrame gameFrame, String title) {
+        this(gameFrame, title, DEFAULT_DIMENSION);
     }
 
-    protected Popup(String title, Dimension size) {
-        dialog = new JDialog(GameFrame.getInstance(), title, true);
+    protected Popup(GameFrame gameFrame, String title, Dimension size) {
+        dialog = new JDialog(gameFrame, title, true);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.setResizable(false);
         dialog.setLayout(new BorderLayout());
         dialog.setSize(size);
-        dialog.setLocationRelativeTo(GameFrame.getInstance());
+        dialog.setLocationRelativeTo(gameFrame);
 
         dialog.add(buttonPanel, BorderLayout.SOUTH);
     }
