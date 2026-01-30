@@ -7,9 +7,7 @@ import Gnava.Interface.Translations.Tables.TranslationTableEnglish;
 public class TranslationManager {
     private static TranslationManager instance;
 
-    private final TranslationTable translationTable = System.getProperty("os.name").startsWith("Windows")
-            ? new TranslationTableEnglish()
-            : new TranslationTableCrustyDutch();
+    private TranslationTable translationTable;
 
     public static TranslationManager getInstance() {
         if (instance == null) {
@@ -23,5 +21,21 @@ public class TranslationManager {
         return translationTable;
     }
 
-    private TranslationManager() { }
+    private void selectTranslationTable() {
+        TranslationTable selectedTable;
+
+        if (System.getenv("USE_CRUSTY_DUTCH") != null) {
+            selectedTable = new TranslationTableCrustyDutch();
+        } else {
+            selectedTable = System.getProperty("os.name").startsWith("Windows")
+                ? new TranslationTableEnglish()
+                : new TranslationTableCrustyDutch();
+        }
+
+        translationTable = selectedTable;
+    }
+
+    private TranslationManager() {
+        selectTranslationTable();
+    }
 }
