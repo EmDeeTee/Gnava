@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Gnava (English)" type="Application" factoryName="Application">
+    <envs>
+      <env name="USE_CRUSTY_DUTCH" value="0" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="Gnava.Main" />
+    <module name="Gnava" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
