@@ -4,6 +4,8 @@ import Gnava.Interface.Translations.Tables.TranslationTable;
 import Gnava.Interface.Translations.Tables.TranslationTableCrustyDutch;
 import Gnava.Interface.Translations.Tables.TranslationTableEnglish;
 
+import java.util.Objects;
+
 public class TranslationManager {
     private static TranslationManager instance;
 
@@ -24,7 +26,7 @@ public class TranslationManager {
     private void selectTranslationTable() {
         TranslationTable selectedTable;
 
-        if (System.getenv("USE_CRUSTY_DUTCH") != null) {
+        if (Objects.equals(System.getenv("USE_CRUSTY_DUTCH"), "1")) {
             selectedTable = new TranslationTableCrustyDutch();
         } else {
             selectedTable = System.getProperty("os.name").startsWith("Windows")
