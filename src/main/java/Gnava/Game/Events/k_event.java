@@ -1,4 +1,6 @@
-package Gnava.Game.Events.Simulation;
+package Gnava.Game.Events;
+
+import Gnava.Game.Events.Builders.GameEventBuilder;
 
 public final class k_event {
     public static GameEvent kk_event() {

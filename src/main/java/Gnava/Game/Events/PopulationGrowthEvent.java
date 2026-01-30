@@ -1,6 +1,7 @@
-package Gnava.Game.Events.Simulation;
+package Gnava.Game.Events;
 
-import Gnava.Game.Settlements.Settlement;
+import Gnava.Game.Events.Builders.GameEventBuilder;
+import Gnava.Game.Models.Settlement;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ThreadLocalRandom;

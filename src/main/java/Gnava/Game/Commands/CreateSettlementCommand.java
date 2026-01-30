@@ -1,7 +1,7 @@
 package Gnava.Game.Commands;
 
 import Gnava.Game.Managers.SettlementsManager;
-import Gnava.Game.Settlements.Settlement;
+import Gnava.Game.Models.Settlement;
 
 public class CreateSettlementCommand implements Command<Settlement> {
     private final SettlementsManager settlementsManager;

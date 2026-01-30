@@ -2,7 +2,7 @@ package Gnava.Interface.Actions;
 
 import Gnava.Game.Commands.Command;
 import Gnava.Game.Commands.CommandAction;
-import Gnava.Game.Settlements.Settlement;
+import Gnava.Game.Models.Settlement;
 
 import java.util.Optional;
 import java.util.function.Supplier;

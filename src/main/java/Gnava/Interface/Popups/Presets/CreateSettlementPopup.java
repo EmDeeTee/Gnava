@@ -1,8 +1,8 @@
 package Gnava.Interface.Popups.Presets;
 
-import Gnava.Game.Settlements.Settlement;
-import Gnava.Game.Settlements.SettlementPopulationType;
-import Gnava.Interface.GameFrame;
+import Gnava.Game.Models.Settlement;
+import Gnava.Game.Models.Enums.SettlementPopulationType;
+import Gnava.Interface.Frame.GameFrame;
 import Gnava.Interface.Popups.Popup;
 import Gnava.Interface.Translations.TranslationKey;
 import Gnava.Interface.Translations.TranslationManager;

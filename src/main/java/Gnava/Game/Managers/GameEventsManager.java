@@ -1,10 +1,10 @@
 package Gnava.Game.Managers;
 
 import Gnava.Game.EventDispatcher;
-import Gnava.Game.Events.Simulation.EventContext;
-import Gnava.Game.Events.Simulation.GameEvent;
-import Gnava.Game.Events.Simulation.PopulationGrowthEvent;
-import Gnava.Game.Events.Simulation.k_event;
+import Gnava.Game.Events.EventContext;
+import Gnava.Game.Events.GameEvent;
+import Gnava.Game.Events.PopulationGrowthEvent;
+import Gnava.Game.Events.k_event;
 import Gnava.Game.GameState;
 
 import java.util.ArrayList;

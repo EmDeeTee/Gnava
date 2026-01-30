@@ -1,6 +1,6 @@
 package Gnava.Interface.Renderers;
 
-import Gnava.Game.Events.Simulation.GameEvent;
+import Gnava.Game.Events.GameEvent;
 import Gnava.Interface.Renderers.Exceptions.UnexpectedObjectTypeException;
 
 import javax.swing.*;

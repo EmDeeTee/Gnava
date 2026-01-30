@@ -1,6 +1,6 @@
 package Gnava.Interface.Popups;
 
-import Gnava.Interface.GameFrame;
+import Gnava.Interface.Frame.GameFrame;
 import Gnava.Interface.Popups.Buttons.ButtonCancel;
 import Gnava.Interface.Popups.Buttons.ButtonOk;
 import org.jetbrains.annotations.Nullable;

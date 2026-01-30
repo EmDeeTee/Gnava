@@ -1,4 +1,6 @@
-package Gnava.Game.Settlements;
+package Gnava.Game.Models;
+
+import Gnava.Game.Models.Enums.SettlementPopulationType;
 
 public class Settlement {
     private final String name;

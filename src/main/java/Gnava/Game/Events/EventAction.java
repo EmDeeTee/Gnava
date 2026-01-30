@@ -1,4 +1,4 @@
-package Gnava.Game.Events.Simulation;
+package Gnava.Game.Events;
 
 @FunctionalInterface
 public interface EventAction {

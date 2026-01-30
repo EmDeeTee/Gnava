@@ -1,6 +1,6 @@
 package Gnava.Interface.Popups;
 
-import Gnava.Interface.GameFrame;
+import Gnava.Interface.Frame.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;

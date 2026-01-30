@@ -1,6 +1,8 @@
-package Gnava.Game.Events.Simulation;
+package Gnava.Game.Events.Builders;
 
 import Gnava.Game.Events.Conditions.EventCondition;
+import Gnava.Game.Events.EventAction;
+import Gnava.Game.Events.GameEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;

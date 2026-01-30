@@ -1,10 +1,9 @@
-package Gnava.Interface.Menu;
+package Gnava.Interface.Frame;
 
 import Gnava.Game.Commands.CreateSettlementCommand;
 import Gnava.Game.GameState;
 import Gnava.Interface.Actions.CreateSettlementAction;
 import Gnava.Interface.Actions.ShowWorldStatisticsAction;
-import Gnava.Interface.GameFrame;
 import Gnava.Interface.Popups.Presets.CreateSettlementPopup;
 
 import javax.swing.*;

@@ -2,7 +2,7 @@ package Gnava;
 
 import Gnava.Game.Commands.CreateSettlementCommand;
 import Gnava.Game.GameState;
-import Gnava.Interface.GameFrame;
+import Gnava.Interface.Frame.GameFrame;
 import Gnava.Interface.Popups.Presets.CreateSettlementPopup;
 import Gnava.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Interface.Translations.TranslationKey;

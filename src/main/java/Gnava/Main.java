@@ -1,7 +1,7 @@
 package Gnava;
 
 import Gnava.Game.GameState;
-import Gnava.Interface.GameFrame;
+import Gnava.Interface.Frame.GameFrame;
 import Gnava.Interface.Translations.TranslationKey;
 import Gnava.Interface.Translations.TranslationManager;
 

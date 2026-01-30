@@ -1,6 +1,6 @@
-package Gnava.Game.Events.Settlement;
+package Gnava.Game.Events;
 
-import Gnava.Game.Settlements.Settlement;
+import Gnava.Game.Models.Settlement;
 
 // TODO: Maybe merge it into normal game events
 public record SettlementEvent(Settlement settlement, EventType eventType) {

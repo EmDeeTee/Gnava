@@ -2,7 +2,7 @@ package Gnava.Game.Managers;
 
 import Gnava.Game.EventDispatcher;
 import Gnava.Game.GameState;
-import Gnava.Game.Settlements.Settlement;
+import Gnava.Game.Models.Settlement;
 
 import java.util.ArrayList;
 import java.util.Arrays;

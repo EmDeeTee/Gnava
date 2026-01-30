@@ -1,12 +1,11 @@
-package Gnava.Interface;
+package Gnava.Interface.Frame;
 
 import Gnava.Game.Enums.GameOutcome;
 import Gnava.Game.Events.GameOutcomeReceivedEvent;
-import Gnava.Game.Events.Simulation.GameEvent;
+import Gnava.Game.Events.GameEvent;
 import Gnava.Game.GameState;
 import Gnava.Game.Managers.Listeners.GameDayListener;
-import Gnava.Game.Settlements.Settlement;
-import Gnava.Interface.Menu.GameFrameMenuBar;
+import Gnava.Game.Models.Settlement;
 import Gnava.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Interface.Renderers.EventListRenderer;
 

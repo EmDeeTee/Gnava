@@ -2,7 +2,7 @@ package Gnava.Interface.Actions;
 
 import Gnava.Game.DataTransferObjects.WorldStatistics;
 import Gnava.Game.GameState;
-import Gnava.Interface.GameFrame;
+import Gnava.Interface.Frame.GameFrame;
 import Gnava.Interface.Popups.Presets.PlaintextPopup;
 
 import javax.swing.*;
