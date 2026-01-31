@@ -27,6 +27,7 @@ public class GameEventsManager extends GameManager {
         gameEventDispatcher.addListener(listener);
     }
 
+    // FIXME: We should not reuse the same event instances. Mark executed events as done and move on
     public void registerGlobalEvent(GameEvent gameEvent) {
         registeredGameEvents.add(gameEvent);
     }

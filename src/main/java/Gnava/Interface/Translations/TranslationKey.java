@@ -4,4 +4,5 @@ public enum TranslationKey {
     GKINGDOMS,
     CREATE_SETTLEMENT,
     WELCOME_MESSAGE,
+    NAME,
 }

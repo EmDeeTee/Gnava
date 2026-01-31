@@ -125,7 +125,7 @@ public class GameFrame extends JFrame {
     }
 
     private void insertEvent(GameEvent e) {
-        eventListModel.add(0, e);
+        eventListModel.add(0, e.clone());
     }
 
     private void onTimeAdvanced(int currentDay) {

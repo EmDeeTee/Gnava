@@ -38,7 +38,7 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
         JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        panel.add(new JLabel("Name:"));
+        panel.add(new JLabel(TranslationManager.getInstance().getTranslationTable().t(TranslationKey.NAME) + ":"));
         panel.add(nameField);
         panel.add(new JLabel("Population type:"));
         panel.add(populationTypeCombo);
