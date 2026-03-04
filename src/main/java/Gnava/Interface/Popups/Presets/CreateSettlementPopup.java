@@ -1,5 +1,6 @@
 package Gnava.Interface.Popups.Presets;
 
+import Gnava.Game.Models.Enums.SettlementWealthLevel;
 import Gnava.Game.Models.Settlement;
 import Gnava.Game.Models.Enums.SettlementPopulationType;
 import Gnava.Interface.Frame.GameFrame;
@@ -59,6 +60,7 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
                 1,
                 10,
                 (SettlementPopulationType) populationTypeCombo.getSelectedItem(),
+                SettlementWealthLevel.MODERATE,
                 player
             )
         );

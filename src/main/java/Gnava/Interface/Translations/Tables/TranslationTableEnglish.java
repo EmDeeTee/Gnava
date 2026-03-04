@@ -15,6 +15,7 @@ public class TranslationTableEnglish implements TranslationTable {
         map.put(TranslationKey.GKINGDOMS, "Kingdoms of Gnava");
         map.put(TranslationKey.CREATE_SETTLEMENT, "Create Settlement");
         map.put(TranslationKey.WELCOME_MESSAGE, "Welcome, to the Kingdoms of Gnava. You are a god-like being overseeing this world. <br><br> Create your settlement and help it become the most powerful and prosperous land in the realm.");
+        map.put(TranslationKey.NAME, "Name");
 
         table = Collections.unmodifiableMap(map);
     }

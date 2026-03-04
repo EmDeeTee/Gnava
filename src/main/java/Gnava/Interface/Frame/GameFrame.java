@@ -155,6 +155,7 @@ public class GameFrame extends JFrame {
                     sb.append("Settlement: ").append(selected.getName()).append("<br>");
                     sb.append("Population type: ").append(selected.getPopulationType()).append("<br>");
                     sb.append("Population: ").append(selected.getTotalPopulation()).append("/").append(selected.getTotalPopulation()).append("<br>");
+                    sb.append("Wealth: ").append(selected.getWealthLevel()).append("<br>");
 
                     new PlaintextPopup(this, sb.toString()).show();
                     settlementList.setSelectedValue(null, false);

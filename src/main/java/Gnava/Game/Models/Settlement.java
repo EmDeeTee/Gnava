@@ -1,12 +1,14 @@
 package Gnava.Game.Models;
 
 import Gnava.Game.Models.Enums.SettlementPopulationType;
+import Gnava.Game.Models.Enums.SettlementWealthLevel;
 
 public class Settlement {
     private final String name;
     private int totalPopulation;
     private int maxPopulation;
     private final SettlementPopulationType populationType;
+    private final SettlementWealthLevel wealthLevel;
     private final boolean isPlayer;
 
     public Settlement(
@@ -14,12 +16,14 @@ public class Settlement {
         int totalPopulation,
         int maxPopulation,
         SettlementPopulationType populationType,
+        SettlementWealthLevel wealthLevel,
         boolean isPlayer
     ) {
         this.name = name;
         this.totalPopulation = totalPopulation;
         this.maxPopulation = maxPopulation;
         this.populationType = populationType;
+        this.wealthLevel = wealthLevel;
         this.isPlayer = isPlayer;
     }
 
@@ -54,5 +58,9 @@ public class Settlement {
 
     public boolean isPlayer() {
         return isPlayer;
+    }
+
+    public SettlementWealthLevel getWealthLevel() {
+        return wealthLevel;
     }
 }

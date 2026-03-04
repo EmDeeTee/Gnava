@@ -1,25 +1,23 @@
 package Gnava.Game.Managers;
 
 import Gnava.Game.EventDispatcher;
-import Gnava.Game.Events.EventContext;
-import Gnava.Game.Events.GameEvent;
-import Gnava.Game.Events.PopulationGrowthEvent;
-import Gnava.Game.Events.k_event;
+import Gnava.Game.Events.*;
 import Gnava.Game.GameState;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 public class GameEventsManager extends GameManager {
     private final EventDispatcher<GameEvent> gameEventDispatcher = new EventDispatcher<>();
     private final List<GameEvent> registeredGameEvents = new ArrayList<>();
+    private final Map<Class<?>, Integer> df = new HashMap<>();
 
     public GameEventsManager(GameState gameState) {
         super(gameState);
         gameState.getTimeManager().addTimeAdvancedListener(this::onTimeAdvanced);
-        registerGlobalEvent(PopulationGrowthEvent.populationGrowthEvent(null));
+        registerGlobalEvent(new PopulationGrowthEventFactory(null).create());
+        registerGlobalEvent(new SqualorEvent().create());
         registerGlobalEvent(k_event.kk_event());
     }
 
@@ -38,23 +36,24 @@ public class GameEventsManager extends GameManager {
     }
 
     private void onTimeAdvanced(Integer currentDay) {
-        for (Iterator<GameEvent> it = registeredGameEvents.iterator(); it.hasNext();) {
-            GameEvent gameEvent = it.next();
-            EventContext ctx = new EventContext(null, gameState);
+        //select a random event ..
+        GameEvent gameEvent = registeredGameEvents.get( ThreadLocalRandom.current( ).nextInt( 0, registeredGameEvents.size( ) - 1) );
+        //construct our event context ..
+        EventContext ctx = new EventContext(null, gameState);
 
-            if (!gameEvent.canRun(ctx)) {
-                continue;
-            }
-
-            if (gameEvent.isFiresOnce() && gameState.getGameEventsManager().hasEventHappened(gameEvent)) {
-                continue;
-            }
-
-            gameEvent.happen(ctx);
-            gameEventDispatcher.dispatch(gameEvent);
-            if (gameEvent.isFiresOnce()) {
-                it.remove();
-            }
+        if ( ! gameEvent.canRun( ctx ) ){
+            return;
         }
+        if ( gameEvent.isFiresOnce( ) && gameState.getGameEventsManager().hasEventHappened( gameEvent ) ){
+            return;
+        }
+
+        gameEvent.happen( ctx );
+        gameEventDispatcher.dispatch( gameEvent );
+        if (gameEvent.isFiresOnce()){
+            registeredGameEvents.remove(gameEvent);
+        }
+
+        // NOTE: I fucking hate you kksidd, I really do
     }
 }
