@@ -7,10 +7,10 @@ import Gnava.Game.GameState;
 import Gnava.Game.Managers.Listeners.GameOutcomeListener;
 import org.jetbrains.annotations.NotNull;
 
-public class VictoryConditionsManager extends GameManager {
+public class VictoryConditionManager extends GameManager {
     EventDispatcher<GameOutcomeReceivedEvent> gameOutcomeSetEventDispatcher = new EventDispatcher<>();
 
-    public VictoryConditionsManager(GameState gameState) {
+    public VictoryConditionManager(GameState gameState) {
         super(gameState);
         gameState.getTimeManager().addTimeAdvancedListener(this::onTimeAdvanced);
     }

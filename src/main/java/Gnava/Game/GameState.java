@@ -1,22 +1,22 @@
 package Gnava.Game;
 
 import Gnava.Game.DataTransferObjects.WorldStatistics;
-import Gnava.Game.Managers.GameEventsManager;
-import Gnava.Game.Managers.SettlementsManager;
+import Gnava.Game.Managers.GameEventManager;
+import Gnava.Game.Managers.SettlementManager;
 import Gnava.Game.Managers.TimeManager;
-import Gnava.Game.Managers.VictoryConditionsManager;
+import Gnava.Game.Managers.VictoryConditionManager;
 
 public class GameState {
-    private final SettlementsManager settlementManager;
+    private final SettlementManager settlementManager;
     private final TimeManager timeManager;
-    private final GameEventsManager gameEventsManager;
-    private final VictoryConditionsManager victoryConditionsManager;
+    private final GameEventManager gameEventManager;
+    private final VictoryConditionManager victoryConditionManager;
 
     public GameState() {
-        settlementManager = new SettlementsManager(this);
+        settlementManager = new SettlementManager(this);
         timeManager = new TimeManager(this);
-        gameEventsManager = new GameEventsManager(this);
-        victoryConditionsManager = new VictoryConditionsManager(this);
+        gameEventManager = new GameEventManager(this);
+        victoryConditionManager = new VictoryConditionManager(this);
     }
 
     public WorldStatistics getWorldStatistics() {
@@ -30,15 +30,15 @@ public class GameState {
         return timeManager;
     }
 
-    public GameEventsManager getGameEventsManager() {
-        return gameEventsManager;
+    public GameEventManager getGameEventsManager() {
+        return gameEventManager;
     }
 
-    public SettlementsManager getSettlementManager() {
+    public SettlementManager getSettlementManager() {
         return settlementManager;
     }
 
-    public VictoryConditionsManager getVictoryConditionsManager() {
-        return victoryConditionsManager;
+    public VictoryConditionManager getVictoryConditionsManager() {
+        return victoryConditionManager;
     }
 }
