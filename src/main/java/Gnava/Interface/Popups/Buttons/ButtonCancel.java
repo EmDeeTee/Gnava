@@ -1,8 +1,8 @@
 package Gnava.Interface.Popups.Buttons;
 
-import javax.swing.*;
+import Gnava.Interface.Elements.GnavaButton;
 
-public class ButtonCancel extends JButton {
+public class ButtonCancel extends GnavaButton {
     public ButtonCancel() {
         super("Cancel");
     }

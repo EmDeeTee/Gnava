@@ -1,8 +1,8 @@
 package Gnava.Interface.Popups.Buttons;
 
-import javax.swing.*;
+import Gnava.Interface.Elements.GnavaButton;
 
-public class ButtonOk extends JButton {
+public class ButtonOk extends GnavaButton {
     public ButtonOk() {
         super("OK");
     }

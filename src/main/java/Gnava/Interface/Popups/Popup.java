@@ -1,5 +1,6 @@
 package Gnava.Interface.Popups;
 
+import Gnava.Interface.Elements.GnavaButton;
 import Gnava.Interface.Frame.GameFrame;
 import Gnava.Interface.Popups.Buttons.ButtonCancel;
 import Gnava.Interface.Popups.Buttons.ButtonOk;
@@ -24,7 +25,7 @@ public abstract class Popup<T> {
 
     private Runnable okAction;
     private Runnable cancelAction;
-    List<JButton> buttonBuffer = new ArrayList<>();
+    List<GnavaButton> buttonBuffer = new ArrayList<>();
 
     protected Popup(GameFrame gameFrame) {
         this(gameFrame, "Popup", DEFAULT_DIMENSION);
@@ -48,7 +49,7 @@ public abstract class Popup<T> {
     public final Optional<T> show() {
         dialog.add(buildContent(), BorderLayout.CENTER);
         buttonPanel.removeAll();
-        for (JButton btn : buildButtons()) {
+        for (GnavaButton btn : buildButtons()) {
             buttonPanel.add(btn);
         }
         buttonPanel.revalidate();
@@ -75,7 +76,7 @@ public abstract class Popup<T> {
         cancelAction = actionCancel;
     }
 
-    protected JButton[] buildButtons() {
+    protected GnavaButton[] buildButtons() {
         if (withDefaultOk) {
             ButtonOk okButton = new ButtonOk();
             okButton.addActionListener(e -> {
@@ -102,7 +103,7 @@ public abstract class Popup<T> {
             buttonBuffer.add(cancelButton);
         }
 
-        return buttonBuffer.toArray(new JButton[0]);
+        return buttonBuffer.toArray(new GnavaButton[0]);
     }
 
     // Default action
