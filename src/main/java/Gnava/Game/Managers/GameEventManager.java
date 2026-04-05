@@ -3,6 +3,7 @@ package Gnava.Game.Managers;
 import Gnava.Game.EventDispatcher;
 import Gnava.Game.Events.*;
 import Gnava.Game.GameState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -11,7 +12,6 @@ import java.util.function.Consumer;
 public class GameEventManager extends GameManager {
     private final EventDispatcher<GameEvent> gameEventDispatcher = new EventDispatcher<>();
     private final List<GameEvent> registeredGameEvents = new ArrayList<>();
-    private final Map<Class<?>, Integer> eventFrequencyMap = new HashMap<>();
 
     public GameEventManager(GameState gameState) {
         super(gameState);
@@ -35,13 +35,13 @@ public class GameEventManager extends GameManager {
         //return registeredGameEvents.contains(gameEvent);
     }
 
-    private void onTimeAdvanced(Integer currentDay) {
+    private @NotNull Optional<EventCandidates> generateEventCandidates() {
         // TODO: Passing the target to the EventContext seems like a bad idea, especially because no we have attachments
         // TODO: I also want to add some logging. Wih a nice Log class with configuration
         EventContext eventContext = new EventContext(null, gameState);
-
         List<GameEvent> eligibleEvents = new ArrayList<>();
         double totalWeight = 0.0;
+
         for (GameEvent event : registeredGameEvents) {
             if (!event.canRun(eventContext)) {
                 continue;
@@ -61,25 +61,37 @@ public class GameEventManager extends GameManager {
         }
 
         if (eligibleEvents.isEmpty() || totalWeight <= 0.0) {
-            return;
+            return Optional.empty();
         }
 
-        double randomValue = ThreadLocalRandom.current().nextDouble() * totalWeight;
+        return Optional.of(new EventCandidates(eligibleEvents, totalWeight, eventContext));
+    }
+
+    private GameEvent selectEventFromCandidates(EventCandidates candidates) {
+        double randomValue = ThreadLocalRandom.current().nextDouble() * candidates.totalWeight();
         double accumulatedWeight = 0.0;
-        GameEvent selectedEvent = null;
-        for (GameEvent event : eligibleEvents) {
+
+        for (GameEvent event : candidates.candidates()) {
             accumulatedWeight += event.getProbability();
             if (randomValue < accumulatedWeight) {
-                selectedEvent = event;
-                break;
+                return event;
             }
         }
 
-        if (selectedEvent == null) {
-            selectedEvent = eligibleEvents.get(eligibleEvents.size() - 1);
+        // TODO: What if there are no candidates?
+        return candidates.candidates().getLast();
+    }
+
+    private void onTimeAdvanced(Integer currentDay) {
+        Optional<EventCandidates> maybe = generateEventCandidates();
+        if (maybe.isEmpty()) {
+            return;
         }
 
-        selectedEvent.happen(eventContext);
+        EventCandidates candidates = maybe.get();
+        GameEvent selectedEvent = selectEventFromCandidates(candidates);
+
+        selectedEvent.happen(candidates.context());
         gameEventDispatcher.dispatch(selectedEvent);
         if (selectedEvent.isFiresOnce()) {
             registeredGameEvents.remove(selectedEvent);
