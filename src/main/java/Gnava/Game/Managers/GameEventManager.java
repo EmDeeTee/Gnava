@@ -16,9 +16,9 @@ public class GameEventManager extends GameManager {
     public GameEventManager(GameState gameState) {
         super(gameState);
         gameState.getTimeManager().addTimeAdvancedListener(this::onTimeAdvanced);
-        registerGlobalEvent(new PopulationGrowthEventFactory(null).create());
-        registerGlobalEvent(new SqualorEvent().create());
-        registerGlobalEvent(k_event.kk_event());
+        registerGlobalEvent(PopulationGrowthEvent.create(null));
+        registerGlobalEvent(SqualorEvent.create());
+        registerGlobalEvent(KEvent.create());
     }
 
     public void addEventGeneratedListener(Consumer<GameEvent> listener) {
@@ -91,8 +91,10 @@ public class GameEventManager extends GameManager {
         EventCandidates candidates = maybe.get();
         GameEvent selectedEvent = selectEventFromCandidates(candidates);
 
-        selectedEvent.happen(candidates.context());
-        gameEventDispatcher.dispatch(selectedEvent);
+        // TODO: This feels... wrong
+        GameEvent executionEvent = selectedEvent.clone();
+        executionEvent.happen(candidates.context());
+        gameEventDispatcher.dispatch(executionEvent);
         if (selectedEvent.isFiresOnce()) {
             registeredGameEvents.remove(selectedEvent);
         }
