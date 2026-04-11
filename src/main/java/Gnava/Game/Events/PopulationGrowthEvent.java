@@ -1,65 +1,59 @@
 package Gnava.Game.Events;
 
-import Gnava.Game.Events.Builders.GameEventBuilder;
 import Gnava.Game.Events.Conditions.EventCondition;
 import Gnava.Game.Models.Settlement;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class PopulationGrowthEvent {
-    private PopulationGrowthEvent() { }
+public final class PopulationGrowthEvent extends AbstractGameEventDefinition {
+    private final Settlement target;
 
-    public static GameEvent create(@Nullable Settlement target) {
-        return new GameEventBuilder()
-            .prepare(new PrepareAction(target))
-            .withTitle(new TitleProvider())
-            .withDescription("Population growth event")
-            .when(new PopulationCondition())
-            .action(new ApplyGrowthAction())
-            .build();
+    private PopulationGrowthEvent(@Nullable Settlement target) {
+        this.target = target;
     }
 
-    private record PrepareAction(Settlement target) implements EventAction {
-        private PrepareAction(@Nullable Settlement target) {
-            this.target = target;
-        }
-
-        @Override
-        public void execute(EventContext ctx) {
-            Settlement s = (target != null) ? target : ctx.getGameState().getSettlementManager().getRandomSettlement();
-            ctx.set(Settlement.class, s);
-
-            int growth = s.getMaxPopulation() > 1000
-                ? ThreadLocalRandom.current().nextInt(0, 50)
-                : ThreadLocalRandom.current().nextInt(0, 200);
-            ctx.set(Integer.class, growth);
-        }
+    public static PopulationGrowthEvent create(@Nullable Settlement target) {
+        return new PopulationGrowthEvent(target);
     }
 
-    private static final class TitleProvider implements EventTitleProvider {
-        @Override
-        public String getTitle(EventContext ctx) {
-            Settlement s = ctx.get(Settlement.class).orElseThrow(RuntimeException::new);
-            return "Population grows in " + s.getName();
-        }
+    @Override
+    protected EventCondition[] conditions() {
+        return new EventCondition[] {
+            ctx -> ctx.getGameState().getSettlementManager().getSettlementCount() >= 1
+        };
     }
 
-    private static final class PopulationCondition implements EventCondition {
-        @Override
-        public boolean isSatisfied(EventContext eventContext) {
-            return eventContext.getGameState().getSettlementManager().getSettlementCount() >= 1;
-        }
+    @Override
+    protected void prepare(EventContext ctx) {
+        Settlement settlement = (target != null)
+            ? target
+            : ctx.getGameState().getSettlementManager().getRandomSettlement();
+        ctx.set(Settlement.class, settlement);
+
+        int growth = settlement.getMaxPopulation() > 1000
+            ? ThreadLocalRandom.current().nextInt(0, 50)
+            : ThreadLocalRandom.current().nextInt(0, 200);
+        ctx.set(Integer.class, growth);
     }
 
-    private static final class ApplyGrowthAction implements EventAction {
-        @Override
-        public void execute(EventContext ctx) {
-            Settlement s = ctx.get(Settlement.class).orElseThrow(RuntimeException::new);
-            Integer add = ctx.get(Integer.class).orElseThrow(RuntimeException::new);
+    @Override
+    protected String resolveTitle(EventContext ctx) {
+        Settlement settlement = ctx.get(Settlement.class).orElseThrow(RuntimeException::new);
+        return "Population grows in " + settlement.getName();
+    }
 
-            s.setMaxPopulation(s.getMaxPopulation() + add);
-            s.setTotalPopulation(s.getTotalPopulation() + add);
-        }
+    @Override
+    protected String resolveDescription(EventContext context) {
+        return "Population growth event";
+    }
+
+    @Override
+    protected void apply(EventContext ctx) {
+        Settlement settlement = ctx.get(Settlement.class).orElseThrow(RuntimeException::new);
+        Integer growth = ctx.get(Integer.class).orElseThrow(RuntimeException::new);
+
+        settlement.setMaxPopulation(settlement.getMaxPopulation() + growth);
+        settlement.setTotalPopulation(settlement.getTotalPopulation() + growth);
     }
 }

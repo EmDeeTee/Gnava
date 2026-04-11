@@ -125,7 +125,7 @@ public class GameFrame extends JFrame {
     }
 
     private void insertEvent(GameEvent e) {
-        eventListModel.add(0, e.clone());
+        eventListModel.add(0, e);
     }
 
     private void onTimeAdvanced(int currentDay) {
@@ -169,7 +169,7 @@ public class GameFrame extends JFrame {
             if (!e.getValueIsAdjusting()) {
                 GameEvent selected = eventList.getSelectedValue();
                 if (selected != null) {
-                    new PlaintextPopup(this, selected.getDescription()).show();
+                    new PlaintextPopup(this, selected.description()).show();
                     eventList.setSelectedValue(null, false);
                 }
             }

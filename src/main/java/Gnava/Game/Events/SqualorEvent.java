@@ -1,27 +1,25 @@
 package Gnava.Game.Events;
 
-import Gnava.Game.Events.Builders.GameEventBuilder;
 import Gnava.Game.Models.Settlement;
 
-public final class SqualorEvent {
+public final class SqualorEvent extends AbstractGameEventDefinition {
     private SqualorEvent() { }
 
-    public static GameEvent create() {
-        return new GameEventBuilder()
-            .prepare(SqualorEvent::prepare)
-            .withTitle(SqualorEvent::title)
-            .build();
+    public static SqualorEvent create() {
+        return new SqualorEvent();
     }
 
-    private static void prepare(EventContext ctx) {
+    @Override
+    protected void prepare(EventContext ctx) {
         ctx.set(
             Settlement.class,
             ctx.getGameState().getSettlementManager().getRandomSettlement()
         );
     }
 
-    private static String title(EventContext ctx) {
-        Settlement s = ctx.get(Settlement.class).orElseThrow(RuntimeException::new);
-        return "Squalor hits " + s.getName();
+    @Override
+    protected String resolveTitle(EventContext ctx) {
+        Settlement settlement = ctx.get(Settlement.class).orElseThrow(RuntimeException::new);
+        return "Squalor hits " + settlement.getName();
     }
 }

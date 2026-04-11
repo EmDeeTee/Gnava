@@ -1,17 +1,24 @@
 package Gnava.Game.Managers;
 
 import Gnava.Game.EventDispatcher;
-import Gnava.Game.Events.*;
+import Gnava.Game.Events.EventContext;
+import Gnava.Game.Events.GameEvent;
+import Gnava.Game.Events.GameEventDefinition;
+import Gnava.Game.Events.KEvent;
+import Gnava.Game.Events.PopulationGrowthEvent;
+import Gnava.Game.Events.SqualorEvent;
 import Gnava.Game.GameState;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 public class GameEventManager extends GameManager {
     private final EventDispatcher<GameEvent> gameEventDispatcher = new EventDispatcher<>();
-    private final List<GameEvent> registeredGameEvents = new ArrayList<>();
+    private final List<GameEventDefinition> registeredGameEvents = new ArrayList<>();
 
     public GameEventManager(GameState gameState) {
         super(gameState);
@@ -25,33 +32,23 @@ public class GameEventManager extends GameManager {
         gameEventDispatcher.addListener(listener);
     }
 
-    // FIXME: We should not reuse the same event instances. Mark executed events as done and move on
-    public void registerGlobalEvent(GameEvent gameEvent) {
+    public void registerGlobalEvent(GameEventDefinition gameEvent) {
         registeredGameEvents.add(gameEvent);
-    }
-
-    public boolean hasEventHappened(GameEvent gameEvent) {
-        return false;
-        //return registeredGameEvents.contains(gameEvent);
     }
 
     private @NotNull Optional<EventCandidates> generateEventCandidates() {
         // TODO: Passing the target to the EventContext seems like a bad idea, especially because no we have attachments
         // TODO: I also want to add some logging. Wih a nice Log class with configuration
         EventContext eventContext = new EventContext(null, gameState);
-        List<GameEvent> eligibleEvents = new ArrayList<>();
+        List<GameEventDefinition> eligibleEvents = new ArrayList<>();
         double totalWeight = 0.0;
 
-        for (GameEvent event : registeredGameEvents) {
+        for (GameEventDefinition event : registeredGameEvents) {
             if (!event.canRun(eventContext)) {
                 continue;
             }
 
-            if (event.isFiresOnce() && gameState.getGameEventsManager().hasEventHappened(event)) {
-                continue;
-            }
-
-            float weight = event.getProbability();
+            float weight = event.probability();
             if (weight <= 0.0f) {
                 continue;
             }
@@ -67,18 +64,17 @@ public class GameEventManager extends GameManager {
         return Optional.of(new EventCandidates(eligibleEvents, totalWeight, eventContext));
     }
 
-    private GameEvent selectEventFromCandidates(EventCandidates candidates) {
+    private GameEventDefinition selectEventFromCandidates(EventCandidates candidates) {
         double randomValue = ThreadLocalRandom.current().nextDouble() * candidates.totalWeight();
         double accumulatedWeight = 0.0;
 
-        for (GameEvent event : candidates.candidates()) {
-            accumulatedWeight += event.getProbability();
+        for (GameEventDefinition event : candidates.candidates()) {
+            accumulatedWeight += event.probability();
             if (randomValue < accumulatedWeight) {
                 return event;
             }
         }
 
-        // TODO: What if there are no candidates?
         return candidates.candidates().getLast();
     }
 
@@ -89,13 +85,10 @@ public class GameEventManager extends GameManager {
         }
 
         EventCandidates candidates = maybe.get();
-        GameEvent selectedEvent = selectEventFromCandidates(candidates);
-
-        // TODO: This feels... wrong
-        GameEvent executionEvent = selectedEvent.clone();
-        executionEvent.happen(candidates.context());
-        gameEventDispatcher.dispatch(executionEvent);
-        if (selectedEvent.isFiresOnce()) {
+        GameEventDefinition selectedEvent = selectEventFromCandidates(candidates);
+        GameEvent generatedEvent = selectedEvent.happen(candidates.context());
+        gameEventDispatcher.dispatch(generatedEvent);
+        if (selectedEvent.firesOnce()) {
             registeredGameEvents.remove(selectedEvent);
         }
     }

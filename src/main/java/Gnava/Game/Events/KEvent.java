@@ -1,22 +1,39 @@
 package Gnava.Game.Events;
 
-import Gnava.Game.Events.Builders.GameEventBuilder;
+import Gnava.Game.Events.Conditions.EventCondition;
 
-public final class KEvent {
+public final class KEvent extends AbstractGameEventDefinition {
     private KEvent() { }
 
-    public static GameEvent create() {
-        return new GameEventBuilder()
-            .withTitle("A strange figure seen on the horizon")
-            .withDescription("..æ.")
-            .when(KEvent::whenCondition)
-            .once()
-            .isStoryEvent()
-            .build();
+    public static KEvent create() {
+        return new KEvent();
     }
 
-    private static boolean whenCondition(EventContext ctx) {
-        return ctx.getGameState().getWorldStatistics().population() > 2000 &&
-               ctx.getGameState().getWorldStatistics().settlementCount() >= 2;
+    @Override
+    protected EventCondition[] conditions() {
+        return new EventCondition[] {
+            ctx -> ctx.getGameState().getWorldStatistics().population() > 2000 &&
+            ctx.getGameState().getWorldStatistics().settlementCount() >= 2
+        };
+    }
+
+    @Override
+    public boolean firesOnce() {
+        return true;
+    }
+
+    @Override
+    public boolean isStoryEvent() {
+        return true;
+    }
+
+    @Override
+    protected String resolveTitle(EventContext context) {
+        return "A strange figure seen on the horizon";
+    }
+
+    @Override
+    protected String resolveDescription(EventContext context) {
+        return "..æ.";
     }
 }

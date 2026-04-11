@@ -28,7 +28,7 @@ public class EventListRenderer extends DefaultListCellRenderer {
             throw new UnexpectedObjectTypeException("EventListRenderer got a non GameObject value");
         }
 
-        if (gameEvent.isStoryEvent()) {
+        if (gameEvent.storyEvent()) {
             setFont(getFont().deriveFont(Font.BOLD, 14f));
             setForeground(Color.MAGENTA);
         }
