@@ -1,6 +1,6 @@
 package Gnava.Core.Events;
 
-public interface GameEventDefinition {
+public interface IGameEvent {
     GameEvent happen(EventContext context);
 
     boolean canRun(EventContext context);

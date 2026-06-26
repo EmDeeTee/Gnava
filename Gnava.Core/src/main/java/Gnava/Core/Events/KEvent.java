@@ -2,7 +2,7 @@ package Gnava.Core.Events;
 
 import Gnava.Core.Events.Conditions.EventCondition;
 
-public final class KEvent extends AbstractGameEventDefinition {
+public final class KEvent extends AbstractGameEvent {
     private KEvent() { }
 
     public static KEvent create() {

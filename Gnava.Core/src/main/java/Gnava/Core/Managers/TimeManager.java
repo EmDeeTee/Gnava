@@ -2,9 +2,9 @@ package Gnava.Core.Managers;
 
 import Gnava.Core.EventDispatcher;
 import Gnava.Core.GameState;
-import Gnava.Core.Managers.Listeners.GameDayListener;
+import Gnava.Core.Events.Listeners.GameDayListener;
 
-public class TimeManager extends GameManager {
+public class TimeManager extends AbstractGameManager {
     private final EventDispatcher<Integer> timeAdvancedDispatcher = new EventDispatcher<>();
     private Integer currentDay = 0;
 

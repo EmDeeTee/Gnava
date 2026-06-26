@@ -1,4 +1,4 @@
-package Gnava.Core.Managers.Listeners;
+package Gnava.Core.Events.Listeners;
 
 @FunctionalInterface
 public interface GameDayListener {

@@ -4,10 +4,10 @@ import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.EventDispatcher;
 import Gnava.Core.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.GameState;
-import Gnava.Core.Managers.Listeners.GameOutcomeListener;
+import Gnava.Core.Events.Listeners.GameOutcomeListener;
 import org.jetbrains.annotations.NotNull;
 
-public class VictoryConditionManager extends GameManager {
+public class VictoryConditionManager extends AbstractGameManager {
     EventDispatcher<GameOutcomeReceivedEvent> gameOutcomeSetEventDispatcher = new EventDispatcher<>();
 
     public VictoryConditionManager(GameState gameState) {

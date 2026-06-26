@@ -2,10 +2,10 @@ package Gnava.Core.Managers;
 
 import Gnava.Core.GameState;
 
-public abstract class GameManager {
+public abstract class AbstractGameManager {
     protected final GameState gameState;
 
-    public GameManager(GameState gameState) {
+    public AbstractGameManager(GameState gameState) {
         this.gameState = gameState;
     }
 }

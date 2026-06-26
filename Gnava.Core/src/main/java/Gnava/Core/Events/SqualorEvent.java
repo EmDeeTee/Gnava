@@ -2,7 +2,7 @@ package Gnava.Core.Events;
 
 import Gnava.Core.Models.Settlement;
 
-public final class SqualorEvent extends AbstractGameEventDefinition {
+public final class SqualorEvent extends AbstractGameEvent {
     private SqualorEvent() { }
 
     public static SqualorEvent create() {

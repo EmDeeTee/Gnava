@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 // TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
-public class SettlementManager extends GameManager {
+public class SettlementManager extends AbstractGameManager {
     private final EventDispatcher<Settlement> settlementCreatedDispatcher = new EventDispatcher<>();
     private final List<Settlement> settlements = new ArrayList<>();
 

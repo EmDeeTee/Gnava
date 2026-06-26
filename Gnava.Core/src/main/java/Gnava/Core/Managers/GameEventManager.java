@@ -3,7 +3,7 @@ package Gnava.Core.Managers;
 import Gnava.Core.EventDispatcher;
 import Gnava.Core.Events.EventContext;
 import Gnava.Core.Events.GameEvent;
-import Gnava.Core.Events.GameEventDefinition;
+import Gnava.Core.Events.IGameEvent;
 import Gnava.Core.Events.KEvent;
 import Gnava.Core.Events.PopulationGrowthEvent;
 import Gnava.Core.Events.SqualorEvent;
@@ -16,9 +16,9 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
-public class GameEventManager extends GameManager {
+public class GameEventManager extends AbstractGameManager {
     private final EventDispatcher<GameEvent> gameEventDispatcher = new EventDispatcher<>();
-    private final List<GameEventDefinition> registeredGameEvents = new ArrayList<>();
+    private final List<IGameEvent> registeredGameEvents = new ArrayList<>();
 
     public GameEventManager(GameState gameState) {
         super(gameState);
@@ -32,7 +32,7 @@ public class GameEventManager extends GameManager {
         gameEventDispatcher.addListener(listener);
     }
 
-    public void registerGlobalEvent(GameEventDefinition gameEvent) {
+    public void registerGlobalEvent(IGameEvent gameEvent) {
         registeredGameEvents.add(gameEvent);
     }
 
@@ -40,10 +40,10 @@ public class GameEventManager extends GameManager {
         // TODO: Passing the target to the EventContext seems like a bad idea, especially because no we have attachments
         // TODO: I also want to add some logging. Wih a nice Log class with configuration
         EventContext eventContext = new EventContext(null, gameState);
-        List<GameEventDefinition> eligibleEvents = new ArrayList<>();
+        List<IGameEvent> eligibleEvents = new ArrayList<>();
         double totalWeight = 0.0;
 
-        for (GameEventDefinition event : registeredGameEvents) {
+        for (IGameEvent event : registeredGameEvents) {
             if (!event.canRun(eventContext)) {
                 continue;
             }
@@ -64,11 +64,11 @@ public class GameEventManager extends GameManager {
         return Optional.of(new EventCandidates(eligibleEvents, totalWeight, eventContext));
     }
 
-    private GameEventDefinition selectEventFromCandidates(EventCandidates candidates) {
+    private IGameEvent selectEventFromCandidates(EventCandidates candidates) {
         double randomValue = ThreadLocalRandom.current().nextDouble() * candidates.totalWeight();
         double accumulatedWeight = 0.0;
 
-        for (GameEventDefinition event : candidates.candidates()) {
+        for (IGameEvent event : candidates.candidates()) {
             accumulatedWeight += event.probability();
             if (randomValue < accumulatedWeight) {
                 return event;
@@ -85,7 +85,7 @@ public class GameEventManager extends GameManager {
         }
 
         EventCandidates candidates = maybe.get();
-        GameEventDefinition selectedEvent = selectEventFromCandidates(candidates);
+        IGameEvent selectedEvent = selectEventFromCandidates(candidates);
         GameEvent generatedEvent = selectedEvent.happen(candidates.context());
         gameEventDispatcher.dispatch(generatedEvent);
         if (selectedEvent.firesOnce()) {

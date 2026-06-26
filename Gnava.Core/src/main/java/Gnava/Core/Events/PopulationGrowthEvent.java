@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class PopulationGrowthEvent extends AbstractGameEventDefinition {
+public final class PopulationGrowthEvent extends AbstractGameEvent {
     private final Settlement target;
 
     private PopulationGrowthEvent(@Nullable Settlement target) {

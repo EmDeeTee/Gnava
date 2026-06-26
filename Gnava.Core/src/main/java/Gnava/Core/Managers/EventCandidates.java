@@ -1,8 +1,8 @@
 package Gnava.Core.Managers;
 
 import Gnava.Core.Events.EventContext;
-import Gnava.Core.Events.GameEventDefinition;
+import Gnava.Core.Events.IGameEvent;
 
 import java.util.List;
 
-public record EventCandidates(List<GameEventDefinition> candidates, double totalWeight, EventContext context) { }
+public record EventCandidates(List<IGameEvent> candidates, double totalWeight, EventContext context) { }

@@ -4,7 +4,7 @@ import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Events.GameEvent;
 import Gnava.Core.GameState;
-import Gnava.Core.Managers.Listeners.GameDayListener;
+import Gnava.Core.Events.Listeners.GameDayListener;
 import Gnava.Core.Models.Settlement;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Renderers.GameEventListRenderer;

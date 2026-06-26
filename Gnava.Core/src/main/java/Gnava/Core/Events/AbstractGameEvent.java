@@ -2,7 +2,7 @@ package Gnava.Core.Events;
 
 import Gnava.Core.Events.Conditions.EventCondition;
 
-public abstract class AbstractGameEventDefinition implements GameEventDefinition {
+public abstract class AbstractGameEvent implements IGameEvent {
     @Override
     public final GameEvent happen(EventContext context) {
         prepare(context);
