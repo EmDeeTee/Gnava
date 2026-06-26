@@ -1,10 +1,12 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Gnava (English)" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="21" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <envs>
       <env name="USE_CRUSTY_DUTCH" value="0" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="Gnava.Main" />
-    <module name="Gnava" />
+    <option name="MAIN_CLASS_NAME" value="Gnava.Desktop.Main" />
+    <module name="Gnava.Desktop" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
