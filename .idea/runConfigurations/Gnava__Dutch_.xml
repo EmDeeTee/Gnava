@@ -3,8 +3,8 @@
     <envs>
       <env name="USE_CRUSTY_DUTCH" value="1" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="Gnava.Main" />
-    <module name="Gnava" />
+    <option name="MAIN_CLASS_NAME" value="Gnava.Desktop.Main" />
+    <module name="Gnava.Desktop" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
