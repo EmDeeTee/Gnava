@@ -29,17 +29,17 @@ public final class PopulationGrowthEvent extends AbstractGameEvent {
         Settlement settlement = (target != null)
             ? target
             : ctx.getGameState().getSettlementManager().getRandomSettlement();
-        ctx.set(Settlement.class, settlement);
+        ctx.set("target_settlement", settlement);
 
         int growth = settlement.getMaxPopulation() > 1000
             ? ThreadLocalRandom.current().nextInt(0, 50)
             : ThreadLocalRandom.current().nextInt(0, 200);
-        ctx.set(Integer.class, growth);
+        ctx.set("growth", growth);
     }
 
     @Override
     protected String resolveTitle(EventContext ctx) {
-        Settlement settlement = ctx.get(Settlement.class).orElseThrow(RuntimeException::new);
+        Settlement settlement = ctx.get("target_settlement", Settlement.class).orElseThrow(RuntimeException::new);
         return "Population grows in " + settlement.getName();
     }
 
@@ -50,8 +50,8 @@ public final class PopulationGrowthEvent extends AbstractGameEvent {
 
     @Override
     protected void apply(EventContext ctx) {
-        Settlement settlement = ctx.get(Settlement.class).orElseThrow(RuntimeException::new);
-        Integer growth = ctx.get(Integer.class).orElseThrow(RuntimeException::new);
+        Settlement settlement = ctx.get("target_settlement", Settlement.class).orElseThrow(RuntimeException::new);
+        Integer growth = ctx.get("growth", Integer.class).orElseThrow(RuntimeException::new);
 
         settlement.setMaxPopulation(settlement.getMaxPopulation() + growth);
         settlement.setTotalPopulation(settlement.getTotalPopulation() + growth);
