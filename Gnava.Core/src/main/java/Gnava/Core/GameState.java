@@ -8,6 +8,8 @@ import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Repositories.ISettlementRepository;
 
+// TODO: GameState should not know what a manager is. Data only
+// TODO: Managers logic only, no data
 public class GameState {
     private final SettlementManager settlementManager;
     private final TimeManager timeManager;
