@@ -8,6 +8,7 @@ import Gnava.Core.Events.KEvent;
 import Gnava.Core.Events.PopulationGrowthEvent;
 import Gnava.Core.Events.SqualorEvent;
 import Gnava.Core.GameState;
+import Gnava.Core.Repositories.ISettlementProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -19,11 +20,13 @@ import java.util.function.Consumer;
 public class GameEventManager extends AbstractGameManager {
     private final EventDispatcher<GameEvent> gameEventDispatcher = new EventDispatcher<>();
     private final List<IGameEvent> registeredGameEvents = new ArrayList<>();
+    private final ISettlementProvider settlementProvider;
 
-    public GameEventManager(GameState gameState) {
+    public GameEventManager(GameState gameState, ISettlementProvider settlementProvider) {
         super(gameState);
+        this.settlementProvider = settlementProvider;
         gameState.getTimeManager().addTimeAdvancedListener(this::onTimeAdvanced);
-        registerGlobalEvent(PopulationGrowthEvent.create(null));
+        registerGlobalEvent(new PopulationGrowthEvent(null, settlementProvider));
         registerGlobalEvent(SqualorEvent.create());
         registerGlobalEvent(KEvent.create());
     }

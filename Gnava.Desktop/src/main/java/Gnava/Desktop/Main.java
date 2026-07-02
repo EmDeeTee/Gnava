@@ -10,7 +10,7 @@ import Gnava.Repositories.SettlementRepository;
 public class Main {
     public static void main(String[] args) {
         SettlementRepository settlementRepository = new SettlementRepository();
-        GameState gameState = new GameState(settlementRepository);
+        GameState gameState = new GameState(settlementRepository, settlementRepository);
         GameFrame gameFrame = new GameFrame(
             gameState,
             TranslationManager.getInstance().getTranslationTable().t(TranslationKey.GKINGDOMS)

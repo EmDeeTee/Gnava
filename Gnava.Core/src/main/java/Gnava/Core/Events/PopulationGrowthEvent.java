@@ -2,25 +2,28 @@ package Gnava.Core.Events;
 
 import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Models.Settlement;
+import Gnava.Core.Repositories.ISettlementProvider;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class PopulationGrowthEvent extends AbstractGameEvent {
     private final Settlement target;
+    private final ISettlementProvider settlementProvider;
 
-    private PopulationGrowthEvent(@Nullable Settlement target) {
+    public PopulationGrowthEvent(@Nullable Settlement target, ISettlementProvider settlementProvider) {
         this.target = target;
+        this.settlementProvider = settlementProvider;
     }
 
-    public static PopulationGrowthEvent create(@Nullable Settlement target) {
-        return new PopulationGrowthEvent(target);
-    }
+//    public static PopulationGrowthEvent create(@Nullable Settlement target) {
+//        return new PopulationGrowthEvent(target, );
+//    }
 
     @Override
     protected EventCondition[] conditions() {
         return new EventCondition[] {
-            ctx -> ctx.getGameState().getSettlementManager().getSettlementCount() >= 1
+            ctx -> settlementProvider.count() >= 1
         };
     }
 

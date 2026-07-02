@@ -30,9 +30,9 @@ public class SettlementManager extends AbstractGameManager {
         return new SettlementCreationResult(true, "OK");
     }
 
-    public int getSettlementCount() {
-        return this.settlementRepository.count();
-    }
+//    public int getSettlementCount() {
+//        return this.settlementRepository.count();
+//    }
 
     public List<Settlement> getSettlements() {
         return this.settlementRepository.getAll();
