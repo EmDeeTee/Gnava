@@ -15,6 +15,7 @@ public class GameState {
     private final VictoryConditionManager victoryConditionManager;
     private final ISettlementProvider settlementProvider;
 
+    // TODO: DI the classes
     public GameState(ISettlementRepository settlementRepository, ISettlementProvider settlementProvider) {
         settlementManager = new SettlementManager(this, settlementRepository);
         this.settlementProvider = settlementProvider;
