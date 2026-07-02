@@ -11,6 +11,7 @@
     <modules>
         <module>Gnava.Core</module>
         <module>Gnava.Desktop</module>
+        <module>Gnava.Persistence</module>
     </modules>
 
     <properties>

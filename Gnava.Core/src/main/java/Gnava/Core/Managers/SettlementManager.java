@@ -3,64 +3,47 @@ package Gnava.Core.Managers;
 import Gnava.Core.EventDispatcher;
 import Gnava.Core.GameState;
 import Gnava.Core.Models.Settlement;
+import Gnava.Core.Repositories.ISettlementRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 // TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
 public class SettlementManager extends AbstractGameManager {
     private final EventDispatcher<Settlement> settlementCreatedDispatcher = new EventDispatcher<>();
-    private final List<Settlement> settlements = new ArrayList<>();
+    private final ISettlementRepository settlementRepository;
 
-    public SettlementManager(GameState gameState) {
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int MAX_CONCURRENT_SETTLEMENTS = 10;
+
+    public SettlementManager(GameState gameState, ISettlementRepository settlementRepository) {
         super(gameState);
+        this.settlementRepository = settlementRepository;
     }
 
-    public Stream<Settlement> stream() {
-        return Arrays.stream(getSettlements());
-    }
-
-    // TODO: It can fail, but you don't know why
-    public boolean tryCreateSettlement(Settlement settlement) {
-        if (!canCreateSettlement(settlement)) {
-            return false;
+    public SettlementCreationResult tryCreateSettlement(Settlement settlement) {
+        if (this.settlementRepository.count() >= MAX_CONCURRENT_SETTLEMENTS) {
+            return new SettlementCreationResult(false, "Too many settlements");
         }
 
         createSettlement(settlement);
-        return true;
+        return new SettlementCreationResult(true, "OK");
     }
 
-    public boolean canCreateSettlement(Settlement settlement) {
-        return true;
+    public int getSettlementCount() {
+        return this.settlementRepository.count();
     }
 
-    public Settlement[] getSettlements() {
-        return List.copyOf(this.settlements).toArray(new Settlement[0]);
-    }
-
-    public Long getSettlementCount() {
-        return stream().count();
+    public List<Settlement> getSettlements() {
+        return this.settlementRepository.getAll();
     }
 
     public Integer getWorldPopulation() {
-        return stream().mapToInt(Settlement::getTotalPopulation).sum();
+        return this.settlementRepository.getAll().stream().mapToInt(Settlement::getTotalPopulation).sum();
     }
 
     public Settlement getRandomSettlement() {
-        if (getSettlementCount() == 0) {
-            throw new IndexOutOfBoundsException();
-        }
-
-        Random random = new Random();
-        return settlements.get(random.nextInt(settlements.size()));
-    }
-
-    public Settlement getPlayerSettlement() {
-        return settlements.stream().filter(Settlement::isPlayer).findFirst().orElseThrow();
+        return this.settlementRepository.getRandom();
     }
 
     public void addSettlementCreatedListener(Consumer<Settlement> listener) {
@@ -68,7 +51,7 @@ public class SettlementManager extends AbstractGameManager {
     }
 
     private void createSettlement(Settlement settlement) {
-        this.settlements.add(settlement);
+        this.settlementRepository.save(settlement);
         settlementCreatedDispatcher.dispatch(settlement);
     }
 }

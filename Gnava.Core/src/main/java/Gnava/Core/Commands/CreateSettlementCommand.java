@@ -1,5 +1,6 @@
 package Gnava.Core.Commands;
 
+import Gnava.Core.Managers.SettlementCreationResult;
 import Gnava.Core.Managers.SettlementManager;
 import Gnava.Core.Models.Settlement;
 
@@ -12,8 +13,9 @@ public class CreateSettlementCommand implements Command<Settlement> {
 
     @Override
     public void execute(Settlement settlement) {
-        if (!settlementManager.tryCreateSettlement(settlement)) {
-            System.err.println("CreateSettlementCommand didn't create a settlement, because game rules don't allow it");
+        SettlementCreationResult result = settlementManager.tryCreateSettlement(settlement);
+        if (!result.ok()) {
+            System.err.println("CreateSettlementCommand didn't create a settlement, because game rules don't allow it: " + result.reason());
         }
     }
 }

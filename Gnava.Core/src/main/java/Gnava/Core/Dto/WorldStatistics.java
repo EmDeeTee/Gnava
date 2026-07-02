@@ -1,3 +1,3 @@
 package Gnava.Core.Dto;
 
-public record WorldStatistics(Integer population, Long settlementCount) { }
+public record WorldStatistics(Integer population, Integer settlementCount) { }
