@@ -2,6 +2,7 @@ package Gnava.Desktop;
 
 
 import Gnava.Core.GameState;
+import Gnava.Core.Repositories.ISettlementRepository;
 import Gnava.Desktop.Interface.Frame.GameFrame;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.TranslationManager;
@@ -9,7 +10,7 @@ import Gnava.Repositories.SettlementRepository;
 
 public class Main {
     public static void main(String[] args) {
-        SettlementRepository settlementRepository = new SettlementRepository();
+        ISettlementRepository settlementRepository = new SettlementRepository();
         GameState gameState = new GameState(settlementRepository, settlementRepository);
         GameFrame gameFrame = new GameFrame(
             gameState,
