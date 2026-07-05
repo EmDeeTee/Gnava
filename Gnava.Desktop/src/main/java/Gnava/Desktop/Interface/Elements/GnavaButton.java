@@ -28,7 +28,7 @@ public class GnavaButton extends JButton {
 
         setBorder(BorderFactory.createCompoundBorder(lineBorder, padding));
 
-        setFocusPainted(false);
+        setFocusPainted(true);
         setOpaque(true);
 
         addMouseListener(new MouseAdapter() {
