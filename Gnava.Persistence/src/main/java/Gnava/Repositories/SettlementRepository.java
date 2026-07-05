@@ -2,12 +2,14 @@ package Gnava.Repositories;
 
 import Gnava.Core.Models.Settlement;
 import Gnava.Core.Repositories.ISettlementRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Repository
 public class SettlementRepository implements ISettlementRepository {
     private final List<Settlement> settlements = new ArrayList<>();
 

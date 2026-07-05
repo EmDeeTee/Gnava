@@ -11,9 +11,10 @@ public final class KEvent extends AbstractGameEvent {
 
     @Override
     protected EventCondition[] conditions() {
+        // NOTE: I kinda don't like how it forces the method to call something twice
         return new EventCondition[] {
-            ctx -> ctx.getGameState().getWorldStatistics().population() > 2000 &&
-            ctx.getGameState().getWorldStatistics().settlementCount() >= 2
+            ctx -> ctx.getWorldStatisticsProvider().getWorldStatistics().population() > 2000 &&
+            ctx.getWorldStatisticsProvider().getWorldStatistics().settlementCount() >= 2
         };
     }
 

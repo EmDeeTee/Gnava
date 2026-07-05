@@ -13,7 +13,7 @@ public final class SqualorEvent extends AbstractGameEvent {
     protected void prepare(EventContext ctx) {
         ctx.set(
             "target_settlement",
-            ctx.getGameState().getSettlementManager().getRandomSettlement()
+            ctx.getSettlementManager().getRandomSettlement()
         );
     }
 

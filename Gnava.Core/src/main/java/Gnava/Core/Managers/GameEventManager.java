@@ -9,7 +9,9 @@ import Gnava.Core.Events.PopulationGrowthEvent;
 import Gnava.Core.Events.SqualorEvent;
 import Gnava.Core.GameState;
 import Gnava.Core.Repositories.ISettlementProvider;
+import Gnava.Core.Statistics.WorldStatisticsProvider;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +19,24 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
+@Service
 public class GameEventManager extends AbstractGameManager {
     private final EventDispatcher<GameEvent> gameEventDispatcher = new EventDispatcher<>();
     private final List<IGameEvent> registeredGameEvents = new ArrayList<>();
-    private final ISettlementProvider settlementProvider;
+    private final WorldStatisticsProvider worldStatisticsProvider;
+    private final SettlementManager settlementManager;
 
-    public GameEventManager(GameState gameState, ISettlementProvider settlementProvider) {
+    public GameEventManager(
+        GameState gameState,
+        ISettlementProvider settlementProvider,
+        TimeManager timeManager,
+        WorldStatisticsProvider worldStatisticsProvider,
+        SettlementManager settlementManager
+    ) {
         super(gameState);
-        this.settlementProvider = settlementProvider;
-        gameState.getTimeManager().addTimeAdvancedListener(this::onTimeAdvanced);
+        this.worldStatisticsProvider = worldStatisticsProvider;
+        this.settlementManager = settlementManager;
+        timeManager.addTimeAdvancedListener(this::onTimeAdvanced);
         registerGlobalEvent(new PopulationGrowthEvent(null, settlementProvider));
         registerGlobalEvent(SqualorEvent.create());
         registerGlobalEvent(KEvent.create());
@@ -42,7 +53,7 @@ public class GameEventManager extends AbstractGameManager {
     private @NotNull Optional<EventCandidates> generateEventCandidates() {
         // TODO: Passing the target to the EventContext seems like a bad idea, especially because no we have attachments
         // TODO: I also want to add some logging. Wih a nice Log class with configuration
-        EventContext eventContext = new EventContext(null, gameState);
+        EventContext eventContext = new EventContext(null, gameState, worldStatisticsProvider, settlementManager);
         List<IGameEvent> eligibleEvents = new ArrayList<>();
         double totalWeight = 0.0;
 

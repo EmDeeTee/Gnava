@@ -1,6 +1,8 @@
 package Gnava.Core.Events;
 
 import Gnava.Core.GameState;
+import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Statistics.WorldStatisticsProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,11 +11,20 @@ import java.util.Optional;
 public final class EventContext {
     private final Object subject;
     private final GameState gameState;
+    private final WorldStatisticsProvider worldStatisticsProvider;
+    private final SettlementManager settlementManager;
     private final Map<String, Object> attachments = new HashMap<>();
 
-    public EventContext(Object subject, GameState gameState) {
+    public EventContext(
+        Object subject,
+        GameState gameState,
+        WorldStatisticsProvider worldStatisticsProvider,
+        SettlementManager settlementManager
+    ) {
         this.subject = subject;
         this.gameState = gameState;
+        this.worldStatisticsProvider = worldStatisticsProvider;
+        this.settlementManager = settlementManager;
     }
 
     public <T> void set(String id, T object) {
@@ -36,5 +47,13 @@ public final class EventContext {
 
     public GameState getGameState() {
         return gameState;
+    }
+
+    public WorldStatisticsProvider getWorldStatisticsProvider() {
+        return worldStatisticsProvider;
+    }
+
+    public SettlementManager getSettlementManager() {
+        return settlementManager;
     }
 }
