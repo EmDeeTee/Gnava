@@ -24,15 +24,14 @@ import java.util.function.Consumer;
 public class MainFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
     private final GameFrameMenuBar menu;
+    private final GameEventsPanel gameEventsPanel = new GameEventsPanel(this);
 
     private final DefaultListModel<Settlement> settlementListModel = new DefaultListModel<>();
-    private final DefaultListModel<GameEvent> eventListModel = new DefaultListModel<>();
 
     private final Consumer<Settlement> settlementListener = this::onSettlementsChanged;
     private final GameDayListener timeListener = this::onTimeAdvanced;
 
     private final JList<Settlement> settlementList = new JList<>(settlementListModel);
-    private final JList<GameEvent> eventList = new JList<>(eventListModel);
     private final JLabel currentDayValueLabel = new JLabel("0");
 
     private final TimeManager timeManager;
@@ -111,16 +110,13 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel buildBottomPanel() {
-        eventList.setCellRenderer(new GameEventListRenderer());
-        JScrollPane eventScrollPane = new JScrollPane(eventList);
-        eventScrollPane.setBorder(BorderFactory.createTitledBorder("Events"));
-
         JScrollPane settlementScrollPane = new JScrollPane(settlementList);
         settlementScrollPane.setBorder(BorderFactory.createTitledBorder("Settlements"));
 
         JPanel bottom = new JPanel(new GridLayout(2, 1, 5, 5));
-        bottom.add(eventScrollPane);
+        bottom.add(gameEventsPanel);
         bottom.add(settlementScrollPane);
+
         return bottom;
     }
 
@@ -131,7 +127,6 @@ public class MainFrame extends JFrame {
         victoryConditionManager.addGameOutcomeListener(this::onGameOutcomeReceived);
 
         settlementList.addListSelectionListener(onSettlementSelected());
-        eventList.addListSelectionListener(onEventSelected());
     }
 
     private void onSettlementsChanged(Settlement newSettlement) {
@@ -143,16 +138,12 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private void insertEvent(GameEvent e) {
-        eventListModel.add(0, e);
-    }
-
     private void onTimeAdvanced(int currentDay) {
         SwingUtilities.invokeLater(() -> currentDayValueLabel.setText(String.valueOf(currentDay)));
     }
 
     private void onReceivedGameEvent(GameEvent gameEvent) {
-        insertEvent(gameEvent);
+        SwingUtilities.invokeLater(() -> gameEventsPanel.addEvent(gameEvent));
     }
 
     private void onGameOutcomeReceived(GameOutcomeReceivedEvent gameOutcome) {
@@ -178,18 +169,6 @@ public class MainFrame extends JFrame {
 
                     new PlaintextPopup(this, sb.toString()).show();
                     settlementList.setSelectedValue(null, false);
-                }
-            }
-        };
-    }
-
-    private ListSelectionListener onEventSelected() {
-        return e -> {
-            if (!e.getValueIsAdjusting()) {
-                GameEvent selected = eventList.getSelectedValue();
-                if (selected != null) {
-                    new PlaintextPopup(this, selected.description()).show();
-                    eventList.setSelectedValue(null, false);
                 }
             }
         };

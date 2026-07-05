@@ -4,12 +4,13 @@ import Gnava.Desktop.Interface.Frame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Popup;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class PlaintextPopup extends Popup<Boolean> {
     private final String message;
 
-    public PlaintextPopup(MainFrame mainFrame, String message) {
-        super(mainFrame);
+    public PlaintextPopup(Window owner, String message) {
+        super(owner);
         this.message = "<html><div style='width:200px;'>" + message + "</div></html>";
         withDefaultOk(null);
     }
