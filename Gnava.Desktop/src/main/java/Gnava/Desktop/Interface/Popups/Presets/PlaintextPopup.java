@@ -1,6 +1,5 @@
 package Gnava.Desktop.Interface.Popups.Presets;
 
-import Gnava.Desktop.Interface.Frame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Popup;
 
 import javax.swing.*;
@@ -25,5 +24,4 @@ public class PlaintextPopup extends Popup<Boolean> {
         scrollPane.setPreferredSize(DEFAULT_DIMENSION);
         return scrollPane;
     }
-
 }

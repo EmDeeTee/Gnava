@@ -1,7 +1,6 @@
 package Gnava.Desktop.Interface.Popups;
 
 import Gnava.Desktop.Interface.Elements.GnavaButton;
-import Gnava.Desktop.Interface.Frame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Buttons.ButtonCancel;
 import Gnava.Desktop.Interface.Popups.Buttons.ButtonOk;
 import org.jetbrains.annotations.Nullable;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class Popup<T> {
-    protected static final Dimension DEFAULT_DIMENSION = new Dimension(300, 200);
+    protected static final Dimension DEFAULT_DIMENSION = new Dimension(320, 200);
 
     protected final JDialog dialog;
     private final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
