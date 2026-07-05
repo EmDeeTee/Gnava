@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Popups;
 
-import Gnava.Desktop.Interface.Frame.GameFrame;
+import Gnava.Desktop.Interface.Frame.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,8 +22,8 @@ public final class PopupBuilder {
     private Consumer<JButton> okAction = null;
     private Consumer<JButton> cancelAction = null;
 
-    public PopupBuilder(GameFrame gameFrame, String title, int width, int height) {
-        dialog = new JDialog(gameFrame, title, true);
+    public PopupBuilder(MainFrame mainFrame, String title, int width, int height) {
+        dialog = new JDialog(mainFrame, title, true);
         dialog.setSize(width, height);
         dialog.setLayout(new BorderLayout());
         dialog.setLocationRelativeTo(null);

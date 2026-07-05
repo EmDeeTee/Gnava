@@ -5,7 +5,13 @@ import Gnava.Core.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Events.GameEvent;
 import Gnava.Core.GameState;
 import Gnava.Core.Events.Listeners.GameDayListener;
+import Gnava.Core.Managers.GameEventManager;
+import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Managers.TimeManager;
+import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Core.Models.Settlement;
+import Gnava.Core.Statistics.WorldStatisticsProvider;
+import Gnava.Desktop.Interface.Elements.AdvanceTimeButton;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Renderers.GameEventListRenderer;
 
@@ -16,26 +22,39 @@ import java.net.URL;
 import java.util.function.Consumer;
 
 // TODO: Put all components into private fields
-public class GameFrame extends JFrame {
-    private final GameState gameState;
-
+public class MainFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
     private final GameFrameMenuBar menu;
+    private final GameEventsPanel gameEventsPanel = new GameEventsPanel(this);
 
     private final DefaultListModel<Settlement> settlementListModel = new DefaultListModel<>();
-    private final DefaultListModel<GameEvent> eventListModel = new DefaultListModel<>();
 
     private final Consumer<Settlement> settlementListener = this::onSettlementsChanged;
     private final GameDayListener timeListener = this::onTimeAdvanced;
 
     private final JList<Settlement> settlementList = new JList<>(settlementListModel);
-    private final JList<GameEvent> eventList = new JList<>(eventListModel);
     private final JLabel currentDayValueLabel = new JLabel("0");
 
-    public GameFrame(GameState gameState, String title) {
+    private final TimeManager timeManager;
+    private final SettlementManager settlementManager;
+    private final GameEventManager gameEventManager;
+    private final VictoryConditionManager victoryConditionManager;
+
+    public MainFrame(
+        GameState gameState,
+        String title,
+        TimeManager timeManager,
+        SettlementManager settlementManager,
+        GameEventManager gameEventManager,
+        VictoryConditionManager victoryConditionManager,
+        WorldStatisticsProvider worldStatisticsProvider
+    ) {
         super(title);
-        this.gameState = gameState;
-        menu = new GameFrameMenuBar(gameState, this);
+        menu = new GameFrameMenuBar(gameState, this, settlementManager, worldStatisticsProvider);
+        this.timeManager = timeManager;
+        this.settlementManager = settlementManager;
+        this.gameEventManager = gameEventManager;
+        this.victoryConditionManager = victoryConditionManager;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(PREFERRED_SIZE);
         setSize(PREFERRED_SIZE);
@@ -80,9 +99,9 @@ public class GameFrame extends JFrame {
         topPanel.setBackground(Color.LIGHT_GRAY);
 
         JLabel currentTimeLabel = new JLabel("Current day:");
-        JButton advanceTimeButton = new JButton("Pass time");
+        AdvanceTimeButton advanceTimeButton = new AdvanceTimeButton("Pass time");
 
-        advanceTimeButton.addActionListener(e -> gameState.getTimeManager().advanceTime());
+        advanceTimeButton.addActionListener(e -> timeManager.advanceTime());
 
         topPanel.add(advanceTimeButton);
         topPanel.add(currentTimeLabel);
@@ -92,40 +111,32 @@ public class GameFrame extends JFrame {
     }
 
     private JPanel buildBottomPanel() {
-        eventList.setCellRenderer(new GameEventListRenderer());
-        JScrollPane eventScrollPane = new JScrollPane(eventList);
-        eventScrollPane.setBorder(BorderFactory.createTitledBorder("Events"));
-
         JScrollPane settlementScrollPane = new JScrollPane(settlementList);
         settlementScrollPane.setBorder(BorderFactory.createTitledBorder("Settlements"));
 
         JPanel bottom = new JPanel(new GridLayout(2, 1, 5, 5));
-        bottom.add(eventScrollPane);
+        bottom.add(gameEventsPanel);
         bottom.add(settlementScrollPane);
+
         return bottom;
     }
 
     private void registerListeners() {
-        gameState.getSettlementManager().addSettlementCreatedListener(settlementListener);
-        gameState.getTimeManager().addTimeAdvancedListener(timeListener);
-        gameState.getGameEventsManager().addEventGeneratedListener(this::onReceivedGameEvent);
-        gameState.getVictoryConditionsManager().addGameOutcomeListener(this::onGameOutcomeReceived);
+        settlementManager.addSettlementCreatedListener(settlementListener);
+        timeManager.addTimeAdvancedListener(timeListener);
+        gameEventManager.addEventGeneratedListener(this::onReceivedGameEvent);
+        victoryConditionManager.addGameOutcomeListener(this::onGameOutcomeReceived);
 
         settlementList.addListSelectionListener(onSettlementSelected());
-        eventList.addListSelectionListener(onEventSelected());
     }
 
     private void onSettlementsChanged(Settlement newSettlement) {
         SwingUtilities.invokeLater(() -> {
             settlementListModel.clear();
-            for (Settlement s : gameState.getSettlementManager().getSettlements()) {
+            for (Settlement s : settlementManager.getSettlements()) {
                 settlementListModel.addElement(s);
             }
         });
-    }
-
-    private void insertEvent(GameEvent e) {
-        eventListModel.add(0, e);
     }
 
     private void onTimeAdvanced(int currentDay) {
@@ -133,7 +144,7 @@ public class GameFrame extends JFrame {
     }
 
     private void onReceivedGameEvent(GameEvent gameEvent) {
-        insertEvent(gameEvent);
+        SwingUtilities.invokeLater(() -> gameEventsPanel.addEvent(gameEvent));
     }
 
     private void onGameOutcomeReceived(GameOutcomeReceivedEvent gameOutcome) {
@@ -159,18 +170,6 @@ public class GameFrame extends JFrame {
 
                     new PlaintextPopup(this, sb.toString()).show();
                     settlementList.setSelectedValue(null, false);
-                }
-            }
-        };
-    }
-
-    private ListSelectionListener onEventSelected() {
-        return e -> {
-            if (!e.getValueIsAdjusting()) {
-                GameEvent selected = eventList.getSelectedValue();
-                if (selected != null) {
-                    new PlaintextPopup(this, selected.description()).show();
-                    eventList.setSelectedValue(null, false);
                 }
             }
         };

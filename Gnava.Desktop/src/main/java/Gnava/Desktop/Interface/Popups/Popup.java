@@ -1,7 +1,6 @@
 package Gnava.Desktop.Interface.Popups;
 
 import Gnava.Desktop.Interface.Elements.GnavaButton;
-import Gnava.Desktop.Interface.Frame.GameFrame;
 import Gnava.Desktop.Interface.Popups.Buttons.ButtonCancel;
 import Gnava.Desktop.Interface.Popups.Buttons.ButtonOk;
 import org.jetbrains.annotations.Nullable;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class Popup<T> {
-    protected static final Dimension DEFAULT_DIMENSION = new Dimension(300, 200);
+    protected static final Dimension DEFAULT_DIMENSION = new Dimension(320, 200);
 
     protected final JDialog dialog;
     private final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -27,21 +26,21 @@ public abstract class Popup<T> {
     private Runnable cancelAction;
     List<GnavaButton> buttonBuffer = new ArrayList<>();
 
-    protected Popup(GameFrame gameFrame) {
-        this(gameFrame, "Popup", DEFAULT_DIMENSION);
+    protected Popup(Window owner) {
+        this(owner, "Popup", DEFAULT_DIMENSION);
     }
 
-    protected Popup(GameFrame gameFrame, String title) {
-        this(gameFrame, title, DEFAULT_DIMENSION);
+    protected Popup(Window owner, String title) {
+        this(owner, title, DEFAULT_DIMENSION);
     }
 
-    protected Popup(GameFrame gameFrame, String title, Dimension size) {
-        dialog = new JDialog(gameFrame, title, true);
+    protected Popup(Window owner, String title, Dimension size) {
+        dialog = new JDialog(owner, title, Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.setResizable(false);
         dialog.setLayout(new BorderLayout());
         dialog.setSize(size);
-        dialog.setLocationRelativeTo(gameFrame);
+        dialog.setLocationRelativeTo(owner);
 
         dialog.add(buttonPanel, BorderLayout.SOUTH);
     }

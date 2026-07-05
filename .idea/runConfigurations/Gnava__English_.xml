@@ -5,8 +5,8 @@
     <envs>
       <env name="USE_CRUSTY_DUTCH" value="0" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="Gnava.Desktop.Main" />
-    <module name="Gnava.Desktop" />
+    <option name="MAIN_CLASS_NAME" value="Gnava.Launcher.Main" />
+    <module name="Gnava.Launcher" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

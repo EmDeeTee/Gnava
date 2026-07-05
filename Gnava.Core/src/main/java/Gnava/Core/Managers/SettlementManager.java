@@ -4,11 +4,13 @@ import Gnava.Core.EventDispatcher;
 import Gnava.Core.GameState;
 import Gnava.Core.Models.Settlement;
 import Gnava.Core.Repositories.ISettlementRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 // TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
+@Service
 public class SettlementManager extends AbstractGameManager {
     private final EventDispatcher<Settlement> settlementCreatedDispatcher = new EventDispatcher<>();
     private final ISettlementRepository settlementRepository;

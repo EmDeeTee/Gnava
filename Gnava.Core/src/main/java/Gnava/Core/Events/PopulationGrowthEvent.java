@@ -16,10 +16,6 @@ public final class PopulationGrowthEvent extends AbstractGameEvent {
         this.settlementProvider = settlementProvider;
     }
 
-//    public static PopulationGrowthEvent create(@Nullable Settlement target) {
-//        return new PopulationGrowthEvent(target, );
-//    }
-
     @Override
     protected EventCondition[] conditions() {
         return new EventCondition[] {
@@ -31,7 +27,7 @@ public final class PopulationGrowthEvent extends AbstractGameEvent {
     protected void prepare(EventContext ctx) {
         Settlement settlement = (target != null)
             ? target
-            : ctx.getGameState().getSettlementManager().getRandomSettlement();
+            : ctx.getSettlementManager().getRandomSettlement();
         ctx.set("target_settlement", settlement);
 
         int growth = settlement.getMaxPopulation() > 1000
