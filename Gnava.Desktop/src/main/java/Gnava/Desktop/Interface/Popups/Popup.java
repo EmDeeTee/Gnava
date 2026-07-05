@@ -1,7 +1,7 @@
 package Gnava.Desktop.Interface.Popups;
 
 import Gnava.Desktop.Interface.Elements.GnavaButton;
-import Gnava.Desktop.Interface.Frame.GameFrame;
+import Gnava.Desktop.Interface.Frame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Buttons.ButtonCancel;
 import Gnava.Desktop.Interface.Popups.Buttons.ButtonOk;
 import org.jetbrains.annotations.Nullable;
@@ -27,21 +27,21 @@ public abstract class Popup<T> {
     private Runnable cancelAction;
     List<GnavaButton> buttonBuffer = new ArrayList<>();
 
-    protected Popup(GameFrame gameFrame) {
-        this(gameFrame, "Popup", DEFAULT_DIMENSION);
+    protected Popup(MainFrame mainFrame) {
+        this(mainFrame, "Popup", DEFAULT_DIMENSION);
     }
 
-    protected Popup(GameFrame gameFrame, String title) {
-        this(gameFrame, title, DEFAULT_DIMENSION);
+    protected Popup(MainFrame mainFrame, String title) {
+        this(mainFrame, title, DEFAULT_DIMENSION);
     }
 
-    protected Popup(GameFrame gameFrame, String title, Dimension size) {
-        dialog = new JDialog(gameFrame, title, true);
+    protected Popup(MainFrame mainFrame, String title, Dimension size) {
+        dialog = new JDialog(mainFrame, title, true);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.setResizable(false);
         dialog.setLayout(new BorderLayout());
         dialog.setSize(size);
-        dialog.setLocationRelativeTo(gameFrame);
+        dialog.setLocationRelativeTo(mainFrame);
 
         dialog.add(buttonPanel, BorderLayout.SOUTH);
     }

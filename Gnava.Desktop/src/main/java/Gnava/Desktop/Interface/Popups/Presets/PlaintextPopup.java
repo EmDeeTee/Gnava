@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Popups.Presets;
 
-import Gnava.Desktop.Interface.Frame.GameFrame;
+import Gnava.Desktop.Interface.Frame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Popup;
 
 import javax.swing.*;
@@ -8,8 +8,8 @@ import javax.swing.*;
 public class PlaintextPopup extends Popup<Boolean> {
     private final String message;
 
-    public PlaintextPopup(GameFrame gameFrame, String message) {
-        super(gameFrame);
+    public PlaintextPopup(MainFrame mainFrame, String message) {
+        super(mainFrame);
         this.message = "<html><div style='width:200px;'>" + message + "</div></html>";
         withDefaultOk(null);
     }

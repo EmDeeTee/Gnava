@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.function.Consumer;
 
 // TODO: Put all components into private fields
-public class GameFrame extends JFrame {
+public class MainFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
     private final GameFrameMenuBar menu;
 
@@ -40,7 +40,7 @@ public class GameFrame extends JFrame {
     private final GameEventManager gameEventManager;
     private final VictoryConditionManager victoryConditionManager;
 
-    public GameFrame(
+    public MainFrame(
         GameState gameState,
         String title,
         TimeManager timeManager,

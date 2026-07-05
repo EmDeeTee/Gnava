@@ -19,7 +19,7 @@ public class GameFrameMenuBar extends JMenuBar {
 
     public GameFrameMenuBar(
         GameState gameState,
-        GameFrame gameFrame,
+        MainFrame mainFrame,
         SettlementManager settlementManager,
         WorldStatisticsProvider worldStatisticsProvider
     ) {
@@ -30,7 +30,7 @@ public class GameFrameMenuBar extends JMenuBar {
         createSettlementItem.addActionListener(
             new CreateSettlementAction(
                 new CreateSettlementCommand(settlementManager),
-                () -> new CreateSettlementPopup(gameFrame).show()
+                () -> new CreateSettlementPopup(mainFrame).show()
             )
         );
         showWorldStatisticsItem.addActionListener(new ShowWorldStatisticsAction(worldStatisticsProvider));
