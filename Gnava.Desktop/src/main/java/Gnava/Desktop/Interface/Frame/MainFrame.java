@@ -11,6 +11,7 @@ import Gnava.Core.Managers.TimeManager;
 import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Core.Models.Settlement;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
+import Gnava.Desktop.Interface.Elements.AdvanceTimeButton;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Renderers.GameEventListRenderer;
 
@@ -98,7 +99,7 @@ public class MainFrame extends JFrame {
         topPanel.setBackground(Color.LIGHT_GRAY);
 
         JLabel currentTimeLabel = new JLabel("Current day:");
-        JButton advanceTimeButton = new JButton("Pass time");
+        AdvanceTimeButton advanceTimeButton = new AdvanceTimeButton("Pass time");
 
         advanceTimeButton.addActionListener(e -> timeManager.advanceTime());
 
