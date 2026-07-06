@@ -1,4 +1,4 @@
-package Gnava.Desktop.Interface.Frame;
+package Gnava.Desktop.Interface.Frames.MainFrame;
 
 import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.Events.GameOutcomeReceivedEvent;
@@ -12,8 +12,9 @@ import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Core.Models.Settlement;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import Gnava.Desktop.Interface.Elements.AdvanceTimeButton;
+import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
+import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
-import Gnava.Desktop.Interface.Renderers.GameEventListRenderer;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -24,7 +25,7 @@ import java.util.function.Consumer;
 // TODO: Put all components into private fields
 public class MainFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
-    private final GameFrameMenuBar menu;
+    private final MenuBar menu;
     private final GameEventsPanel gameEventsPanel = new GameEventsPanel(this);
 
     private final DefaultListModel<Settlement> settlementListModel = new DefaultListModel<>();
@@ -50,7 +51,7 @@ public class MainFrame extends JFrame {
         WorldStatisticsProvider worldStatisticsProvider
     ) {
         super(title);
-        menu = new GameFrameMenuBar(gameState, this, settlementManager, worldStatisticsProvider);
+        menu = new MenuBar(gameState, this, settlementManager, worldStatisticsProvider);
         this.timeManager = timeManager;
         this.settlementManager = settlementManager;
         this.gameEventManager = gameEventManager;

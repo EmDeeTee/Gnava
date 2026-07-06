@@ -2,7 +2,7 @@ package Gnava.Desktop.Interface.Actions;
 
 import Gnava.Core.Dto.WorldStatistics;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
-import Gnava.Desktop.Interface.Frame.MainFrame;
+import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 
 import javax.swing.*;

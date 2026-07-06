@@ -1,4 +1,4 @@
-package Gnava.Desktop.Interface.Frame;
+package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 
 import Gnava.Core.Events.GameEvent;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
