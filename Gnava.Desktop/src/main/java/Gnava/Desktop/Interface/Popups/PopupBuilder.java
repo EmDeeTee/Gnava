@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Popups;
 
-import Gnava.Desktop.Interface.Frame.MainFrame;
+import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;

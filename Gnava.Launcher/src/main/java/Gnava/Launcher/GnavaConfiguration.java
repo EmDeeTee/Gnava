@@ -7,7 +7,7 @@ import Gnava.Core.Managers.TimeManager;
 import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import Gnava.Desktop.Gnava;
-import Gnava.Desktop.Interface.Frame.MainFrame;
+import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.TranslationManager;
 import org.springframework.context.annotation.Bean;
