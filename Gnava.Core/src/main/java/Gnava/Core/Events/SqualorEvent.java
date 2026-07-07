@@ -1,5 +1,6 @@
 package Gnava.Core.Events;
 
+import Gnava.Core.Events.Contexts.EventContext;
 import Gnava.Core.Models.Settlement;
 import org.springframework.stereotype.Service;
 

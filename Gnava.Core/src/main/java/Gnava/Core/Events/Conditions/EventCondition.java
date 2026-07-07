@@ -1,6 +1,6 @@
 package Gnava.Core.Events.Conditions;
 
-import Gnava.Core.Events.EventContext;
+import Gnava.Core.Events.Contexts.EventContext;
 
 @FunctionalInterface
 public interface EventCondition {

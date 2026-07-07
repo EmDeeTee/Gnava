@@ -1,6 +1,7 @@
 package Gnava.Core.Events;
 
 import Gnava.Core.Events.Conditions.EventCondition;
+import Gnava.Core.Events.Contexts.EventContext;
 import org.springframework.stereotype.Service;
 
 @Service

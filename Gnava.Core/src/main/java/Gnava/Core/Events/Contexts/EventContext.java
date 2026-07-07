@@ -1,4 +1,4 @@
-package Gnava.Core.Events;
+package Gnava.Core.Events.Contexts;
 
 import Gnava.Core.GameState;
 import Gnava.Core.Managers.SettlementManager;
@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+// TODO: Maybe have specific event contexts? Like SettlementEventContext etc
 public final class EventContext {
     private final Object subject;
     private final GameState gameState;
