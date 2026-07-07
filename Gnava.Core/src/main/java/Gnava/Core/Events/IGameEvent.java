@@ -12,4 +12,6 @@ public interface IGameEvent {
     float probability();
 
     boolean isStoryEvent();
+
+    boolean isMinor();
 }

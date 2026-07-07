@@ -32,6 +32,10 @@ public class GameEventListRenderer extends DefaultListCellRenderer {
             setFont(getFont().deriveFont(Font.BOLD, 14f));
             setForeground(Color.MAGENTA);
         }
+        if (executedGameEvent.isMinor()) {
+            setFont(getFont().deriveFont(Font.BOLD, 12f));
+            setForeground(Color.GRAY);
+        }
 
         return this;
     }

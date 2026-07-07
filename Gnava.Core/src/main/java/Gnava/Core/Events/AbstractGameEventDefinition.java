@@ -10,7 +10,7 @@ public abstract class AbstractGameEventDefinition implements IGameEvent {
         String title = resolveTitle(context);
         String description = resolveDescription(context);
         apply(context);
-        return new ExecutedGameEvent(title, description, isStoryEvent(), context.getGameState().getCurrentDay());
+        return new ExecutedGameEvent(title, description, isStoryEvent(), context.getGameState().getCurrentDay(), isMinor());
     }
 
     @Override
@@ -36,6 +36,11 @@ public abstract class AbstractGameEventDefinition implements IGameEvent {
 
     @Override
     public boolean isStoryEvent() {
+        return false;
+    }
+
+    @Override
+    public boolean isMinor() {
         return false;
     }
 

@@ -58,4 +58,9 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition {
         settlement.setMaxPopulation(settlement.getMaxPopulation() + growth);
         settlement.setTotalPopulation(settlement.getTotalPopulation() + growth);
     }
+
+    @Override
+    public boolean isMinor() {
+        return true;
+    }
 }
