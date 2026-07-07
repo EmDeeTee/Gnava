@@ -38,13 +38,17 @@ public final class PopulationGrowthEvent extends AbstractGameEvent {
 
     @Override
     protected String resolveTitle(EventContext ctx) {
-        Settlement settlement = ctx.get("target_settlement", Settlement.class).orElseThrow(RuntimeException::new);
-        return "Population grows in " + settlement.getName();
+        return "Population grows in %s".formatted(
+            ctx.get("target_settlement", Settlement.class).orElseThrow(RuntimeException::new)
+        );
     }
 
     @Override
-    protected String resolveDescription(EventContext context) {
-        return "Population growth event";
+    protected String resolveDescription(EventContext ctx) {
+        return "Population grows in %s by %d".formatted(
+            ctx.get("target_settlement", Settlement.class).orElseThrow(RuntimeException::new),
+            ctx.get("growth", Integer.class).orElseThrow(RuntimeException::new)
+        );
     }
 
     @Override
