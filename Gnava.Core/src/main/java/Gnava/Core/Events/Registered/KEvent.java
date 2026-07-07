@@ -1,14 +1,12 @@
-package Gnava.Core.Events;
+package Gnava.Core.Events.Registered;
 
+import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
+import Gnava.Core.Events.Contexts.EventContext;
+import org.springframework.stereotype.Service;
 
-public final class KEvent extends AbstractGameEvent {
-    private KEvent() { }
-
-    public static KEvent create() {
-        return new KEvent();
-    }
-
+@Service
+public final class KEvent extends AbstractGameEventDefinition {
     @Override
     protected EventCondition[] conditions() {
         // NOTE: I kinda don't like how it forces the method to call something twice

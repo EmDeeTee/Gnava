@@ -1,18 +1,19 @@
-package Gnava.Core.Events;
+package Gnava.Core.Events.Registered;
 
+import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
+import Gnava.Core.Events.Contexts.EventContext;
 import Gnava.Core.Models.Settlement;
 import Gnava.Core.Repositories.ISettlementProvider;
-import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class PopulationGrowthEvent extends AbstractGameEvent {
-    private final Settlement target;
+@Service
+public final class PopulationGrowthEvent extends AbstractGameEventDefinition {
     private final ISettlementProvider settlementProvider;
 
-    public PopulationGrowthEvent(@Nullable Settlement target, ISettlementProvider settlementProvider) {
-        this.target = target;
+    public PopulationGrowthEvent(ISettlementProvider settlementProvider) {
         this.settlementProvider = settlementProvider;
     }
 
@@ -25,9 +26,7 @@ public final class PopulationGrowthEvent extends AbstractGameEvent {
 
     @Override
     protected void prepare(EventContext ctx) {
-        Settlement settlement = (target != null)
-            ? target
-            : ctx.getSettlementManager().getRandomSettlement();
+        Settlement settlement = ctx.getSettlementManager().getRandomSettlement();
         ctx.set("target_settlement", settlement);
 
         int growth = settlement.getMaxPopulation() > 1000

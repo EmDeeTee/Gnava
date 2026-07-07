@@ -1,53 +1,42 @@
 package Gnava.Core.Managers;
 
 import Gnava.Core.EventDispatcher;
-import Gnava.Core.Events.EventContext;
-import Gnava.Core.Events.GameEvent;
+import Gnava.Core.Events.Contexts.EventContext;
+import Gnava.Core.Events.ExecutedGameEvent;
 import Gnava.Core.Events.IGameEvent;
-import Gnava.Core.Events.KEvent;
-import Gnava.Core.Events.PopulationGrowthEvent;
-import Gnava.Core.Events.SqualorEvent;
 import Gnava.Core.GameState;
-import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 @Service
 public class GameEventManager extends AbstractGameManager {
-    private final EventDispatcher<GameEvent> gameEventDispatcher = new EventDispatcher<>();
-    private final List<IGameEvent> registeredGameEvents = new ArrayList<>();
+    private final EventDispatcher<ExecutedGameEvent> gameEventDispatcher = new EventDispatcher<>();
+    private final List<IGameEvent> registeredGameEvents;
+    private final Set<IGameEvent> executedGameEvents = new HashSet<>();
     private final WorldStatisticsProvider worldStatisticsProvider;
     private final SettlementManager settlementManager;
 
     public GameEventManager(
         GameState gameState,
-        ISettlementProvider settlementProvider,
         TimeManager timeManager,
         WorldStatisticsProvider worldStatisticsProvider,
-        SettlementManager settlementManager
+        SettlementManager settlementManager,
+        List<IGameEvent> events
     ) {
         super(gameState);
         this.worldStatisticsProvider = worldStatisticsProvider;
         this.settlementManager = settlementManager;
         timeManager.addTimeAdvancedListener(this::onTimeAdvanced);
-        registerGlobalEvent(new PopulationGrowthEvent(null, settlementProvider));
-        registerGlobalEvent(SqualorEvent.create());
-        registerGlobalEvent(KEvent.create());
+        this.registeredGameEvents = new ArrayList<>(events);
     }
 
-    public void addEventGeneratedListener(Consumer<GameEvent> listener) {
+    public void addEventExecutedListener(Consumer<ExecutedGameEvent> listener) {
         gameEventDispatcher.addListener(listener);
-    }
-
-    public void registerGlobalEvent(IGameEvent gameEvent) {
-        registeredGameEvents.add(gameEvent);
     }
 
     private @NotNull Optional<EventCandidates> generateEventCandidates() {
@@ -59,6 +48,9 @@ public class GameEventManager extends AbstractGameManager {
 
         for (IGameEvent event : registeredGameEvents) {
             if (!event.canRun(eventContext)) {
+                continue;
+            }
+            if (executedGameEvents.contains(event) && event.firesOnce()) {
                 continue;
             }
 
@@ -93,17 +85,14 @@ public class GameEventManager extends AbstractGameManager {
     }
 
     private void onTimeAdvanced(Integer currentDay) {
-        Optional<EventCandidates> maybe = generateEventCandidates();
-        if (maybe.isEmpty()) {
-            return;
-        }
+        generateEventCandidates().ifPresent(this::executeEvent);
+    }
 
-        EventCandidates candidates = maybe.get();
+    private void executeEvent(EventCandidates candidates) {
         IGameEvent selectedEvent = selectEventFromCandidates(candidates);
-        GameEvent generatedEvent = selectedEvent.happen(candidates.context());
+
+        ExecutedGameEvent generatedEvent = selectedEvent.happen(candidates.context());
         gameEventDispatcher.dispatch(generatedEvent);
-        if (selectedEvent.firesOnce()) {
-            registeredGameEvents.remove(selectedEvent);
-        }
+        executedGameEvents.add(selectedEvent);
     }
 }

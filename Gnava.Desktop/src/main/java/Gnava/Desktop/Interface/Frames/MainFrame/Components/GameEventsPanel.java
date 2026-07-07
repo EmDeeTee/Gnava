@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 
-import Gnava.Core.Events.GameEvent;
+import Gnava.Core.Events.ExecutedGameEvent;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Renderers.GameEventListRenderer;
 
@@ -11,8 +11,8 @@ import java.awt.*;
 public class GameEventsPanel extends JPanel {
     private final JFrame parent;
 
-    private final DefaultListModel<GameEvent> eventListModel = new DefaultListModel<>();
-    private final JList<GameEvent> eventList = new JList<>(eventListModel);
+    private final DefaultListModel<ExecutedGameEvent> eventListModel = new DefaultListModel<>();
+    private final JList<ExecutedGameEvent> eventList = new JList<>(eventListModel);
 
     public GameEventsPanel(JFrame parent) {
         super(new BorderLayout(5, 5));
@@ -34,7 +34,7 @@ public class GameEventsPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void addEvent(GameEvent event) {
+    public void addEvent(ExecutedGameEvent event) {
         eventListModel.add(0, event);
     }
 
@@ -44,9 +44,9 @@ public class GameEventsPanel extends JPanel {
 
     private void onEventSelected(ListSelectionEvent event) {
         if (!event.getValueIsAdjusting()) {
-            GameEvent selected = eventList.getSelectedValue();
+            ExecutedGameEvent selected = eventList.getSelectedValue();
             if (selected != null) {
-                new PlaintextPopup(parent, selected.description()).show();
+                new PlaintextPopup(parent, selected.description(), "Happened on day %s".formatted(selected.happenedOnDay())).show();
                 eventList.clearSelection();
             }
         }

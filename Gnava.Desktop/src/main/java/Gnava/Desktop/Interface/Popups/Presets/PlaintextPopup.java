@@ -9,7 +9,11 @@ public class PlaintextPopup extends Popup<Boolean> {
     private final String message;
 
     public PlaintextPopup(Window owner, String message) {
-        super(owner);
+        this(owner, message, "PlaintextPopup");
+    }
+
+    public PlaintextPopup(Window owner, String message, String title) {
+        super(owner, title);
         this.message = "<html><div style='width:200px;'>" + message + "</div></html>";
         withDefaultOk(null);
     }
