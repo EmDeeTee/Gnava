@@ -2,7 +2,7 @@ package Gnava.Desktop.Interface.Frames.MainFrame;
 
 import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.Events.GameOutcomeReceivedEvent;
-import Gnava.Core.Events.GameEvent;
+import Gnava.Core.Events.ExecutedGameEvent;
 import Gnava.Core.GameState;
 import Gnava.Core.Events.Listeners.GameDayListener;
 import Gnava.Core.Managers.GameEventManager;
@@ -125,7 +125,7 @@ public class MainFrame extends JFrame {
     private void registerListeners() {
         settlementManager.addSettlementCreatedListener(settlementListener);
         timeManager.addTimeAdvancedListener(timeListener);
-        gameEventManager.addEventGeneratedListener(this::onReceivedGameEvent);
+        gameEventManager.addEventExecutedListener(this::onReceivedGameEvent);
         victoryConditionManager.addGameOutcomeListener(this::onGameOutcomeReceived);
 
         settlementList.addListSelectionListener(onSettlementSelected());
@@ -144,8 +144,8 @@ public class MainFrame extends JFrame {
         SwingUtilities.invokeLater(() -> currentDayValueLabel.setText(String.valueOf(currentDay)));
     }
 
-    private void onReceivedGameEvent(GameEvent gameEvent) {
-        SwingUtilities.invokeLater(() -> gameEventsPanel.addEvent(gameEvent));
+    private void onReceivedGameEvent(ExecutedGameEvent executedGameEvent) {
+        SwingUtilities.invokeLater(() -> gameEventsPanel.addEvent(executedGameEvent));
     }
 
     private void onGameOutcomeReceived(GameOutcomeReceivedEvent gameOutcome) {

@@ -1,7 +1,9 @@
 package Gnava.Core.Events;
 
 import Gnava.Core.Events.Conditions.EventCondition;
+import org.springframework.stereotype.Service;
 
+@Service
 public final class KEvent extends AbstractGameEvent {
     private KEvent() { }
 

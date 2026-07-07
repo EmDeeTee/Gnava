@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Renderers;
 
-import Gnava.Core.Events.GameEvent;
+import Gnava.Core.Events.ExecutedGameEvent;
 import Gnava.Desktop.Interface.Renderers.Exceptions.UnexpectedObjectTypeException;
 
 import javax.swing.*;
@@ -23,12 +23,12 @@ public class GameEventListRenderer extends DefaultListCellRenderer {
             setFont(getFont().deriveFont(Font.PLAIN, 14f));
         }
 
-        GameEvent gameEvent = (value instanceof GameEvent) ? (GameEvent) value : null;
-        if (gameEvent == null) {
+        ExecutedGameEvent executedGameEvent = (value instanceof ExecutedGameEvent) ? (ExecutedGameEvent) value : null;
+        if (executedGameEvent == null) {
             throw new UnexpectedObjectTypeException("GameEventListRenderer got a non GameObject value");
         }
 
-        if (gameEvent.storyEvent()) {
+        if (executedGameEvent.storyEvent()) {
             setFont(getFont().deriveFont(Font.BOLD, 14f));
             setForeground(Color.MAGENTA);
         }

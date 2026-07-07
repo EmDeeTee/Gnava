@@ -4,12 +4,12 @@ import Gnava.Core.Events.Conditions.EventCondition;
 
 public abstract class AbstractGameEvent implements IGameEvent {
     @Override
-    public final GameEvent happen(EventContext context) {
+    public final ExecutedGameEvent happen(EventContext context) {
         prepare(context);
         String title = resolveTitle(context);
         String description = resolveDescription(context);
         apply(context);
-        return new GameEvent(title, description, isStoryEvent());
+        return new ExecutedGameEvent(title, description, isStoryEvent());
     }
 
     @Override
