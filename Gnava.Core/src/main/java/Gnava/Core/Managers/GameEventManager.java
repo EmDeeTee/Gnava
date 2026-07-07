@@ -5,28 +5,24 @@ import Gnava.Core.Events.Contexts.EventContext;
 import Gnava.Core.Events.ExecutedGameEvent;
 import Gnava.Core.Events.IGameEvent;
 import Gnava.Core.GameState;
-import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 @Service
 public class GameEventManager extends AbstractGameManager {
     private final EventDispatcher<ExecutedGameEvent> gameEventDispatcher = new EventDispatcher<>();
-    private final List<IGameEvent> availableGameEvents;
-    private final List<IGameEvent> executedGameEvents = new ArrayList<>();
+    private final List<IGameEvent> registeredGameEvents;
+    private final Set<IGameEvent> executedGameEvents = new HashSet<>();
     private final WorldStatisticsProvider worldStatisticsProvider;
     private final SettlementManager settlementManager;
 
     public GameEventManager(
         GameState gameState,
-        ISettlementProvider settlementProvider,
         TimeManager timeManager,
         WorldStatisticsProvider worldStatisticsProvider,
         SettlementManager settlementManager,
@@ -36,7 +32,7 @@ public class GameEventManager extends AbstractGameManager {
         this.worldStatisticsProvider = worldStatisticsProvider;
         this.settlementManager = settlementManager;
         timeManager.addTimeAdvancedListener(this::onTimeAdvanced);
-        this.availableGameEvents = new ArrayList<>(events);
+        this.registeredGameEvents = new ArrayList<>(events);
     }
 
     public void addEventExecutedListener(Consumer<ExecutedGameEvent> listener) {
@@ -50,7 +46,7 @@ public class GameEventManager extends AbstractGameManager {
         List<IGameEvent> eligibleEvents = new ArrayList<>();
         double totalWeight = 0.0;
 
-        for (IGameEvent event : availableGameEvents) {
+        for (IGameEvent event : registeredGameEvents) {
             if (!event.canRun(eventContext)) {
                 continue;
             }
@@ -89,18 +85,14 @@ public class GameEventManager extends AbstractGameManager {
     }
 
     private void onTimeAdvanced(Integer currentDay) {
-        Optional<EventCandidates> maybe = generateEventCandidates();
-        if (maybe.isEmpty()) {
-            return;
-        }
+        generateEventCandidates().ifPresent(this::executeEvent);
+    }
 
-        EventCandidates candidates = maybe.get();
+    private void executeEvent(EventCandidates candidates) {
         IGameEvent selectedEvent = selectEventFromCandidates(candidates);
 
         ExecutedGameEvent generatedEvent = selectedEvent.happen(candidates.context());
         gameEventDispatcher.dispatch(generatedEvent);
-        if (!executedGameEvents.contains(selectedEvent)) {
-            executedGameEvents.add(selectedEvent);
-        }
+        executedGameEvents.add(selectedEvent);
     }
 }
