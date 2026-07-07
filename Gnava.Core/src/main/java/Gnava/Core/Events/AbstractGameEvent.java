@@ -44,11 +44,9 @@ public abstract class AbstractGameEvent implements IGameEvent {
 
     protected void prepare(EventContext context) { }
 
-    protected String resolveDescription(EventContext context) {
-        return "";
-    }
-
     protected void apply(EventContext context) { }
+
+    protected abstract String resolveDescription(EventContext context);
 
     protected abstract String resolveTitle(EventContext context);
 }
