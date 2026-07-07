@@ -7,12 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public final class SqualorEvent extends AbstractGameEvent {
-    private SqualorEvent() { }
-
-    public static SqualorEvent create() {
-        return new SqualorEvent();
-    }
-
     @Override
     protected void prepare(EventContext ctx) {
         ctx.set(
