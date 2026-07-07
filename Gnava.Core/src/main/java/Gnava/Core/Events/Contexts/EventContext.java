@@ -2,6 +2,7 @@ package Gnava.Core.Events.Contexts;
 
 import Gnava.Core.GameState;
 import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Models.Settlement;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 
 import java.util.HashMap;
@@ -44,6 +45,13 @@ public final class EventContext {
 
     public Object getSubject() {
         return subject;
+    }
+
+    /**
+     * Gets a random settlement and sets it in the context under "target_settlement".
+     */
+    public void getRandomSettlementAsTarget() {
+        set("target_settlement", getSettlementManager().getRandomSettlement());
     }
 
     public GameState getGameState() {
