@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
-public class NosferatuAttacksEvent extends AbstractGameEventDefinition {
+public final class NosferatuAttacksEvent extends AbstractGameEventDefinition {
     @Override
     protected String resolveDescription(EventContext context) {
         return "Nosferatu attacked %s and ate %d residents".formatted(
