@@ -1,6 +1,5 @@
 package Gnava.Repositories;
 
-import Gnava.Core.Events.AbstractGameEvent;
 import Gnava.Core.Events.IGameEvent;
 import Gnava.Core.Repositories.IGameEventRepository;
 

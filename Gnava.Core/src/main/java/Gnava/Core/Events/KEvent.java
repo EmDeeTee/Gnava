@@ -5,7 +5,7 @@ import Gnava.Core.Events.Contexts.EventContext;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class KEvent extends AbstractGameEvent {
+public final class KEvent extends AbstractGameEventDefinition {
     @Override
     protected EventCondition[] conditions() {
         // NOTE: I kinda don't like how it forces the method to call something twice

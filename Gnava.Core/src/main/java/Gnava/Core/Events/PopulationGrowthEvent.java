@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
-public final class PopulationGrowthEvent extends AbstractGameEvent {
+public final class PopulationGrowthEvent extends AbstractGameEventDefinition {
     private final ISettlementProvider settlementProvider;
 
     public PopulationGrowthEvent(ISettlementProvider settlementProvider) {

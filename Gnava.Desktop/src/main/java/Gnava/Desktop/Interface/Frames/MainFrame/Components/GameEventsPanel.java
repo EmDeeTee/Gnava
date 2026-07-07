@@ -46,7 +46,7 @@ public class GameEventsPanel extends JPanel {
         if (!event.getValueIsAdjusting()) {
             ExecutedGameEvent selected = eventList.getSelectedValue();
             if (selected != null) {
-                new PlaintextPopup(parent, selected.description()).show();
+                new PlaintextPopup(parent, selected.description(), "Happened on day %s".formatted(selected.happenedOnDay())).show();
                 eventList.clearSelection();
             }
         }
