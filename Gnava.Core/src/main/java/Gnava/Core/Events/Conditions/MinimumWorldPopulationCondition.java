@@ -1,8 +1,8 @@
 package Gnava.Core.Events.Conditions;
 
-import Gnava.Core.Events.Contexts.WorldEventContext;
+import Gnava.Core.Events.Contexts.EventContext;
 
-public final class MinimumWorldPopulationCondition implements EventCondition<WorldEventContext> {
+public final class MinimumWorldPopulationCondition<C extends EventContext> implements EventCondition<C> {
     private final int minimumPopulation;
 
     public MinimumWorldPopulationCondition(int minimumPopulation) {
@@ -10,7 +10,7 @@ public final class MinimumWorldPopulationCondition implements EventCondition<Wor
     }
 
     @Override
-    public boolean isSatisfied(WorldEventContext eventContext) {
+    public boolean isSatisfied(C eventContext) {
         return eventContext.getWorldStatistics().population() >= minimumPopulation;
     }
 }
