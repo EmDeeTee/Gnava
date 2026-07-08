@@ -32,20 +32,12 @@ public class SettlementManager extends AbstractGameManager {
         return new SettlementCreationResult(true, "OK");
     }
 
-//    public int getSettlementCount() {
-//        return this.settlementRepository.count();
-//    }
-
     public List<Settlement> getSettlements() {
         return this.settlementRepository.getAll();
     }
 
     public Integer getWorldPopulation() {
         return this.settlementRepository.getAll().stream().mapToInt(Settlement::getTotalPopulation).sum();
-    }
-
-    public Settlement getRandomSettlement() {
-        return this.settlementRepository.getRandom();
     }
 
     public void addSettlementCreatedListener(Consumer<Settlement> listener) {
