@@ -11,6 +11,6 @@ public final class MinimumWorldPopulationCondition implements EventCondition<Wor
 
     @Override
     public boolean isSatisfied(WorldEventContext eventContext) {
-        return eventContext.getStatistics().population() >= minimumPopulation;
+        return eventContext.getWorldStatistics().population() >= minimumPopulation;
     }
 }

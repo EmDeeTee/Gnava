@@ -1,8 +1,8 @@
 package Gnava.Core.Events.Conditions;
 
-import Gnava.Core.Events.Contexts.WorldEventContext;
+import Gnava.Core.Events.Contexts.EventContext;
 
-public final class MinimumWorldSettlementsCondition implements EventCondition<WorldEventContext> {
+public final class MinimumWorldSettlementsCondition<C extends EventContext> implements EventCondition<C> {
     private final int minimumSettlements;
 
     public MinimumWorldSettlementsCondition(int minimumSettlements) {
@@ -10,7 +10,7 @@ public final class MinimumWorldSettlementsCondition implements EventCondition<Wo
     }
 
     @Override
-    public boolean isSatisfied(WorldEventContext eventContext) {
-        return eventContext.getStatistics().settlementCount() >= minimumSettlements;
+    public boolean isSatisfied(C eventContext) {
+        return eventContext.getWorldStatistics().settlementCount() >= minimumSettlements;
     }
 }

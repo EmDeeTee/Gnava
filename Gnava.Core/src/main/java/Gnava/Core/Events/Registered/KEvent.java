@@ -15,7 +15,7 @@ public final class KEvent extends AbstractGameEventDefinition<WorldEventContext>
     protected List<EventCondition<WorldEventContext>> conditions() {
         return List.of(
             new MinimumWorldPopulationCondition(2000),
-            new MinimumWorldSettlementsCondition(2)
+            new MinimumWorldSettlementsCondition<>(2)
         );
     }
 

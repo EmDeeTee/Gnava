@@ -2,9 +2,9 @@ package Gnava.Core.Events.Registered;
 
 import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
+import Gnava.Core.Events.Conditions.MinimumWorldSettlementsCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Models.Settlement;
-import Gnava.Core.Repositories.ISettlementProvider;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,16 +12,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public final class PopulationGrowthEvent extends AbstractGameEventDefinition<SettlementEventContext> {
-    private final ISettlementProvider settlementProvider;
-
-    public PopulationGrowthEvent(ISettlementProvider settlementProvider) {
-        this.settlementProvider = settlementProvider;
-    }
+    public PopulationGrowthEvent() { }
 
     @Override
     protected List<EventCondition<SettlementEventContext>> conditions() {
         return List.of(
-    ctx -> settlementProvider.count() >= 1
+            new MinimumWorldSettlementsCondition<>(1)
         );
     }
 
