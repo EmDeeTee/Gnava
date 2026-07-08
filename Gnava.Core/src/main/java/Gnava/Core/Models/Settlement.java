@@ -8,7 +8,7 @@ public class Settlement {
     private int totalPopulation;
     private int maxPopulation;
     private final SettlementPopulationType populationType;
-    private final SettlementWealthLevel wealthLevel;
+    private SettlementWealthLevel wealthLevel;
     private final boolean isPlayer;
 
     public Settlement(
@@ -62,5 +62,9 @@ public class Settlement {
 
     public SettlementWealthLevel getWealthLevel() {
         return wealthLevel;
+    }
+
+    public void setWealthLevel(SettlementWealthLevel wealthLevel) {
+        this.wealthLevel = wealthLevel;
     }
 }

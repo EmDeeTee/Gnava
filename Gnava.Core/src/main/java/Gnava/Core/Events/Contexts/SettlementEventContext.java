@@ -9,22 +9,21 @@ import java.util.Optional;
 
 public class SettlementEventContext extends WorldEventContext {
     private final SettlementManager settlementManager;
+    private final Optional<Settlement> targetSettlement;
 
     public SettlementEventContext(
         GameState gameState,
         SettlementManager settlementManager,
-        WorldStatisticsProvider worldStatisticsProvider
+        WorldStatisticsProvider worldStatisticsProvider,
+        Settlement targetSettlement
     ) {
         super(gameState, worldStatisticsProvider);
         this.settlementManager = settlementManager;
+        this.targetSettlement = Optional.ofNullable(targetSettlement);
     }
 
-    public void getRandomSettlementAsTarget() {
-        set("target_settlement", settlementManager.getRandomSettlement());
-    }
-
-    public Optional<Settlement> getTargetSettlement() {
-        return get("target_settlement", Settlement.class);
+    public Optional<Settlement> getRandomTargetSettlement() {
+        return targetSettlement;
     }
 
     public SettlementManager getSettlementManager() {

@@ -16,7 +16,7 @@ public final class NosferatuEvent extends AbstractGameEventDefinition<Settlement
     @Override
     protected String resolveDescription(SettlementEventContext context) {
         return "Nosferatu attacked %s and ate %d residents".formatted(
-            context.getTargetSettlement().orElseThrow(),
+            context.getRandomTargetSettlement().orElseThrow(),
             context.get("damage", Integer.class).orElseThrow()
         );
     }
@@ -41,9 +41,7 @@ public final class NosferatuEvent extends AbstractGameEventDefinition<Settlement
 
     @Override
     protected void prepare(SettlementEventContext context) {
-        context.getRandomSettlementAsTarget();
-
-        Settlement targetSettlement = context.get("target_settlement", Settlement.class).orElseThrow();
+        Settlement targetSettlement = context.getRandomTargetSettlement().orElseThrow();
         context.set("damage", ThreadLocalRandom.current().nextInt(1, Math.min(200, targetSettlement.getTotalPopulation())));
     }
 }

@@ -23,8 +23,10 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
 
     @Override
     protected void prepare(SettlementEventContext context) {
-        Settlement settlement = context.getSettlementManager().getRandomSettlement();
-        context.set("target_settlement", settlement);
+        //Settlement settlement = context.getSettlementManager().getRandomSettlement();
+        //context.set("target_settlement", settlement);
+
+        Settlement settlement = context.getRandomTargetSettlement().orElseThrow();
 
         int growth = settlement.getMaxPopulation() > 1000
             ? ThreadLocalRandom.current().nextInt(0, 50)
@@ -35,21 +37,21 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
     @Override
     protected String resolveTitle(SettlementEventContext context) {
         return "Population grows in %s".formatted(
-            context.get("target_settlement", Settlement.class).orElseThrow(RuntimeException::new)
+            context.getRandomTargetSettlement().orElseThrow()
         );
     }
 
     @Override
     protected String resolveDescription(SettlementEventContext context) {
         return "Population grows in %s by %d".formatted(
-            context.get("target_settlement", Settlement.class).orElseThrow(RuntimeException::new),
+            context.getRandomTargetSettlement().orElseThrow(),
             context.get("growth", Integer.class).orElseThrow(RuntimeException::new)
         );
     }
 
     @Override
     protected void apply(SettlementEventContext context) {
-        Settlement settlement = context.get("target_settlement", Settlement.class).orElseThrow(RuntimeException::new);
+        Settlement settlement = context.getRandomTargetSettlement().orElseThrow();
         Integer growth = context.get("growth", Integer.class).orElseThrow(RuntimeException::new);
 
         settlement.setMaxPopulation(settlement.getMaxPopulation() + growth);
