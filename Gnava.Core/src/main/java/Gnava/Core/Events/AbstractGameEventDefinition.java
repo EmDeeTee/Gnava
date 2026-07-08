@@ -3,9 +3,12 @@ package Gnava.Core.Events;
 import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Contexts.EventContext;
 
-public abstract class AbstractGameEventDefinition implements IGameEvent {
+import java.util.Collections;
+import java.util.List;
+
+public abstract class AbstractGameEventDefinition<C extends EventContext> implements IGameEventDefinition<C> {
     @Override
-    public final ExecutedGameEvent happen(EventContext context) {
+    public final ExecutedGameEvent happen(C context) {
         prepare(context);
         String title = resolveTitle(context);
         String description = resolveDescription(context);
@@ -14,8 +17,8 @@ public abstract class AbstractGameEventDefinition implements IGameEvent {
     }
 
     @Override
-    public final boolean canRun(EventContext context) {
-        for (EventCondition condition : conditions()) {
+    public final boolean canRun(C context) {
+        for (EventCondition<C> condition : conditions()) {
             if (!condition.isSatisfied(context)) {
                 return false;
             }
@@ -44,15 +47,15 @@ public abstract class AbstractGameEventDefinition implements IGameEvent {
         return false;
     }
 
-    protected EventCondition[] conditions() {
-        return new EventCondition[0];
+    protected List<EventCondition<C>> conditions() {
+        return Collections.emptyList();
     }
 
-    protected void prepare(EventContext context) { }
+    protected void prepare(C context) { }
 
-    protected void apply(EventContext context) { }
+    protected void apply(C context) { }
 
-    protected abstract String resolveDescription(EventContext context);
+    protected abstract String resolveDescription(C context);
 
-    protected abstract String resolveTitle(EventContext context);
+    protected abstract String resolveTitle(C context);
 }

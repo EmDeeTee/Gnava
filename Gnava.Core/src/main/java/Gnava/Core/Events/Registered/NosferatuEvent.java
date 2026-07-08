@@ -1,16 +1,16 @@
 package Gnava.Core.Events.Registered;
 
 import Gnava.Core.Events.AbstractGameEventDefinition;
-import Gnava.Core.Events.Contexts.EventContext;
+import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Models.Settlement;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
-public final class NosferatuAttacksEvent extends AbstractGameEventDefinition {
+public final class NosferatuEvent extends AbstractGameEventDefinition<SettlementEventContext> {
     @Override
-    protected String resolveDescription(EventContext context) {
+    protected String resolveDescription(SettlementEventContext context) {
         return "Nosferatu attacked %s and ate %d residents".formatted(
             context.get("target_settlement", Settlement.class).orElseThrow(),
             context.get("damage", Integer.class).orElseThrow()
@@ -18,7 +18,7 @@ public final class NosferatuAttacksEvent extends AbstractGameEventDefinition {
     }
 
     @Override
-    protected String resolveTitle(EventContext context) {
+    protected String resolveTitle(SettlementEventContext context) {
         return "Nosferatu!";
     }
 
@@ -28,10 +28,11 @@ public final class NosferatuAttacksEvent extends AbstractGameEventDefinition {
     }
 
     @Override
-    protected void prepare(EventContext context) {
+    protected void prepare(SettlementEventContext context) {
         context.getRandomSettlementAsTarget();
 
         Settlement targetSettlement = context.get("target_settlement", Settlement.class).orElseThrow();
+        // FIXME: I think this crashes early in the game when population is 1 or 0?
         context.set("damage", ThreadLocalRandom.current().nextInt(1, Math.min(200, targetSettlement.getTotalPopulation())));
     }
 }

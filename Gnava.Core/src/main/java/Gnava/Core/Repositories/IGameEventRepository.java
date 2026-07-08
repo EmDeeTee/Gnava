@@ -1,9 +1,9 @@
 package Gnava.Core.Repositories;
 
-import Gnava.Core.Events.IGameEvent;
+import Gnava.Core.Events.IGameEventDefinition;
 
 import java.util.List;
 
 public interface IGameEventRepository {
-    List<IGameEvent> getRegisteredGameEvents();
+    List<IGameEventDefinition> getRegisteredGameEvents();
 }

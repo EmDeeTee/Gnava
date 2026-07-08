@@ -2,10 +2,10 @@ package Gnava.Core.Events;
 
 import Gnava.Core.Events.Contexts.EventContext;
 
-public interface IGameEvent {
-    ExecutedGameEvent happen(EventContext context);
+public interface IGameEventDefinition<C extends EventContext> {
+    ExecutedGameEvent happen(C context);
 
-    boolean canRun(EventContext context);
+    boolean canRun(C context);
 
     boolean firesOnce();
 

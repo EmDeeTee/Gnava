@@ -1,32 +1,19 @@
 package Gnava.Core.Events.Contexts;
 
 import Gnava.Core.GameState;
-import Gnava.Core.Managers.SettlementManager;
-import Gnava.Core.Models.Settlement;
-import Gnava.Core.Statistics.WorldStatisticsProvider;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-// TODO: Maybe have specific event contexts? Like SettlementEventContext etc
-public final class EventContext {
-    private final Object subject;
+public abstract class EventContext {
     private final GameState gameState;
-    private final WorldStatisticsProvider worldStatisticsProvider;
-    private final SettlementManager settlementManager;
     private final Map<String, Object> attachments = new HashMap<>();
 
     public EventContext(
-        Object subject,
-        GameState gameState,
-        WorldStatisticsProvider worldStatisticsProvider,
-        SettlementManager settlementManager
+        GameState gameState
     ) {
-        this.subject = subject;
         this.gameState = gameState;
-        this.worldStatisticsProvider = worldStatisticsProvider;
-        this.settlementManager = settlementManager;
     }
 
     public <T> void set(String id, T object) {
@@ -43,26 +30,7 @@ public final class EventContext {
         return Optional.empty();
     }
 
-    public Object getSubject() {
-        return subject;
-    }
-
-    /**
-     * Gets a random settlement and sets it in the context under "target_settlement".
-     */
-    public void getRandomSettlementAsTarget() {
-        set("target_settlement", getSettlementManager().getRandomSettlement());
-    }
-
     public GameState getGameState() {
         return gameState;
-    }
-
-    public WorldStatisticsProvider getWorldStatisticsProvider() {
-        return worldStatisticsProvider;
-    }
-
-    public SettlementManager getSettlementManager() {
-        return settlementManager;
     }
 }
