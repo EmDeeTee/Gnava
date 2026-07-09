@@ -34,6 +34,8 @@ public final class NosferatuEvent extends AbstractGameEventDefinition<Settlement
     @Override
     protected List<EventCondition<SettlementEventContext>> conditions() {
         return List.of(
+            //  FIXME: This should check the target's population, not world's population
+            // Otherwise it will crash if it selects a settlement with 1 or less population
             new MinimumWorldPopulationCondition<>(100),
             new MinimumGameDayCondition<>(30)
         );
