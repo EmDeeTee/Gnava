@@ -2,6 +2,7 @@ package Gnava.Core;
 
 import org.springframework.stereotype.Component;
 
+// NOTE: Actually, why does this class even exist?
 @Component
 public class GameState {
     private int currentDay = 0;
