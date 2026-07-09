@@ -1,6 +1,5 @@
 package Gnava.Core.Spells.Registered;
 
-import Gnava.Core.Models.Enums.SettlementPopulationType;
 import Gnava.Core.Models.Settlement;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Spells.SpellContext;
@@ -21,8 +20,9 @@ public final class ShadowRealmSpell extends AbstractSpell {
         spellContext.playerBodyCountTallyService().incrementPlayerBodyCount();
         return new SpellOutcome(
             isGood(),
-            "You banished %s from %s to the shadow realm.".formatted(
-                spellContext.creatureNameGenerator().generate(SettlementPopulationType.GNOME),
+            "You banished a %s, %s from %s to the shadow realm.".formatted(
+                spellContext.settlementTarget().getPopulationType().name().toLowerCase(),
+                spellContext.creatureNameGenerator().generate(spellContext.settlementTarget().getPopulationType()),
                 target.getName()
             )
         );
