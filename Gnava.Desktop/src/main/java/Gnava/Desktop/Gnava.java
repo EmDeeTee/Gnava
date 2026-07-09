@@ -2,6 +2,7 @@ package Gnava.Desktop;
 
 import Gnava.Core.Commands.CreateSettlementCommand;
 import Gnava.Core.Managers.Settlement.SettlementManager;
+import Gnava.Desktop.Interface.Actions.CreateSettlementAction;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.CreateSettlementPopup;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
@@ -21,20 +22,20 @@ public class Gnava {
     }
 
     public void initUi() {
-        CreateSettlementCommand command = new CreateSettlementCommand(settlementManager);
+        CreateSettlementCommand createSettlementCommand = new CreateSettlementCommand(settlementManager);
 
         mainFrame.setVisible(true);
 
         new PlaintextPopup(mainFrame, TranslationManager.getInstance().getTranslationTable().t(TranslationKey.WELCOME_MESSAGE)).show();
 
-        new CreateSettlementPopup(
-            mainFrame,
-            TranslationManager.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT),
-            true,
-            true
-        ).show().ifPresentOrElse(
-            settlementManager::tryCreateSettlement,
-            () -> { throw new IllegalStateException("Settlement creation cancelled"); }
-        );
+        new CreateSettlementAction(
+            createSettlementCommand,
+            () -> new CreateSettlementPopup(
+                mainFrame,
+                TranslationManager.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT),
+                true,
+                true
+            ).show().orElseThrow()
+        ).execute();
     }
 }

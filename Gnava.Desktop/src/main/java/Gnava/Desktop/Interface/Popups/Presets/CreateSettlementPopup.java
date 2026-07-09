@@ -18,14 +18,19 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
 
     public CreateSettlementPopup(MainFrame mainFrame) {
         this(
-                mainFrame,
+            mainFrame,
             TranslationManager.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT),
             false,
             false
         );
     }
 
-    public CreateSettlementPopup(MainFrame mainFrame, String title, boolean forced, boolean isForPlayer) {
+    public CreateSettlementPopup(
+        MainFrame mainFrame,
+        String title,
+        boolean forced,
+        boolean isForPlayer
+    ) {
         super(mainFrame, title);
         withDefaultOk(this::submit);
         if (!forced) {
@@ -54,16 +59,14 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
             return;
         }
 
-        setResult(
-            new Settlement(
-                name,
-                1,
-                10,
-                (SettlementPopulationType) populationTypeCombo.getSelectedItem(),
-                SettlementWealthLevel.MODERATE,
-                player
-            )
-        );
+        setResult(new Settlement(
+            name,
+            1,
+            10,
+            (SettlementPopulationType) populationTypeCombo.getSelectedItem(),
+            SettlementWealthLevel.MODERATE,
+            player
+        ));
 
         close();
     }

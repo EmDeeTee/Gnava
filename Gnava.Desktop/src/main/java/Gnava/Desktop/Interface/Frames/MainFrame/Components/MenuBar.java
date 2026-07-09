@@ -1,8 +1,6 @@
 package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 
 import Gnava.Core.Commands.CreateSettlementCommand;
-import Gnava.Core.GameState;
-import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import Gnava.Desktop.Interface.Actions.CreateSettlementAction;
 import Gnava.Desktop.Interface.Actions.ShowWorldStatisticsAction;
@@ -19,19 +17,21 @@ public class MenuBar extends JMenuBar {
     private final JMenuItem showWorldStatisticsItem = new JMenuItem("World statistics");
 
     public MenuBar(
-        GameState gameState,
         MainFrame mainFrame,
-        SettlementManager settlementManager,
+        CreateSettlementCommand createSettlementCommand,
         WorldStatisticsProvider worldStatisticsProvider
     ) {
         super();
         actionsMenu.add(createSettlementItem);
         statisticsMenu.add(showWorldStatisticsItem);
 
+        CreateSettlementPopup popup =
+                new CreateSettlementPopup(mainFrame);
+
         createSettlementItem.addActionListener(
             new CreateSettlementAction(
-                new CreateSettlementCommand(settlementManager),
-                () -> new CreateSettlementPopup(mainFrame).show()
+                createSettlementCommand,
+                () -> new CreateSettlementPopup(mainFrame).show().orElseThrow()
             )
         );
         showWorldStatisticsItem.addActionListener(new ShowWorldStatisticsAction(worldStatisticsProvider));

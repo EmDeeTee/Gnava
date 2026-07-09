@@ -1,5 +1,6 @@
 package Gnava.Desktop.Interface.Frames.MainFrame;
 
+import Gnava.Core.Commands.CreateSettlementCommand;
 import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Events.ExecutedGameEvent;
@@ -51,7 +52,7 @@ public class MainFrame extends JFrame {
         WorldStatisticsProvider worldStatisticsProvider
     ) {
         super(title);
-        menu = new MenuBar(gameState, this, settlementManager, worldStatisticsProvider);
+        menu = new MenuBar(this, new CreateSettlementCommand(settlementManager), worldStatisticsProvider);
         this.timeManager = timeManager;
         this.settlementManager = settlementManager;
         this.gameEventManager = gameEventManager;
