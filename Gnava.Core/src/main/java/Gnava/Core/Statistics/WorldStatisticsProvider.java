@@ -1,26 +1,27 @@
 package Gnava.Core.Statistics;
 
 import Gnava.Core.Dto.WorldStatistics;
-import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Managers.Settlement.SettlementManager;
+import Gnava.Core.Managers.Settlement.SettlementStatisticsManager;
 import Gnava.Core.Repositories.ISettlementProvider;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WorldStatisticsProvider {
     private final ISettlementProvider settlementProvider;
-    private final SettlementManager settlementManager;
+    private final SettlementStatisticsManager settlementStatisticsManager;
 
     public WorldStatisticsProvider(
         ISettlementProvider settlementProvider,
-        SettlementManager settlementManager
+        SettlementStatisticsManager settlementStatisticsManager
     ) {
         this.settlementProvider = settlementProvider;
-        this.settlementManager = settlementManager;
+        this.settlementStatisticsManager = settlementStatisticsManager;
     }
 
     public WorldStatistics getWorldStatistics() {
         return new WorldStatistics(
-            settlementManager.getWorldPopulation(),
+            settlementStatisticsManager.getWorldPopulation(),
             settlementProvider.count()
         );
     }

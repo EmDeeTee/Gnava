@@ -1,7 +1,9 @@
-package Gnava.Core.Managers;
+package Gnava.Core.Managers.Settlement;
 
 import Gnava.Core.EventDispatcher;
 import Gnava.Core.GameState;
+import Gnava.Core.Managers.AbstractGameManager;
+import Gnava.Core.Managers.SettlementCreationResult;
 import Gnava.Core.Models.Settlement;
 import Gnava.Core.Repositories.ISettlementRepository;
 import org.springframework.stereotype.Service;
@@ -33,10 +35,6 @@ public final class SettlementManager extends AbstractGameManager {
 
     public List<Settlement> getSettlements() {
         return this.settlementRepository.getAll();
-    }
-
-    public Integer getWorldPopulation() {
-        return this.settlementRepository.getAll().stream().mapToInt(Settlement::getTotalPopulation).sum();
     }
 
     public void addSettlementCreatedListener(Consumer<Settlement> listener) {

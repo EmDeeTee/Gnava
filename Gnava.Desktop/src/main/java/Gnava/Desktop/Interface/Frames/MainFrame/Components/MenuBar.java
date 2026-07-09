@@ -2,7 +2,7 @@ package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 
 import Gnava.Core.Commands.CreateSettlementCommand;
 import Gnava.Core.GameState;
-import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import Gnava.Desktop.Interface.Actions.CreateSettlementAction;
 import Gnava.Desktop.Interface.Actions.ShowWorldStatisticsAction;

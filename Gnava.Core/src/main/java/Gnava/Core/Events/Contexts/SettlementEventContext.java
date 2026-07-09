@@ -1,7 +1,7 @@
 package Gnava.Core.Events.Contexts;
 
 import Gnava.Core.GameState;
-import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Models.Settlement;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 

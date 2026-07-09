@@ -3,7 +3,7 @@ package Gnava.Core.Events.Contexts.Providers;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Events.IGameEventDefinition;
 import Gnava.Core.GameState;
-import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import org.springframework.stereotype.Component;

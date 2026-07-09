@@ -2,7 +2,7 @@ package Gnava.Launcher;
 
 import Gnava.Core.GameState;
 import Gnava.Core.Managers.GameEventManager;
-import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.TimeManager;
 import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Core.Statistics.WorldStatisticsProvider;

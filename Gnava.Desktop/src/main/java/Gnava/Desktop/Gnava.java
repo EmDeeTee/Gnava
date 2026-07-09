@@ -2,7 +2,7 @@ package Gnava.Desktop;
 
 import Gnava.Core.Commands.CreateSettlementCommand;
 import Gnava.Core.GameState;
-import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.CreateSettlementPopup;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;

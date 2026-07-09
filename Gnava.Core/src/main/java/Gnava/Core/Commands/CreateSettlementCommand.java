@@ -1,7 +1,7 @@
 package Gnava.Core.Commands;
 
 import Gnava.Core.Managers.SettlementCreationResult;
-import Gnava.Core.Managers.SettlementManager;
+import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Models.Settlement;
 
 public class CreateSettlementCommand implements Command<Settlement> {
