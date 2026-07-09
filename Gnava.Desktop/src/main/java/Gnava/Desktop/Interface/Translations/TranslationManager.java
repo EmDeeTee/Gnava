@@ -23,6 +23,7 @@ public class TranslationManager {
         return translationTable;
     }
 
+    // TODO/NOTE: I don't think the translation table should select itself
     private void selectTranslationTable() {
         TranslationTable selectedTable;
 
