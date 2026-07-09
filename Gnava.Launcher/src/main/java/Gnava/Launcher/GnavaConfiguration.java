@@ -18,7 +18,14 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = "Gnava")
 public class GnavaConfiguration {
     @Bean
-    public MainFrame gameFrame(GameState gameState, TimeManager timeManager, SettlementManager settlementManager, GameEventManager gameEventManager, VictoryConditionManager victoryConditionManager, WorldStatisticsProvider worldStatisticsProvider) {
+    public MainFrame gameFrame(
+        GameState gameState,
+        TimeManager timeManager,
+        SettlementManager settlementManager,
+        GameEventManager gameEventManager,
+        VictoryConditionManager victoryConditionManager,
+        WorldStatisticsProvider worldStatisticsProvider
+    ) {
         return new MainFrame(
             gameState,
             TranslationManager.getInstance().getTranslationTable().t(TranslationKey.GKINGDOMS),
@@ -31,7 +38,7 @@ public class GnavaConfiguration {
     }
 
     @Bean
-    public Gnava gnava(GameState gameState, MainFrame mainFrame, SettlementManager settlementManager) {
-        return new Gnava(gameState, mainFrame, settlementManager);
+    public Gnava gnava(MainFrame mainFrame, SettlementManager settlementManager) {
+        return new Gnava(mainFrame, settlementManager);
     }
 }
