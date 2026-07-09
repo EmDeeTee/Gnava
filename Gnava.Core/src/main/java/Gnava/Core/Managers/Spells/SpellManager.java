@@ -2,6 +2,7 @@ package Gnava.Core.Managers.Spells;
 
 import Gnava.Core.GameState;
 import Gnava.Core.Managers.AbstractGameManager;
+import Gnava.Core.RaceNames.CreatureNameGenerator;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Spells.SpellContext;
@@ -12,19 +13,28 @@ import org.springframework.stereotype.Service;
 public final class SpellManager extends AbstractGameManager {
     private final ISettlementProvider settlementProvider;
     private final SpellStatisticsManager spellStatisticsManager;
+    private final CreatureNameGenerator creatureNameGenerator;
 
     public SpellManager(
         GameState gameState,
         ISettlementProvider settlementProvider,
-        SpellStatisticsManager spellStatisticsManager
+        SpellStatisticsManager spellStatisticsManager,
+        CreatureNameGenerator creatureNameGenerator
     ) {
         super(gameState);
         this.settlementProvider = settlementProvider;
         this.spellStatisticsManager = spellStatisticsManager;
+        this.creatureNameGenerator = creatureNameGenerator;
     }
 
     public SpellOutcome castSpell(AbstractSpell spell) {
-        SpellOutcome spellOutcome = spell.cast(new SpellContext(gameState, settlementProvider.getRandom()));
+        SpellOutcome spellOutcome = spell.cast(
+            new SpellContext(
+                gameState,
+                settlementProvider.getRandom(),
+                creatureNameGenerator
+            )
+        );
 
         if (spellOutcome.isGood()) {
             spellStatisticsManager.incrementGoodOutcomes();

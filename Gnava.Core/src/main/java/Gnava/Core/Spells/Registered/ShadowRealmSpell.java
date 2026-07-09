@@ -1,6 +1,8 @@
 package Gnava.Core.Spells.Registered;
 
+import Gnava.Core.Models.Enums.SettlementPopulationType;
 import Gnava.Core.Models.Settlement;
+import Gnava.Core.RaceNames.CreatureName;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Spells.SpellContext;
 import Gnava.Core.Spells.SpellOutcome;
@@ -17,9 +19,13 @@ public final class ShadowRealmSpell extends AbstractSpell {
         }
 
         target.setTotalPopulation(target.getTotalPopulation() - 1);
-        // TODO: Add a special class with race specific names, so I can pull a random name for events like this
-        // ex. If the settlement has the GNOME race, the names will be gnomish sounding
-        return new SpellOutcome(isGood(), "You banished %s from %s to the shadow realm.".formatted("NAME", target.getName()));
+        return new SpellOutcome(
+            isGood(),
+            "You banished %s from %s to the shadow realm.".formatted(
+                spellContext.creatureNameGenerator().generate(SettlementPopulationType.GNOME),
+                target.getName()
+            )
+        );
     }
 
     @Override
