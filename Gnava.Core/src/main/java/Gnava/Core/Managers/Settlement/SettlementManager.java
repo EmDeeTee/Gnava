@@ -15,22 +15,26 @@ import java.util.function.Consumer;
 public final class SettlementManager extends AbstractGameManager {
     private final EventDispatcher<Settlement> settlementCreatedDispatcher = new EventDispatcher<>();
     private final ISettlementRepository settlementRepository;
+    private final SettlementCreationPolicy settlementCreationPolicy;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int MAX_CONCURRENT_SETTLEMENTS = 10;
-
-    public SettlementManager(GameState gameState, ISettlementRepository settlementRepository) {
+    public SettlementManager(
+        GameState gameState,
+        ISettlementRepository settlementRepository,
+        SettlementCreationPolicy settlementCreationPolicy
+    ) {
         super(gameState);
         this.settlementRepository = settlementRepository;
+        this.settlementCreationPolicy = settlementCreationPolicy;
     }
 
     public SettlementCreationResult tryCreateSettlement(Settlement settlement) {
-        if (this.settlementRepository.count() >= MAX_CONCURRENT_SETTLEMENTS) {
-            return new SettlementCreationResult(false, "Too many settlements");
+        SettlementCreationResult result = settlementCreationPolicy.validate(settlement);
+        if (!result.ok()) {
+            return result;
         }
 
         createSettlement(settlement);
-        return new SettlementCreationResult(true, "OK");
+        return result;
     }
 
     public List<Settlement> getSettlements() {
