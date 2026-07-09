@@ -3,9 +3,11 @@ package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 import Gnava.Core.Commands.CastSpellCommand;
 import Gnava.Core.Commands.CreateSettlementCommand;
 import Gnava.Core.Spells.AbstractSpell;
+import Gnava.Core.Statistics.SpellStatisticsProvider;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import Gnava.Desktop.Interface.Actions.CastSpellAction;
 import Gnava.Desktop.Interface.Actions.CreateSettlementAction;
+import Gnava.Desktop.Interface.Actions.ShowSpellsStatisticsAction;
 import Gnava.Desktop.Interface.Actions.ShowWorldStatisticsAction;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.CreateSettlementPopup;
@@ -23,6 +25,7 @@ public class MenuBar extends JMenuBar {
 
     private final JMenu statisticsMenu = new JMenu("Statistics");
     private final JMenuItem showWorldStatisticsItem = new JMenuItem("World statistics");
+    private final JMenuItem showSpellStatisticsItem = new JMenuItem("Spell statistics");
 
     private final JMenu spellMenu = new JMenu(TranslationManager.getInstance().getTranslationTable().t(TranslationKey.MENU_SPELL_BOOK));
 
@@ -33,6 +36,7 @@ public class MenuBar extends JMenuBar {
         CreateSettlementCommand createSettlementCommand,
         CastSpellCommand castSpellCommand,
         WorldStatisticsProvider worldStatisticsProvider,
+        SpellStatisticsProvider spellStatisticsProvider,
         List<AbstractSpell> spells
     ) {
         super();
@@ -40,6 +44,7 @@ public class MenuBar extends JMenuBar {
         this.spells = spells;
         actionsMenu.add(createSettlementItem);
         statisticsMenu.add(showWorldStatisticsItem);
+        statisticsMenu.add(showSpellStatisticsItem);
 
         registerSpellMenuItems();
 
@@ -53,6 +58,7 @@ public class MenuBar extends JMenuBar {
             )
         );
         showWorldStatisticsItem.addActionListener(new ShowWorldStatisticsAction(worldStatisticsProvider));
+        showSpellStatisticsItem.addActionListener(new ShowSpellsStatisticsAction(spellStatisticsProvider));
 
         add(actionsMenu);
         add(spellMenu);

@@ -1,13 +1,12 @@
 package Gnava.Core.Statistics;
 
 import Gnava.Core.Dto.WorldStatistics;
-import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.Settlement.SettlementStatisticsManager;
 import Gnava.Core.Repositories.ISettlementProvider;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorldStatisticsProvider {
+public final class WorldStatisticsProvider {
     private final ISettlementProvider settlementProvider;
     private final SettlementStatisticsManager settlementStatisticsManager;
 

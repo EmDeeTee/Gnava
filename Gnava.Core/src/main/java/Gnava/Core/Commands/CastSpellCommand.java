@@ -1,7 +1,7 @@
 package Gnava.Core.Commands;
 
 import Gnava.Core.Spells.AbstractSpell;
-import Gnava.Core.Spells.SpellManager;
+import Gnava.Core.Managers.Spells.SpellManager;
 import Gnava.Core.Spells.SpellOutcome;
 import org.springframework.stereotype.Component;
 
