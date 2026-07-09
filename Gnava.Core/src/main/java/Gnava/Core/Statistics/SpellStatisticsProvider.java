@@ -1,7 +1,7 @@
 package Gnava.Core.Statistics;
 
-import Gnava.Core.Dto.SpellStatistics;
-import Gnava.Core.Managers.Spells.SpellStatisticsManager;
+import Gnava.Core.Statistics.Records.SpellStatistics;
+import Gnava.Core.Statistics.Services.SpellStatisticsManager;
 import org.springframework.stereotype.Service;
 
 @Service

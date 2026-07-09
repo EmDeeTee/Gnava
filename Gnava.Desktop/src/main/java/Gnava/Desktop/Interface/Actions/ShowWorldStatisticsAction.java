@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Actions;
 
-import Gnava.Core.Dto.WorldStatistics;
+import Gnava.Core.Statistics.Records.WorldStatistics;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
@@ -21,10 +21,12 @@ public class ShowWorldStatisticsAction extends AbstractAction {
 
         String html = """
         Population: %d<br>
-        Settlements: %d<br>
+        Settlements: %d<br><br>
+        You killed %d creatures in this world so far
         """.formatted(
-                stats.population(),
-                stats.settlementCount()
+            stats.population(),
+            stats.settlementCount(),
+            stats.playerBodyCount()
         );
 
         MainFrame owner = (MainFrame) SwingUtilities.getWindowAncestor((JComponent) e.getSource());

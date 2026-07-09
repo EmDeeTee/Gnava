@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Actions;
 
-import Gnava.Core.Dto.SpellStatistics;
+import Gnava.Core.Statistics.Records.SpellStatistics;
 import Gnava.Core.Statistics.SpellStatisticsProvider;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;

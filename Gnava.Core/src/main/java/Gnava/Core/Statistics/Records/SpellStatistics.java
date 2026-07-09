@@ -1,3 +1,3 @@
-package Gnava.Core.Dto;
+package Gnava.Core.Statistics.Records;
 
 public record SpellStatistics(int spellsCasted, int goodOutcomes, int badOutcomes) { }

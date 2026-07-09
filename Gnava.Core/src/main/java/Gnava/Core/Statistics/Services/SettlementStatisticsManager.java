@@ -1,17 +1,14 @@
-package Gnava.Core.Managers.Settlement;
+package Gnava.Core.Statistics.Services;
 
-import Gnava.Core.GameState;
-import Gnava.Core.Managers.AbstractGameManager;
 import Gnava.Core.Models.Settlement;
 import Gnava.Core.Repositories.ISettlementRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class SettlementStatisticsManager extends AbstractGameManager {
+public final class SettlementStatisticsManager {
     private final ISettlementRepository settlementRepository;
 
-    public SettlementStatisticsManager(GameState gameState, ISettlementRepository settlementRepository) {
-        super(gameState);
+    public SettlementStatisticsManager(ISettlementRepository settlementRepository) {
         this.settlementRepository = settlementRepository;
     }
 

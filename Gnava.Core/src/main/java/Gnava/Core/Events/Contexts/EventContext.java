@@ -1,6 +1,6 @@
 package Gnava.Core.Events.Contexts;
 
-import Gnava.Core.Dto.WorldStatistics;
+import Gnava.Core.Statistics.Records.WorldStatistics;
 import Gnava.Core.GameState;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 

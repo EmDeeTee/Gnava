@@ -18,6 +18,7 @@ public final class ShadowRealmSpell extends AbstractSpell {
         }
 
         target.setTotalPopulation(target.getTotalPopulation() - 1);
+        spellContext.playerBodyCountTallyService().incrementPlayerBodyCount();
         return new SpellOutcome(
             isGood(),
             "You banished %s from %s to the shadow realm.".formatted(
