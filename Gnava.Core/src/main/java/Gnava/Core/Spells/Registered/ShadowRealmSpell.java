@@ -2,7 +2,6 @@ package Gnava.Core.Spells.Registered;
 
 import Gnava.Core.Models.Enums.SettlementPopulationType;
 import Gnava.Core.Models.Settlement;
-import Gnava.Core.RaceNames.CreatureName;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Spells.SpellContext;
 import Gnava.Core.Spells.SpellOutcome;
