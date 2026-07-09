@@ -44,6 +44,14 @@ public final class NosferatuEvent extends AbstractGameEventDefinition<Settlement
     @Override
     protected void prepare(SettlementEventContext context) {
         Settlement targetSettlement = context.getRandomTargetSettlement().orElseThrow();
-        context.set("damage", ThreadLocalRandom.current().nextInt(1, Math.min(200, targetSettlement.getTotalPopulation())));
+        context.set("damage", ThreadLocalRandom.current().nextInt(1, Math.min(200, targetSettlement.getTotalPopulation())) + 1);
+    }
+
+    @Override
+    protected void apply(SettlementEventContext context) {
+        int damage = context.get("damage", Integer.class).orElseThrow();
+        Settlement target = context.getRandomTargetSettlement().orElseThrow();
+
+        target.setTotalPopulation(target.getTotalPopulation() - damage);
     }
 }
