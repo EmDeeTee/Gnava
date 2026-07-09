@@ -6,7 +6,7 @@ import Gnava.Core.Events.Listeners.GameDayListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TimeManager extends AbstractGameManager {
+public final class TimeManager extends AbstractGameManager {
     private final EventDispatcher<Integer> timeAdvancedDispatcher = new EventDispatcher<>();
 
     public TimeManager(GameState gameState) {

@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.function.Consumer;
 
-// TODO: Probably emit events, with type, like SettlementEvent.REMOVE, .CREATE etc.
 @Service
-public class SettlementManager extends AbstractGameManager {
+public final class SettlementManager extends AbstractGameManager {
     private final EventDispatcher<Settlement> settlementCreatedDispatcher = new EventDispatcher<>();
     private final ISettlementRepository settlementRepository;
 

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VictoryConditionManager extends AbstractGameManager {
+public final class VictoryConditionManager extends AbstractGameManager {
     EventDispatcher<GameOutcomeReceivedEvent> gameOutcomeSetEventDispatcher = new EventDispatcher<>();
     private final WorldStatisticsProvider worldStatisticsProvider;
 
