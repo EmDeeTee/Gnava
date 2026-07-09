@@ -49,10 +49,11 @@ public class MainFrame extends JFrame {
         SettlementManager settlementManager,
         GameEventManager gameEventManager,
         VictoryConditionManager victoryConditionManager,
-        WorldStatisticsProvider worldStatisticsProvider
+        WorldStatisticsProvider worldStatisticsProvider,
+        MenuBar menuBar
     ) {
         super(title);
-        menu = new MenuBar(this, new CreateSettlementCommand(settlementManager), worldStatisticsProvider);
+        this.menu = menuBar;
         this.timeManager = timeManager;
         this.settlementManager = settlementManager;
         this.gameEventManager = gameEventManager;

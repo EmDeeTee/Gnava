@@ -5,4 +5,5 @@ public enum TranslationKey {
     CREATE_SETTLEMENT,
     WELCOME_MESSAGE,
     NAME,
+    MENU_SPELL_BOOK,
 }

@@ -7,6 +7,7 @@ import Gnava.Core.Managers.TimeManager;
 import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import Gnava.Desktop.Gnava;
+import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.TranslationManager;
@@ -24,7 +25,8 @@ public class GnavaConfiguration {
         SettlementManager settlementManager,
         GameEventManager gameEventManager,
         VictoryConditionManager victoryConditionManager,
-        WorldStatisticsProvider worldStatisticsProvider
+        WorldStatisticsProvider worldStatisticsProvider,
+        MenuBar menuBar
     ) {
         return new MainFrame(
             gameState,
@@ -33,7 +35,8 @@ public class GnavaConfiguration {
             settlementManager,
             gameEventManager,
             victoryConditionManager,
-            worldStatisticsProvider
+            worldStatisticsProvider,
+            menuBar
         );
     }
 
