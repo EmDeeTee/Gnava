@@ -59,10 +59,10 @@ public final class GameEventManager extends AbstractGameManager {
         double totalWeight = 0.0;
 
         for (IGameEventDefinition<T> event : events) {
-            if (executedGameEventTypes.contains(event) && event.firesOnce()) {
+            if (!event.canRun(context)) {
                 continue;
             }
-            if (!event.canRun(context)) {
+            if (executedGameEventTypes.contains(event) && event.firesOnce()) {
                 continue;
             }
 
