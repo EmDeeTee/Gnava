@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+@Deprecated
 public class EventDispatcher<T> {
     private final List<Consumer<T>> listeners = new ArrayList<>();
 
