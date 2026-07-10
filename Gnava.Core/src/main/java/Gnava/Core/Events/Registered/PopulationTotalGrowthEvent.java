@@ -34,7 +34,7 @@ public final class PopulationTotalGrowthEvent extends AbstractGameEventDefinitio
 
     @Override
     protected void prepare(SettlementEventContext context) {
-        context.set("growth", ThreadLocalRandom.current().nextInt(0, 100 + 1));
+        context.set("growth", ThreadLocalRandom.current().nextInt(0, 200 + 1));
     }
 
     @Override

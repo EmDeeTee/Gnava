@@ -27,8 +27,8 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
         Settlement settlement = context.getRandomTargetSettlement().orElseThrow();
 
         int growth = settlement.getMaxPopulation() > 1000
-            ? ThreadLocalRandom.current().nextInt(0, 50)
-            : ThreadLocalRandom.current().nextInt(0, 200);
+            ? ThreadLocalRandom.current().nextInt(1, 175)
+            : ThreadLocalRandom.current().nextInt(1, 33);
         context.set("growth", growth);
     }
 
