@@ -2,8 +2,8 @@ package Gnava.Core.Events.Registered;
 
 import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
+import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
-import Gnava.Core.Events.Conditions.Universal.MinimumWorldPopulationCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Models.Settlement.Settlement;
 import org.springframework.stereotype.Component;
@@ -34,9 +34,7 @@ public final class NosferatuEvent extends AbstractGameEventDefinition<Settlement
     @Override
     protected List<EventCondition<SettlementEventContext>> conditions() {
         return List.of(
-            //  FIXME: This should check the target's population, not world's population
-            // Otherwise it will crash if it selects a settlement with 1 or less population
-            new MinimumWorldPopulationCondition<>(100),
+            new MinimumSettlementPopulationCondition(100),
             new MinimumGameDayCondition<>(30)
         );
     }
