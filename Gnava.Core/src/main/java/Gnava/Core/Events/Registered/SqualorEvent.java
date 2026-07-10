@@ -38,7 +38,8 @@ public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEv
 
     private String getReason(SettlementEventContext context) {
         String[] reasons = {
-            "Because of bad budget management, %s is now in squalor".formatted(context.getRandomTargetSettlement().orElseThrow())
+            "Because of bad budget management, %s is now in squalor".formatted(context.getRandomTargetSettlement().orElseThrow()),
+            "%s got hit with a Squalormelon".formatted(context.getRandomTargetSettlement().orElseThrow())
         };
 
         return reasons[ThreadLocalRandom.current().nextInt(reasons.length)];
