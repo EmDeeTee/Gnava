@@ -48,4 +48,9 @@ public final class PopulationTotalGrowthEvent extends AbstractGameEventDefinitio
     public float probability() {
         return 0.25f;
     }
+
+    @Override
+    public boolean isMinor() {
+        return true;
+    }
 }
