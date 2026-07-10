@@ -2,6 +2,7 @@ package Gnava.Core.Events.Registered;
 
 import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
+import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldPopulationCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCondition;
 import Gnava.Core.Events.Contexts.WorldEventContext;
@@ -14,8 +15,9 @@ public final class KEvent extends AbstractGameEventDefinition<WorldEventContext>
     @Override
     protected List<EventCondition<WorldEventContext>> conditions() {
         return List.of(
-            new MinimumWorldPopulationCondition(2000),
-            new MinimumWorldSettlementsCondition<>(2)
+            new MinimumWorldPopulationCondition<>(2000),
+            new MinimumWorldSettlementsCondition<>(2),
+            new MinimumGameDayCondition<>(100)
         );
     }
 
