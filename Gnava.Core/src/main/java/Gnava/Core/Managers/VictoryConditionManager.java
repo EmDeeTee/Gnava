@@ -1,36 +1,32 @@
 package Gnava.Core.Managers;
 
+import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.Events.Enums.GameOutcome;
-import Gnava.Core.EventDispatcher;
-import Gnava.Core.Events.GameOutcomeReceivedEvent;
+import Gnava.Core.EventBus.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.GameState;
-import Gnava.Core.Events.Listeners.GameOutcomeListener;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
-import org.jetbrains.annotations.NotNull;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
 public final class VictoryConditionManager extends AbstractGameManager {
-    EventDispatcher<GameOutcomeReceivedEvent> gameOutcomeSetEventDispatcher = new EventDispatcher<>();
     private final WorldStatisticsProvider worldStatisticsProvider;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public VictoryConditionManager(
-        GameState gameState,
-        TimeManager timeManager,
-        WorldStatisticsProvider worldStatisticsProvider
+            GameState gameState,
+            WorldStatisticsProvider worldStatisticsProvider, ApplicationEventPublisher applicationEventPublisher
     ) {
         super(gameState);
         this.worldStatisticsProvider = worldStatisticsProvider;
-        timeManager.addTimeAdvancedListener(this::onTimeAdvanced);
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    public void addGameOutcomeListener(@NotNull GameOutcomeListener listener) {
-        gameOutcomeSetEventDispatcher.addListener(listener::onGameEnded);
-    }
-
-    private void onTimeAdvanced(int currentDay) {
+    @EventListener
+    private void onTimeAdvanced(TimeAdvancedEvent event) {
         if (worldStatisticsProvider.getWorldStatistics().population() < 1000 && gameState.getCurrentDay() >= 60) {
-            gameOutcomeSetEventDispatcher.dispatch(new GameOutcomeReceivedEvent(GameOutcome.GAME_LOST));
+            applicationEventPublisher.publishEvent(new GameOutcomeReceivedEvent(GameOutcome.GAME_LOST));
         }
     }
 }

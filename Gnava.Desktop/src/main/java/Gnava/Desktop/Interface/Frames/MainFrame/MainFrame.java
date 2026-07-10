@@ -1,20 +1,18 @@
 package Gnava.Desktop.Interface.Frames.MainFrame;
 
+import Gnava.Core.EventBus.Events.ExecutedGameEventReceivedEvent;
+import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.Events.Enums.GameOutcome;
-import Gnava.Core.Events.GameOutcomeReceivedEvent;
-import Gnava.Core.Events.ExecutedGameEvent;
-import Gnava.Core.GameState;
-import Gnava.Core.Events.Listeners.GameDayListener;
-import Gnava.Core.Managers.GameEventManager;
+import Gnava.Core.EventBus.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.TimeManager;
 import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Core.Models.Settlement.Settlement;
-import Gnava.Core.Statistics.WorldStatisticsProvider;
 import Gnava.Desktop.Interface.Elements.AdvanceTimeButton;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
+import org.springframework.context.event.EventListener;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -22,7 +20,6 @@ import java.awt.*;
 import java.net.URL;
 import java.util.function.Consumer;
 
-// TODO: Put all components into private fields
 public class MainFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
     private final MenuBar menu;
@@ -31,31 +28,25 @@ public class MainFrame extends JFrame {
     private final DefaultListModel<Settlement> settlementListModel = new DefaultListModel<>();
 
     private final Consumer<Settlement> settlementListener = this::onSettlementsChanged;
-    private final GameDayListener timeListener = this::onTimeAdvanced;
 
     private final JList<Settlement> settlementList = new JList<>(settlementListModel);
     private final JLabel currentDayValueLabel = new JLabel("0");
 
     private final TimeManager timeManager;
     private final SettlementManager settlementManager;
-    private final GameEventManager gameEventManager;
     private final VictoryConditionManager victoryConditionManager;
 
     public MainFrame(
-        GameState gameState,
         String title,
         TimeManager timeManager,
         SettlementManager settlementManager,
-        GameEventManager gameEventManager,
         VictoryConditionManager victoryConditionManager,
-        WorldStatisticsProvider worldStatisticsProvider,
         MenuBar menuBar
     ) {
         super(title);
         this.menu = menuBar;
         this.timeManager = timeManager;
         this.settlementManager = settlementManager;
-        this.gameEventManager = gameEventManager;
         this.victoryConditionManager = victoryConditionManager;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(PREFERRED_SIZE);
@@ -125,9 +116,6 @@ public class MainFrame extends JFrame {
 
     private void registerListeners() {
         settlementManager.addSettlementCreatedListener(settlementListener);
-        timeManager.addTimeAdvancedListener(timeListener);
-        gameEventManager.addEventExecutedListener(this::onReceivedGameEvent);
-        victoryConditionManager.addGameOutcomeListener(this::onGameOutcomeReceived);
 
         settlementList.addListSelectionListener(onSettlementSelected());
     }
@@ -141,14 +129,17 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private void onTimeAdvanced(int currentDay) {
-        SwingUtilities.invokeLater(() -> currentDayValueLabel.setText(String.valueOf(currentDay)));
+    @EventListener
+    private void onTimeAdvanced(TimeAdvancedEvent event) {
+        SwingUtilities.invokeLater(() -> currentDayValueLabel.setText(String.valueOf(event.currentDay())));
     }
 
-    private void onReceivedGameEvent(ExecutedGameEvent executedGameEvent) {
-        SwingUtilities.invokeLater(() -> gameEventsPanel.addEvent(executedGameEvent));
+    @EventListener
+    private void onReceivedGameEvent(ExecutedGameEventReceivedEvent event) {
+        SwingUtilities.invokeLater(() -> gameEventsPanel.addEvent(event.gameEvent()));
     }
 
+    @EventListener
     private void onGameOutcomeReceived(GameOutcomeReceivedEvent gameOutcome) {
         if (gameOutcome.gameOutcome() == GameOutcome.GAME_LOST) {
             System.out.println("GAME LOST EVENT RECEIVED");

@@ -1,4 +1,4 @@
-package Gnava.Core.Events;
+package Gnava.Core.EventBus.Events;
 
 import Gnava.Core.Events.Enums.GameOutcome;
 

@@ -1,39 +1,37 @@
 package Gnava.Core.Managers;
 
-import Gnava.Core.EventDispatcher;
+import Gnava.Core.EventBus.Events.ExecutedGameEventReceivedEvent;
+import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.Events.Contexts.EventContext;
 import Gnava.Core.Events.Contexts.Providers.IEventContextProvider;
-import Gnava.Core.Events.ExecutedGameEvent;
 import Gnava.Core.Events.IGameEventDefinition;
 import Gnava.Core.GameState;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Consumer;
 
 @Service
 public final class GameEventManager extends AbstractGameManager {
-    private final EventDispatcher<ExecutedGameEvent> gameEventDispatcher = new EventDispatcher<>();
     private final Set<IGameEventDefinition<? extends EventContext>> executedGameEvents = new HashSet<>();
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     private final List<IEventContextProvider<? extends EventContext>> eventContextProviders;
 
     public GameEventManager(
         GameState gameState,
-        TimeManager timeManager,
+        ApplicationEventPublisher applicationEventPublisher,
         List<IEventContextProvider<? extends EventContext>> eventContextProviders
     ) {
         super(gameState);
+        this.applicationEventPublisher = applicationEventPublisher;
         this.eventContextProviders = eventContextProviders;
-        timeManager.addTimeAdvancedListener(this::onTimeAdvanced);
     }
 
-    public void addEventExecutedListener(Consumer<ExecutedGameEvent> listener) {
-        gameEventDispatcher.addListener(listener);
-    }
-
-    private void onTimeAdvanced(Integer currentDay) {
+    @EventListener
+    private void onTimeAdvanced(TimeAdvancedEvent event) {
         for (IEventContextProvider<? extends EventContext> provider : eventContextProviders) {
             processProvider(provider);
         }
@@ -46,9 +44,10 @@ public final class GameEventManager extends AbstractGameManager {
         generateEventCandidates(events, context).ifPresent(candidates -> {
             IGameEventDefinition<T> selectedEvent = selectEventFromCandidates(candidates);
 
-            ExecutedGameEvent generatedEvent = selectedEvent.happen(candidates.context());
-            gameEventDispatcher.dispatch(generatedEvent);
             executedGameEvents.add(selectedEvent);
+            applicationEventPublisher.publishEvent(
+                new ExecutedGameEventReceivedEvent(selectedEvent.happen(candidates.context()))
+            );
         });
     }
 

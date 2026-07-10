@@ -1,26 +1,23 @@
 package Gnava.Core.Managers;
 
-import Gnava.Core.EventDispatcher;
+import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.GameState;
-import Gnava.Core.Events.Listeners.GameDayListener;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
 public final class TimeManager extends AbstractGameManager {
-    private final EventDispatcher<Integer> timeAdvancedDispatcher = new EventDispatcher<>();
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public TimeManager(GameState gameState) {
+    public TimeManager(GameState gameState, ApplicationEventPublisher applicationEventPublisher) {
         super(gameState);
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public void advanceTime() {
         int nextDay = gameState.getCurrentDay() + 1;
 
         gameState.setCurrentDay(nextDay);
-        timeAdvancedDispatcher.dispatch(nextDay);
-    }
-
-    public void addTimeAdvancedListener(GameDayListener listener) {
-        timeAdvancedDispatcher.addListener(listener::onGameDayAdvanced);
+        applicationEventPublisher.publishEvent(new TimeAdvancedEvent(nextDay));
     }
 }
