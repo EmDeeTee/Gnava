@@ -1,9 +1,9 @@
-package Gnava.Core.Models;
+package Gnava.Core.Models.Settlement;
 
-import Gnava.Core.Models.Enums.SettlementPopulationType;
-import Gnava.Core.Models.Enums.SettlementWealthLevel;
+import Gnava.Core.Models.Settlement.Enums.SettlementPopulationType;
+import Gnava.Core.Models.Settlement.Enums.SettlementWealthLevel;
 
-public class Settlement {
+public final class Settlement {
     private final String name;
     private int totalPopulation;
     private int maxPopulation;
@@ -48,8 +48,24 @@ public class Settlement {
         this.maxPopulation = newMax;
     }
 
-    public void setTotalPopulation(int newPop) {
-        totalPopulation = newPop;
+    public AddPopulationResult addPopulation(int requestedAmount) {
+        int addedAmount = Math.min(requestedAmount + totalPopulation, maxPopulation) - totalPopulation;
+        boolean allIn = addedAmount == requestedAmount;
+        int overflow = requestedAmount - addedAmount;
+
+        totalPopulation += addedAmount;
+
+        return new AddPopulationResult(
+            requestedAmount,
+            addedAmount,
+            allIn,
+            overflow,
+            getPopulationCapacityRemaining()
+        );
+    }
+
+    public int getPopulationCapacityRemaining() {
+        return maxPopulation - totalPopulation;
     }
 
     public SettlementPopulationType getPopulationType() {

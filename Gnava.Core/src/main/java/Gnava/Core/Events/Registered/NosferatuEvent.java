@@ -2,16 +2,16 @@ package Gnava.Core.Events.Registered;
 
 import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
-import Gnava.Core.Events.Conditions.MinimumGameDayCondition;
-import Gnava.Core.Events.Conditions.MinimumWorldPopulationCondition;
+import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
+import Gnava.Core.Events.Conditions.Universal.MinimumWorldPopulationCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Models.Settlement;
-import org.springframework.stereotype.Service;
+import Gnava.Core.Models.Settlement.Settlement;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Service
+@Component
 public final class NosferatuEvent extends AbstractGameEventDefinition<SettlementEventContext> {
     @Override
     protected String resolveDescription(SettlementEventContext context) {
@@ -52,6 +52,6 @@ public final class NosferatuEvent extends AbstractGameEventDefinition<Settlement
         int damage = context.get("damage", Integer.class).orElseThrow();
         Settlement target = context.getRandomTargetSettlement().orElseThrow();
 
-        target.setTotalPopulation(target.getTotalPopulation() - damage);
+        target.addPopulation(-damage);
     }
 }

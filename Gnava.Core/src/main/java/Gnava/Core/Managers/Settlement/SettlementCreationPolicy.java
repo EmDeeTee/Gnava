@@ -1,7 +1,7 @@
 package Gnava.Core.Managers.Settlement;
 
 import Gnava.Core.Managers.SettlementCreationResult;
-import Gnava.Core.Models.Settlement;
+import Gnava.Core.Models.Settlement.Settlement;
 import Gnava.Core.Repositories.ISettlementRepository;
 import org.springframework.stereotype.Component;
 

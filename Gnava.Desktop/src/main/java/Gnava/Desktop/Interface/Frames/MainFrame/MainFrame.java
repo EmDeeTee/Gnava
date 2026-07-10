@@ -1,6 +1,5 @@
 package Gnava.Desktop.Interface.Frames.MainFrame;
 
-import Gnava.Core.Commands.CreateSettlementCommand;
 import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Events.ExecutedGameEvent;
@@ -10,7 +9,7 @@ import Gnava.Core.Managers.GameEventManager;
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.TimeManager;
 import Gnava.Core.Managers.VictoryConditionManager;
-import Gnava.Core.Models.Settlement;
+import Gnava.Core.Models.Settlement.Settlement;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import Gnava.Desktop.Interface.Elements.AdvanceTimeButton;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;

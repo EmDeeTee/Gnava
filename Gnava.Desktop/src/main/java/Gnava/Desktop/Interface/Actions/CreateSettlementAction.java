@@ -3,7 +3,7 @@ package Gnava.Desktop.Interface.Actions;
 import Gnava.Core.Commands.Command;
 import Gnava.Core.Commands.CommandAction;
 import Gnava.Core.Managers.SettlementCreationResult;
-import Gnava.Core.Models.Settlement;
+import Gnava.Core.Models.Settlement.Settlement;
 
 import javax.swing.*;
 import java.util.function.Supplier;

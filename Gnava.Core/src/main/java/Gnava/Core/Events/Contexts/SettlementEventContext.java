@@ -2,13 +2,14 @@ package Gnava.Core.Events.Contexts;
 
 import Gnava.Core.GameState;
 import Gnava.Core.Managers.Settlement.SettlementManager;
-import Gnava.Core.Models.Settlement;
+import Gnava.Core.Models.Settlement.Settlement;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 
 import java.util.Optional;
 
 public class SettlementEventContext extends WorldEventContext {
     private final SettlementManager settlementManager;
+    // TODO/NOTE: Maybe drop the Optional?
     private final Optional<Settlement> targetSettlement;
 
     public SettlementEventContext(

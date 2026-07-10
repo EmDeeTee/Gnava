@@ -1,8 +1,8 @@
 package Gnava.Desktop.Interface.Popups.Presets;
 
-import Gnava.Core.Models.Enums.SettlementWealthLevel;
-import Gnava.Core.Models.Settlement;
-import Gnava.Core.Models.Enums.SettlementPopulationType;
+import Gnava.Core.Models.Settlement.Enums.SettlementWealthLevel;
+import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Models.Settlement.Enums.SettlementPopulationType;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Popup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;

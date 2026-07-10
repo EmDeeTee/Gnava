@@ -2,7 +2,7 @@ package Gnava.Core.Commands;
 
 import Gnava.Core.Managers.SettlementCreationResult;
 import Gnava.Core.Managers.Settlement.SettlementManager;
-import Gnava.Core.Models.Settlement;
+import Gnava.Core.Models.Settlement.Settlement;
 import org.springframework.stereotype.Component;
 
 @Component

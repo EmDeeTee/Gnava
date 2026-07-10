@@ -1,6 +1,6 @@
 package Gnava.Core.Spells.Registered;
 
-import Gnava.Core.Models.Settlement;
+import Gnava.Core.Models.Settlement.Settlement;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Spells.SpellContext;
 import Gnava.Core.Spells.SpellOutcome;
@@ -16,7 +16,7 @@ public final class ShadowRealmSpell extends AbstractSpell {
             return new SpellOutcome(true, "Nobody to select in the settlement of %s".formatted(target.getName()));
         }
 
-        target.setTotalPopulation(target.getTotalPopulation() - 1);
+        target.addPopulation(-1);
         spellContext.playerBodyCountTallyService().incrementPlayerBodyCount();
         return new SpellOutcome(
             isGood(),

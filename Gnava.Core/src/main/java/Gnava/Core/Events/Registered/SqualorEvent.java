@@ -2,16 +2,16 @@ package Gnava.Core.Events.Registered;
 
 import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
-import Gnava.Core.Events.Conditions.SettlementNotInSqualorCondition;
+import Gnava.Core.Events.Conditions.Settlement.SettlementNotInSqualorCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Models.Enums.SettlementWealthLevel;
-import Gnava.Core.Models.Settlement;
-import org.springframework.stereotype.Service;
+import Gnava.Core.Models.Settlement.Enums.SettlementWealthLevel;
+import Gnava.Core.Models.Settlement.Settlement;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Service
+@Component
 public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEventContext> {
     @Override
     protected List<EventCondition<SettlementEventContext>> conditions() {

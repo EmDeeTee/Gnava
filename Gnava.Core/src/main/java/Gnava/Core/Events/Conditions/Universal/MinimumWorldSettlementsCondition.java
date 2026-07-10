@@ -1,5 +1,6 @@
-package Gnava.Core.Events.Conditions;
+package Gnava.Core.Events.Conditions.Universal;
 
+import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Contexts.EventContext;
 
 public final class MinimumWorldSettlementsCondition<C extends EventContext> implements EventCondition<C> {

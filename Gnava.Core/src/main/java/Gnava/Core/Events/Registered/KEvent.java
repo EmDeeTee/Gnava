@@ -2,14 +2,14 @@ package Gnava.Core.Events.Registered;
 
 import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
-import Gnava.Core.Events.Conditions.MinimumWorldPopulationCondition;
-import Gnava.Core.Events.Conditions.MinimumWorldSettlementsCondition;
+import Gnava.Core.Events.Conditions.Universal.MinimumWorldPopulationCondition;
+import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCondition;
 import Gnava.Core.Events.Contexts.WorldEventContext;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service
+@Component
 public final class KEvent extends AbstractGameEventDefinition<WorldEventContext> {
     @Override
     protected List<EventCondition<WorldEventContext>> conditions() {

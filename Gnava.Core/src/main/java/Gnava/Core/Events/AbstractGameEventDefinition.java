@@ -10,9 +10,9 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
     @Override
     public final ExecutedGameEvent happen(C context) {
         prepare(context);
+        apply(context);
         String title = resolveTitle(context);
         String description = resolveDescription(context);
-        apply(context);
         return new ExecutedGameEvent(title, description, isStoryEvent(), context.getGameState().getCurrentDay(), isMinor());
     }
 
