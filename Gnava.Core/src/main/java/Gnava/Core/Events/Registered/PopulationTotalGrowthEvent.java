@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+// TODO: Wealthy settlements should expand its total and max population faster
 @Component
 public final class PopulationTotalGrowthEvent extends AbstractGameEventDefinition<SettlementEventContext> {
     @Override
