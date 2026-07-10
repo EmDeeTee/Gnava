@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public final class GameEventManager extends AbstractGameManager {
-    private final Set<IGameEventDefinition<? extends EventContext>> executedGameEvents = new HashSet<>();
+    private final Set<IGameEventDefinition<? extends EventContext>> executedGameEventTypes = new HashSet<>();
     private final ApplicationEventPublisher applicationEventPublisher;
 
     private final List<IEventContextProvider<? extends EventContext>> eventContextProviders;
@@ -44,7 +44,7 @@ public final class GameEventManager extends AbstractGameManager {
         generateEventCandidates(events, context).ifPresent(candidates -> {
             IGameEventDefinition<T> selectedEvent = selectEventFromCandidates(candidates);
 
-            executedGameEvents.add(selectedEvent);
+            executedGameEventTypes.add(selectedEvent);
             applicationEventPublisher.publishEvent(
                 new ExecutedGameEventReceivedEvent(selectedEvent.happen(candidates.context()))
             );
@@ -59,7 +59,7 @@ public final class GameEventManager extends AbstractGameManager {
         double totalWeight = 0.0;
 
         for (IGameEventDefinition<T> event : events) {
-            if (executedGameEvents.contains(event) && event.firesOnce()) {
+            if (executedGameEventTypes.contains(event) && event.firesOnce()) {
                 continue;
             }
             if (!event.canRun(context)) {
