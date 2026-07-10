@@ -43,4 +43,9 @@ public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEv
 
         return reasons[ThreadLocalRandom.current().nextInt(reasons.length)];
     }
+
+    @Override
+    public float probability() {
+        return 0.15f;
+    }
 }
