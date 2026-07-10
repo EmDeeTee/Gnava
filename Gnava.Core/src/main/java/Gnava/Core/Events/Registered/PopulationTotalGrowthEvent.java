@@ -2,7 +2,7 @@ package Gnava.Core.Events.Registered;
 
 import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
-import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCondition;
+import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Models.Settlement.Settlement;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public final class PopulationTotalGrowthEvent extends AbstractGameEventDefinitio
     @Override
     protected List<EventCondition<SettlementEventContext>> conditions() {
         return List.of(
-            new MinimumWorldSettlementsCondition<>(1)
+            new MinimumWorldSettlementsCountCondition<>(1)
         );
     }
 

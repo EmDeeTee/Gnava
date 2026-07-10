@@ -3,7 +3,7 @@ package Gnava.Core.Events.Registered;
 import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.SettlementHasFreePopulationCapacityCondition;
-import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCondition;
+import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Models.Settlement.AddPopulationResult;
 import Gnava.Core.Models.Settlement.Settlement;
@@ -17,7 +17,7 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
     @Override
     protected List<EventCondition<SettlementEventContext>> conditions() {
         return List.of(
-            new MinimumWorldSettlementsCondition<>(1),
+            new MinimumWorldSettlementsCountCondition<>(1),
             new SettlementHasFreePopulationCapacityCondition()
         );
     }
