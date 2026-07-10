@@ -47,6 +47,6 @@ public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEv
 
     @Override
     public float probability() {
-        return 0.15f;
+        return 0.050f;
     }
 }
