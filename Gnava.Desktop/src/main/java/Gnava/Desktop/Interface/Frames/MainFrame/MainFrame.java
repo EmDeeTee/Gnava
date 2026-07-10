@@ -6,7 +6,6 @@ import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.EventBus.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.TimeManager;
-import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Core.Models.Settlement.Settlement;
 import Gnava.Desktop.Interface.Elements.AdvanceTimeButton;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
@@ -34,20 +33,17 @@ public class MainFrame extends JFrame {
 
     private final TimeManager timeManager;
     private final SettlementManager settlementManager;
-    private final VictoryConditionManager victoryConditionManager;
 
     public MainFrame(
         String title,
         TimeManager timeManager,
         SettlementManager settlementManager,
-        VictoryConditionManager victoryConditionManager,
         MenuBar menuBar
     ) {
         super(title);
         this.menu = menuBar;
         this.timeManager = timeManager;
         this.settlementManager = settlementManager;
-        this.victoryConditionManager = victoryConditionManager;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(PREFERRED_SIZE);
         setSize(PREFERRED_SIZE);

@@ -2,7 +2,6 @@ package Gnava.Launcher;
 
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.TimeManager;
-import Gnava.Core.Managers.VictoryConditionManager;
 import Gnava.Desktop.Gnava;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
@@ -19,14 +18,12 @@ public class GnavaConfiguration {
     public MainFrame gameFrame(
         TimeManager timeManager,
         SettlementManager settlementManager,
-        VictoryConditionManager victoryConditionManager,
         MenuBar menuBar
     ) {
         return new MainFrame(
             TranslationManager.getInstance().getTranslationTable().t(TranslationKey.GKINGDOMS),
             timeManager,
             settlementManager,
-            victoryConditionManager,
             menuBar
         );
     }
