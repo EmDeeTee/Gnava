@@ -1,6 +1,7 @@
 package Gnava.Desktop.Interface.Frames.MainFrame;
 
 import Gnava.Core.EventBus.Events.ExecutedGameEventReceivedEvent;
+import Gnava.Core.EventBus.Events.SettlementCreatedEvent;
 import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.EventBus.Events.GameOutcomeReceivedEvent;
@@ -17,7 +18,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.net.URL;
-import java.util.function.Consumer;
 
 public class MainFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
@@ -25,8 +25,6 @@ public class MainFrame extends JFrame {
     private final GameEventsPanel gameEventsPanel = new GameEventsPanel(this);
 
     private final DefaultListModel<Settlement> settlementListModel = new DefaultListModel<>();
-
-    private final Consumer<Settlement> settlementListener = this::onSettlementsChanged;
 
     private final JList<Settlement> settlementList = new JList<>(settlementListModel);
     private final JLabel currentDayValueLabel = new JLabel("0");
@@ -111,12 +109,11 @@ public class MainFrame extends JFrame {
     }
 
     private void registerListeners() {
-        settlementManager.addSettlementCreatedListener(settlementListener);
-
         settlementList.addListSelectionListener(onSettlementSelected());
     }
 
-    private void onSettlementsChanged(Settlement newSettlement) {
+    @EventListener
+    private void onSettlementCreated(SettlementCreatedEvent event) {
         SwingUtilities.invokeLater(() -> {
             settlementListModel.clear();
             for (Settlement s : settlementManager.getSettlements()) {

@@ -9,6 +9,7 @@ import Gnava.Desktop.Interface.Actions.CastSpellAction;
 import Gnava.Desktop.Interface.Actions.CreateSettlementAction;
 import Gnava.Desktop.Interface.Actions.ShowSpellsStatisticsAction;
 import Gnava.Desktop.Interface.Actions.ShowWorldStatisticsAction;
+import Gnava.Desktop.Interface.Frames.DetailsFrame.DetailsFrame;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.CreateSettlementPopup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
@@ -24,8 +25,11 @@ public class MenuBar extends JMenuBar {
     private final JMenuItem createSettlementItem = new JMenuItem("Create settlement");
 
     private final JMenu statisticsMenu = new JMenu("Statistics");
+    private final JMenu viewMenu = new JMenu("View");
+
     private final JMenuItem showWorldStatisticsItem = new JMenuItem("World statistics");
     private final JMenuItem showSpellStatisticsItem = new JMenuItem("Spell statistics");
+    private final JMenuItem openDetailsWindowItem = new JMenuItem("Details");
 
     private final JMenu spellMenu = new JMenu(TranslationManager.getInstance().getTranslationTable().t(TranslationKey.MENU_SPELL_BOOK));
 
@@ -37,7 +41,8 @@ public class MenuBar extends JMenuBar {
         CastSpellCommand castSpellCommand,
         WorldStatisticsProvider worldStatisticsProvider,
         SpellStatisticsProvider spellStatisticsProvider,
-        List<AbstractSpell> spells
+        List<AbstractSpell> spells,
+        DetailsFrame detailsFrame
     ) {
         super();
         this.castSpellCommand = castSpellCommand;
@@ -45,6 +50,7 @@ public class MenuBar extends JMenuBar {
         actionsMenu.add(createSettlementItem);
         statisticsMenu.add(showWorldStatisticsItem);
         statisticsMenu.add(showSpellStatisticsItem);
+        viewMenu.add(openDetailsWindowItem);
 
         registerSpellMenuItems();
 
@@ -59,10 +65,14 @@ public class MenuBar extends JMenuBar {
         );
         showWorldStatisticsItem.addActionListener(new ShowWorldStatisticsAction(worldStatisticsProvider));
         showSpellStatisticsItem.addActionListener(new ShowSpellsStatisticsAction(spellStatisticsProvider));
+        openDetailsWindowItem.addActionListener(a -> {
+            detailsFrame.setVisible(true);
+        });
 
         add(actionsMenu);
         add(spellMenu);
         add(statisticsMenu);
+        add(viewMenu);
     }
 
     private void registerSpellMenuItems() {
