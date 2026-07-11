@@ -11,7 +11,7 @@ public final class MinimumGameDayCondition<C extends EventContext> implements Ev
     }
 
     @Override
-    public boolean isSatisfied(C eventContext) {
-        return eventContext.getGameState().getCurrentDay() >= minimumGameDay;
+    public boolean isSatisfied(C context) {
+        return context.getGameState().getCurrentDay() >= minimumGameDay;
     }
 }

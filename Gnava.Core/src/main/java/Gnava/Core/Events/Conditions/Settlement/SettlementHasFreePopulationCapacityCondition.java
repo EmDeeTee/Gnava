@@ -5,7 +5,7 @@ import Gnava.Core.Events.Contexts.SettlementEventContext;
 
 public final class SettlementHasFreePopulationCapacityCondition implements EventCondition<SettlementEventContext> {
     @Override
-    public boolean isSatisfied(SettlementEventContext eventContext) {
-        return eventContext.getRandomTargetSettlement().orElseThrow().getPopulationCapacityRemaining() > 0;
+    public boolean isSatisfied(SettlementEventContext context) {
+        return context.getRandomTargetSettlement().orElseThrow().getPopulationCapacityRemaining() > 0;
     }
 }

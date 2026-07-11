@@ -11,7 +11,7 @@ public final class MinimumWorldSettlementsCountCondition<C extends EventContext>
     }
 
     @Override
-    public boolean isSatisfied(C eventContext) {
-        return eventContext.getWorldStatistics().settlementCount() >= minimumSettlements;
+    public boolean isSatisfied(C context) {
+        return context.getWorldStatistics().settlementCount() >= minimumSettlements;
     }
 }

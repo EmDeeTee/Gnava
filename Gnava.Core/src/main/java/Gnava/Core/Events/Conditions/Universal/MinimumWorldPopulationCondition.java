@@ -11,7 +11,7 @@ public final class MinimumWorldPopulationCondition<C extends EventContext> imple
     }
 
     @Override
-    public boolean isSatisfied(C eventContext) {
-        return eventContext.getWorldStatistics().population() >= minimumPopulation;
+    public boolean isSatisfied(C context) {
+        return context.getWorldStatistics().population() >= minimumPopulation;
     }
 }
