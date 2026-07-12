@@ -1,7 +1,10 @@
 package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 
 import Gnava.Core.Commands.CastSpellCommand;
+import Gnava.Core.Commands.CastSpellRequest;
 import Gnava.Core.Commands.CreateSettlementCommand;
+import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Statistics.SpellStatisticsProvider;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
@@ -12,12 +15,15 @@ import Gnava.Desktop.Interface.Actions.ShowWorldStatisticsAction;
 import Gnava.Desktop.Interface.Frames.DetailsFrame.DetailsFrame;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.CreateSettlementPopup;
+import Gnava.Desktop.Interface.Popups.Presets.SettlementSelectionPopup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.TranslationManager;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class MenuBar extends JMenuBar {
@@ -36,17 +42,21 @@ public class MenuBar extends JMenuBar {
     private final CastSpellCommand castSpellCommand;
     private final List<AbstractSpell> spells;
 
+    private final ISettlementProvider settlementProvider;
+
     public MenuBar(
         CreateSettlementCommand createSettlementCommand,
         CastSpellCommand castSpellCommand,
         WorldStatisticsProvider worldStatisticsProvider,
         SpellStatisticsProvider spellStatisticsProvider,
         List<AbstractSpell> spells,
-        DetailsFrame detailsFrame
+        DetailsFrame detailsFrame,
+        ISettlementProvider settlementProvider
     ) {
         super();
         this.castSpellCommand = castSpellCommand;
         this.spells = spells;
+        this.settlementProvider = settlementProvider;
         actionsMenu.add(createSettlementItem);
         statisticsMenu.add(showWorldStatisticsItem);
         statisticsMenu.add(showSpellStatisticsItem);
@@ -78,14 +88,27 @@ public class MenuBar extends JMenuBar {
     private void registerSpellMenuItems() {
         for (AbstractSpell spell : spells) {
             JMenuItem item = new JMenuItem(spell.getName());
-            item.addActionListener(
-                new CastSpellAction(
-                    castSpellCommand,
-                    () -> spell,
-                    SwingUtilities.getWindowAncestor(this)
-                )
-            );
+            item.addActionListener(a -> {
+                if (spell.needsExplicitTarget()) {
+                    new SettlementSelectionPopup(
+                        SwingUtilities.getWindowAncestor(this),
+                        settlementProvider.getAll()
+                    ).show().ifPresent(settlement -> {
+                        executeSpell(spell, settlement);
+                    });
+                } else {
+                    executeSpell(spell, null);
+                }
+            });
             spellMenu.add(item);
         }
+    }
+
+    private void executeSpell(AbstractSpell spell, @Nullable Settlement target) {
+        new CastSpellAction(
+            castSpellCommand,
+            () -> new CastSpellRequest(spell, target),
+            SwingUtilities.getWindowAncestor(this)
+        ).execute();
     }
 }

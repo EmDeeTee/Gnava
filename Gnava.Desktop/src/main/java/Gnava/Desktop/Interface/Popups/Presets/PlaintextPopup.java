@@ -5,7 +5,7 @@ import Gnava.Desktop.Interface.Popups.Popup;
 import javax.swing.*;
 import java.awt.*;
 
-public class PlaintextPopup extends Popup<Boolean> {
+public final class PlaintextPopup extends Popup<Boolean> {
     private final String message;
 
     public PlaintextPopup(Window owner, String message) {

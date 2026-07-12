@@ -1,12 +1,11 @@
 package Gnava.Core.Commands;
 
-import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Managers.Spells.SpellManager;
 import Gnava.Core.Spells.SpellOutcome;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CastSpellCommand implements Command<AbstractSpell, SpellOutcome> {
+public class CastSpellCommand implements Command<CastSpellRequest, SpellOutcome> {
     private final SpellManager spellManager;
 
     public CastSpellCommand(SpellManager spellManager) {
@@ -14,7 +13,11 @@ public class CastSpellCommand implements Command<AbstractSpell, SpellOutcome> {
     }
 
     @Override
-    public SpellOutcome execute(AbstractSpell spell) {
-        return spellManager.castSpell(spell);
+    public SpellOutcome execute(CastSpellRequest request) {
+        if (request.target() != null) {
+            return spellManager.castSpell(request.spell(), request.target());
+        } else {
+            return spellManager.castSpell(request.spell());
+        }
     }
 }

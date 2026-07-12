@@ -2,6 +2,7 @@ package Gnava.Core.Managers.Spells;
 
 import Gnava.Core.GameState;
 import Gnava.Core.Managers.AbstractGameManager;
+import Gnava.Core.Models.Settlement.Settlement;
 import Gnava.Core.RaceNames.CreatureNameGenerator;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Spells.AbstractSpell;
@@ -33,22 +34,30 @@ public final class SpellManager extends AbstractGameManager {
     }
 
     public SpellOutcome castSpell(AbstractSpell spell) {
+        return castSpell(spell, settlementProvider.getRandom());
+    }
+
+    public SpellOutcome castSpell(AbstractSpell spell, Settlement target) {
         SpellOutcome spellOutcome = spell.cast(
             new SpellContext(
                 gameState,
-                settlementProvider.getRandom(),
+                target,
                 creatureNameGenerator,
                 playerBodyCountTallyService
             )
         );
 
+        updateSpellStatistics(spellOutcome);
+
+        return spellOutcome;
+    }
+
+    private void updateSpellStatistics(SpellOutcome spellOutcome) {
         if (spellOutcome.isGood()) {
             spellStatisticsManager.incrementGoodOutcomes();
         } else {
             spellStatisticsManager.incrementBadOutcomes();
         }
         spellStatisticsManager.incrementCastedSpells();
-
-        return spellOutcome;
     }
 }

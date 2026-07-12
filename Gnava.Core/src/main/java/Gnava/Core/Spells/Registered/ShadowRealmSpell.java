@@ -37,4 +37,9 @@ public final class ShadowRealmSpell extends AbstractSpell {
     public boolean isGood() {
         return false;
     }
+
+    @Override
+    public boolean needsExplicitTarget() {
+        return true;
+    }
 }

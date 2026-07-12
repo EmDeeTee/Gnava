@@ -21,4 +21,9 @@ public final class TestSpell extends AbstractSpell {
     public boolean isGood() {
         return true;
     }
+
+    @Override
+    public boolean needsExplicitTarget() {
+        return false;
+    }
 }
