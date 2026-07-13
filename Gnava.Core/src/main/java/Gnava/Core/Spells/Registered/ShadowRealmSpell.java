@@ -1,6 +1,7 @@
 package Gnava.Core.Spells.Registered;
 
 import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.RaceNames.DefaultCreatureName;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Spells.SpellContext;
 import Gnava.Core.Spells.SpellOutcome;
@@ -22,7 +23,12 @@ public final class ShadowRealmSpell extends AbstractSpell {
             isGood(),
             "You banished a %s, %s from %s to the shadow realm.".formatted(
                 spellContext.settlementTarget().getPopulationType().name().toLowerCase(),
-                spellContext.creatureNameGenerator().generate(spellContext.settlementTarget().getPopulationType()),
+                spellContext
+                    .creatureNameGenerator()
+                    .generate(spellContext.settlementTarget().getPopulationType())
+                    .creatureName()
+                    .orElse(DefaultCreatureName.get())
+                    .fullName(),
                 target.getName()
             )
         );
