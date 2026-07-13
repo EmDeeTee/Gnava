@@ -20,6 +20,7 @@ public final class SettlementNameGenerator {
         ISettlementNamesProvider provider = settlementNamesProviders.stream()
             .filter(p -> p.getType() == targetPopulationType)
             .findFirst()
+            // NOTE/TODO: Maybe use an Optional instead
             .orElseThrow(() -> new NoSuchElementException("Name provider empty"));
 
         List<String> names = provider.getSettlementNames();
