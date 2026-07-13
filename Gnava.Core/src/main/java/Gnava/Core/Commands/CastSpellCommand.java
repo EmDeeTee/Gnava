@@ -5,7 +5,7 @@ import Gnava.Core.Spells.SpellOutcome;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CastSpellCommand implements Command<CastSpellRequest, SpellOutcome> {
+public class CastSpellCommand implements Command<CastSpellRequest, SpellOutcome> { 
     private final SpellManager spellManager;
 
     public CastSpellCommand(SpellManager spellManager) {
