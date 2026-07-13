@@ -43,10 +43,12 @@ class CreatureNameGeneratorTest {
     void generate_returnsCreatureName_whenProviderExists_forGnomes() {
         CreatureNameGenerationResult result = generator.generate(SettlementPopulationType.GNOME);
 
+        assertTrue(result.creatureName().isPresent());
+        CreatureName creatureName = result.creatureName().get();
+
         assertNotNull(result);
-        assertEquals("Gnome", result.creatureName().firstname());
-        assertEquals("Gnomington", result.creatureName().lastname());
-        assertTrue(result.ok());
+        assertEquals("Gnome", creatureName.firstname());
+        assertEquals("Gnomington", creatureName.lastname());
         assertEquals(SettlementPopulationType.GNOME, result.populationType());
 
         verify(gnomeProvider).getCreatureNames();
@@ -56,10 +58,12 @@ class CreatureNameGeneratorTest {
     void generate_returnsCreatureName_whenProviderExists_forDwarfs() {
         CreatureNameGenerationResult result = generator.generate(SettlementPopulationType.DWARF);
 
+        assertTrue(result.creatureName().isPresent());
+        CreatureName creatureName = result.creatureName().get();
+
         assertNotNull(result);
-        assertEquals("Dwarf", result.creatureName().firstname());
-        assertEquals("Dwarfy", result.creatureName().lastname());
-        assertTrue(result.ok());
+        assertEquals("Dwarf", creatureName.firstname());
+        assertEquals("Dwarfy", creatureName.lastname());
         assertEquals(SettlementPopulationType.DWARF, result.populationType());
 
         verify(dwarfProvider).getCreatureNames();
@@ -69,10 +73,7 @@ class CreatureNameGeneratorTest {
     void generate_returnsFallbackName_whenProviderDoesNotExist() {
         CreatureNameGenerationResult result = generator.generate(SettlementPopulationType.GOBLIN);
 
-        assertNotNull(result);
-        assertEquals("Provider", result.creatureName().firstname());
-        assertEquals("Not found", result.creatureName().lastname());
-        assertFalse(result.ok());
+        assertTrue(result.creatureName().isEmpty());
         assertEquals(SettlementPopulationType.GOBLIN, result.populationType());
 
         verify(goblinProvider).getCreatureNames();
