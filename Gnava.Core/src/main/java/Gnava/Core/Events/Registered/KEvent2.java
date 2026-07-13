@@ -28,6 +28,11 @@ public final class KEvent2 extends AbstractGameEventDefinition<SettlementEventCo
     }
 
     @Override
+    protected void apply(SettlementEventContext context) {
+        context.getRandomTargetSettlement().addPopulation(-100);
+    }
+
+    @Override
     protected String resolveTitle(SettlementEventContext context) {
         return "Rumors of ruin";
     }
