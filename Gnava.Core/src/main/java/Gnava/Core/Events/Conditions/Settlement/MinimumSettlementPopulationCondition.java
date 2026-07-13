@@ -12,6 +12,6 @@ public final class MinimumSettlementPopulationCondition implements EventConditio
 
     @Override
     public boolean isSatisfied(SettlementEventContext context) {
-        return context.getRandomTargetSettlement().orElseThrow().getTotalPopulation() > minimum;
+        return context.getRandomTargetSettlement().getTotalPopulation() > minimum;
     }
 }

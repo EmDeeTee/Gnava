@@ -5,12 +5,9 @@ import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 
-import java.util.Optional;
-
 public class SettlementEventContext extends WorldEventContext {
     private final SettlementManager settlementManager;
-    // TODO/NOTE: Maybe drop the Optional?
-    private final Optional<Settlement> targetSettlement;
+    private final Settlement targetSettlement;
 
     public SettlementEventContext(
         GameState gameState,
@@ -20,10 +17,10 @@ public class SettlementEventContext extends WorldEventContext {
     ) {
         super(gameState, worldStatisticsProvider);
         this.settlementManager = settlementManager;
-        this.targetSettlement = Optional.ofNullable(targetSettlement);
+        this.targetSettlement = targetSettlement;
     }
 
-    public Optional<Settlement> getRandomTargetSettlement() {
+    public Settlement getRandomTargetSettlement() {
         return targetSettlement;
     }
 

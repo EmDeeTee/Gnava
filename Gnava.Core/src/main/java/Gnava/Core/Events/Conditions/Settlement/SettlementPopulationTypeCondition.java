@@ -13,6 +13,6 @@ public final class SettlementPopulationTypeCondition implements EventCondition<S
 
     @Override
     public boolean isSatisfied(SettlementEventContext context) {
-        return context.getRandomTargetSettlement().orElseThrow().getPopulationType() == target;
+        return context.getRandomTargetSettlement().getPopulationType() == target;
     }
 }

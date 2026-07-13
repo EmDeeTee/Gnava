@@ -23,14 +23,14 @@ public final class PopulationTotalGrowthEvent extends AbstractGameEventDefinitio
     @Override
     protected String resolveDescription(SettlementEventContext context) {
         return "%s has expanded its borders to allow for %d more homes".formatted(
-            context.getRandomTargetSettlement().orElseThrow().getName(),
+            context.getRandomTargetSettlement().getName(),
             context.get("growth", Integer.class).orElseThrow()
         );
     }
 
     @Override
     protected String resolveTitle(SettlementEventContext context) {
-        return "%s expands".formatted(context.getRandomTargetSettlement().orElseThrow().getName());
+        return "%s expands".formatted(context.getRandomTargetSettlement().getName());
     }
 
     @Override
@@ -40,7 +40,7 @@ public final class PopulationTotalGrowthEvent extends AbstractGameEventDefinitio
 
     @Override
     protected void apply(SettlementEventContext context) {
-        Settlement target = context.getRandomTargetSettlement().orElseThrow();
+        Settlement target = context.getRandomTargetSettlement();
 
         target.setMaxPopulation(target.getMaxPopulation() + context.get("growth", Integer.class).orElseThrow());
     }

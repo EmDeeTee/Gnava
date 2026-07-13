@@ -22,8 +22,8 @@ public final class KEvent2 extends AbstractGameEventDefinition<SettlementEventCo
     protected String resolveDescription(SettlementEventContext context) {
         return "There is talk of a very dangerous person roaming the realm at night.<br><br>It got so bad that 100 %s escaped from %s."
             .formatted(
-                context.getRandomTargetSettlement().orElseThrow().getPopulationType().plural(),
-                context.getRandomTargetSettlement().orElseThrow().getName()
+                context.getRandomTargetSettlement().getPopulationType().plural(),
+                context.getRandomTargetSettlement().getName()
             );
     }
 

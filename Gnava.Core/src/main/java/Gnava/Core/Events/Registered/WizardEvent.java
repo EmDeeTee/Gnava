@@ -24,7 +24,7 @@ public final class WizardEvent extends AbstractGameEventDefinition<SettlementEve
         // TODO: Add wizard names to names generator
         return "A local wizard, %s, discovered ancient ruins in %s. Dozens flock to the settlement to see".formatted(
             "WIZARD_NAME",
-            context.getRandomTargetSettlement().orElseThrow().getName()
+            context.getRandomTargetSettlement().getName()
         );
     }
 

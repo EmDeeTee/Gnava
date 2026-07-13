@@ -22,7 +22,7 @@ public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEv
 
     @Override
     protected void apply(SettlementEventContext context) {
-        context.getRandomTargetSettlement().orElseThrow().setWealthLevel(SettlementWealthLevel.DESTITUTE);
+        context.getRandomTargetSettlement().setWealthLevel(SettlementWealthLevel.DESTITUTE);
     }
 
     @Override
@@ -32,14 +32,14 @@ public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEv
 
     @Override
     protected String resolveTitle(SettlementEventContext context) {
-        Settlement settlement = context.getRandomTargetSettlement().orElseThrow();
+        Settlement settlement = context.getRandomTargetSettlement();
         return "Squalor hits " + settlement.getName();
     }
 
     private String getReason(SettlementEventContext context) {
         String[] reasons = {
-            "Because of bad budget management, %s is now in squalor".formatted(context.getRandomTargetSettlement().orElseThrow()),
-            "%s got hit with a Squalormelon".formatted(context.getRandomTargetSettlement().orElseThrow())
+            "Because of bad budget management, %s is now in squalor".formatted(context.getRandomTargetSettlement()),
+            "%s got hit with a Squalormelon".formatted(context.getRandomTargetSettlement())
         };
 
         return reasons[ThreadLocalRandom.current().nextInt(reasons.length)];

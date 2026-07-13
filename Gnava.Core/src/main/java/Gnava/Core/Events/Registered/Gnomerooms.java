@@ -26,11 +26,11 @@ public final class Gnomerooms extends AbstractGameEventDefinition<SettlementEven
     protected String resolveDescription(SettlementEventContext context) {
         return "%s from %s fell into the gnomerooms".formatted(
             creatureNameGenerator
-                .generate(context.getRandomTargetSettlement().orElseThrow().getPopulationType())
+                .generate(context.getRandomTargetSettlement().getPopulationType())
                 .creatureName()
                 .orElse(DefaultCreatureName.get())
                 .fullName(),
-            context.getRandomTargetSettlement().orElseThrow().getName()
+            context.getRandomTargetSettlement().getName()
         );
     }
 
@@ -55,7 +55,7 @@ public final class Gnomerooms extends AbstractGameEventDefinition<SettlementEven
 
     @Override
     protected void apply(SettlementEventContext context) {
-        Settlement target = context.getRandomTargetSettlement().orElseThrow();
+        Settlement target = context.getRandomTargetSettlement();
         target.addPopulation(-1);
     }
 }

@@ -24,7 +24,7 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
 
     @Override
     protected void prepare(SettlementEventContext context) {
-        Settlement settlement = context.getRandomTargetSettlement().orElseThrow();
+        Settlement settlement = context.getRandomTargetSettlement();
 
         int growth = settlement.getMaxPopulation() > 1000
             ? ThreadLocalRandom.current().nextInt(1, 175)
@@ -35,7 +35,7 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
     @Override
     protected String resolveTitle(SettlementEventContext context) {
         return "Population grows in %s".formatted(
-            context.getRandomTargetSettlement().orElseThrow()
+            context.getRandomTargetSettlement()
         );
     }
 
@@ -48,7 +48,7 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
         StringBuilder message = new StringBuilder();
 
         message.append("Population grows in %s by %d".formatted(
-            context.getRandomTargetSettlement().orElseThrow(),
+            context.getRandomTargetSettlement(),
             added
         ));
 
@@ -63,7 +63,7 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
 
     @Override
     protected void apply(SettlementEventContext context) {
-        Settlement settlement = context.getRandomTargetSettlement().orElseThrow();
+        Settlement settlement = context.getRandomTargetSettlement();
         Integer growth = context.get("growth", Integer.class).orElseThrow(RuntimeException::new);
 
         AddPopulationResult result = settlement.addPopulation(growth);

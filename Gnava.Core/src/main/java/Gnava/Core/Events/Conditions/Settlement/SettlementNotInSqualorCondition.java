@@ -7,6 +7,6 @@ import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
 public final class SettlementNotInSqualorCondition implements EventCondition<SettlementEventContext> {
     @Override
     public boolean isSatisfied(SettlementEventContext context) {
-        return context.getRandomTargetSettlement().orElseThrow().getWealthLevel() != SettlementWealthLevel.DESTITUTE;
+        return context.getRandomTargetSettlement().getWealthLevel() != SettlementWealthLevel.DESTITUTE;
     }
 }
