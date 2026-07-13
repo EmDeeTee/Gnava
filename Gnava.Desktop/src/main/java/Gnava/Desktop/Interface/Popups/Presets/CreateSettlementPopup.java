@@ -1,8 +1,10 @@
 package Gnava.Desktop.Interface.Popups.Presets;
 
-import Gnava.Core.Models.Settlement.Enums.SettlementWealthLevel;
-import Gnava.Core.Models.Settlement.Settlement;
-import Gnava.Core.Models.Settlement.Enums.SettlementPopulationType;
+import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
+import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
+import Gnava.Core.Settlements.Settlement;
+import Gnava.Core.Settlements.Enums.SettlementPopulationType;
+import Gnava.Desktop.Interface.Elements.GnavaButton;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Popup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
@@ -15,13 +17,14 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
     private final JTextField nameField = new JTextField(15);
     private final JComboBox<SettlementPopulationType> populationTypeCombo = new JComboBox<>(SettlementPopulationType.values());
     private final boolean player;
+    private final SettlementNameGenerator settlementNameGenerator;
 
-    public CreateSettlementPopup(MainFrame mainFrame) {
+    public CreateSettlementPopup(MainFrame mainFrame, SettlementNameGenerator settlementNameGenerator) {
         this(
             mainFrame,
             TranslationManager.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT),
             false,
-            false
+            false, settlementNameGenerator
         );
     }
 
@@ -29,9 +32,11 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
         MainFrame mainFrame,
         String title,
         boolean forced,
-        boolean isForPlayer
+        boolean isForPlayer,
+        SettlementNameGenerator settlementNameGenerator
     ) {
         super(mainFrame, title);
+        this.settlementNameGenerator = settlementNameGenerator;
         withDefaultOk(this::submit);
         if (!forced) {
             withDefaultCancel(null);
@@ -41,13 +46,44 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
 
     @Override
     protected JComponent buildContent() {
-        JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5));
+        JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        panel.add(new JLabel(TranslationManager.getInstance().getTranslationTable().t(TranslationKey.NAME) + ":"));
-        panel.add(nameField);
-        panel.add(new JLabel("Population type:"));
-        panel.add(populationTypeCombo);
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        panel.add(new JLabel(TranslationManager.getInstance().getTranslationTable().t(TranslationKey.NAME) + ":"), gbc);
+
+        JPanel nameFieldPane = new JPanel();
+        nameFieldPane.setLayout(new BoxLayout(nameFieldPane, BoxLayout.X_AXIS));
+        nameFieldPane.add(nameField);
+        nameFieldPane.add(Box.createHorizontalStrut(5));
+        GnavaButton randomNameButton = new GnavaButton("Random");
+        randomNameButton.addActionListener(l -> {
+            SettlementPopulationType populationType = (SettlementPopulationType) populationTypeCombo.getSelectedItem();
+            String name = settlementNameGenerator.generate(populationType).name();
+            nameField.setText(name);
+        });
+        nameFieldPane.add(randomNameButton);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        panel.add(nameFieldPane, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+        panel.add(new JLabel("Population type:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        panel.add(populationTypeCombo, gbc);
 
         return panel;
     }

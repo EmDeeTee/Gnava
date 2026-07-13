@@ -1,6 +1,6 @@
 package Gnava.Core.Commands;
 
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Spells.AbstractSpell;
 import org.jetbrains.annotations.Nullable;
 

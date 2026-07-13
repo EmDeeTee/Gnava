@@ -1,5 +1,5 @@
 package Gnava.Core.EventBus.Events;
 
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 
 public record SettlementCreatedEvent(Settlement newSettlement) { }

@@ -5,8 +5,8 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.SettlementHasFreePopulationCapacityCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Models.Settlement.AddPopulationResult;
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.AddPopulationResult;
+import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

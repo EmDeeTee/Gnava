@@ -1,6 +1,6 @@
 package Gnava.Core.RaceNames;
 
-import Gnava.Core.Models.Settlement.Enums.SettlementPopulationType;
+import Gnava.Core.Settlements.Enums.SettlementPopulationType;
 import Gnava.Core.RaceNames.Providers.ICreatureNamesProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

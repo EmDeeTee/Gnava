@@ -5,7 +5,7 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -4,7 +4,7 @@ import Gnava.Core.EventBus.Events.SettlementCreatedEvent;
 import Gnava.Core.GameState;
 import Gnava.Core.Managers.AbstractGameManager;
 import Gnava.Core.Managers.SettlementCreationResult;
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Repositories.ISettlementRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Popups.Presets;
 
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 import Gnava.Desktop.Interface.Popups.Popup;
 
 import javax.swing.*;

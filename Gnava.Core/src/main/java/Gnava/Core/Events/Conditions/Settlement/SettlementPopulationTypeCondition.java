@@ -2,7 +2,7 @@ package Gnava.Core.Events.Conditions.Settlement;
 
 import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Models.Settlement.Enums.SettlementPopulationType;
+import Gnava.Core.Settlements.Enums.SettlementPopulationType;
 
 public final class SettlementPopulationTypeCondition implements EventCondition<SettlementEventContext> {
     private final SettlementPopulationType target;

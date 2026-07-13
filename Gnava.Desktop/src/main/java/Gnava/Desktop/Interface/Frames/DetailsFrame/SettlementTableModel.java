@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Frames.DetailsFrame;
 
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;

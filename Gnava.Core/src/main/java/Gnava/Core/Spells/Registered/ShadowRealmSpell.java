@@ -1,6 +1,6 @@
 package Gnava.Core.Spells.Registered;
 
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.RaceNames.DefaultCreatureName;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Spells.SpellContext;

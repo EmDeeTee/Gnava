@@ -1,7 +1,7 @@
-package Gnava.Core.Models.Settlement;
+package Gnava.Core.Settlements;
 
-import Gnava.Core.Models.Settlement.Enums.SettlementPopulationType;
-import Gnava.Core.Models.Settlement.Enums.SettlementWealthLevel;
+import Gnava.Core.Settlements.Enums.SettlementPopulationType;
+import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
 
 public final class Settlement {
     private final String name;

@@ -1,4 +1,4 @@
-package Gnava.Core.Models.Settlement;
+package Gnava.Core.Settlements;
 
 public record AddPopulationResult(
     int requestedAmount,

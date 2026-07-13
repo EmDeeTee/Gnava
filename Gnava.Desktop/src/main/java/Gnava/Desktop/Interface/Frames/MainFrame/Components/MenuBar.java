@@ -3,7 +3,8 @@ package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 import Gnava.Core.Commands.CastSpellCommand;
 import Gnava.Core.Commands.CastSpellRequest;
 import Gnava.Core.Commands.CreateSettlementCommand;
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
+import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Statistics.SpellStatisticsProvider;
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class MenuBar extends JMenuBar {
@@ -51,7 +51,8 @@ public class MenuBar extends JMenuBar {
         SpellStatisticsProvider spellStatisticsProvider,
         List<AbstractSpell> spells,
         DetailsFrame detailsFrame,
-        ISettlementProvider settlementProvider
+        ISettlementProvider settlementProvider,
+        SettlementNameGenerator settlementNameGenerator
     ) {
         super();
         this.castSpellCommand = castSpellCommand;
@@ -69,7 +70,7 @@ public class MenuBar extends JMenuBar {
                 createSettlementCommand,
                 () -> {
                     MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-                    return new CreateSettlementPopup(frame).show().orElseThrow();
+                    return new CreateSettlementPopup(frame, settlementNameGenerator).show().orElseThrow();
                 }
             )
         );

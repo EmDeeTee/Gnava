@@ -2,7 +2,6 @@ package Gnava.Launcher;
 
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.TimeManager;
-import Gnava.Desktop.Gnava;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
@@ -26,10 +25,5 @@ public class GnavaConfiguration {
             settlementManager,
             menuBar
         );
-    }
-
-    @Bean
-    public Gnava gnava(MainFrame mainFrame, SettlementManager settlementManager) {
-        return new Gnava(mainFrame, settlementManager);
     }
 }

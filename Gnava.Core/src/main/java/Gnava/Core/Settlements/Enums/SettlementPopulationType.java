@@ -1,4 +1,4 @@
-package Gnava.Core.Models.Settlement.Enums;
+package Gnava.Core.Settlements.Enums;
 
 public enum SettlementPopulationType {
     GNOME,

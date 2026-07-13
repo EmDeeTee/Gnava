@@ -1,6 +1,6 @@
 package Gnava.Repositories;
 
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Repositories.ISettlementRepository;
 import org.springframework.stereotype.Repository;
 

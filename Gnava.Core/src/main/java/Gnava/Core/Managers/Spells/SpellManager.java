@@ -2,7 +2,7 @@ package Gnava.Core.Managers.Spells;
 
 import Gnava.Core.GameState;
 import Gnava.Core.Managers.AbstractGameManager;
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.RaceNames.CreatureNameGenerator;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Spells.AbstractSpell;

@@ -7,7 +7,7 @@ import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.EventBus.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.TimeManager;
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 import Gnava.Desktop.Interface.Elements.AdvanceTimeButton;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;

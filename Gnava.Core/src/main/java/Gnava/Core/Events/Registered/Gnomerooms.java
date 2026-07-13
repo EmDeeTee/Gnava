@@ -6,8 +6,8 @@ import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondit
 import Gnava.Core.Events.Conditions.Settlement.SettlementPopulationTypeCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Models.Settlement.Enums.SettlementPopulationType;
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Enums.SettlementPopulationType;
+import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.RaceNames.CreatureNameGenerator;
 import Gnava.Core.RaceNames.DefaultCreatureName;
 import org.springframework.stereotype.Component;

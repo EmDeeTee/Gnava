@@ -1,6 +1,6 @@
 package Gnava.Core.Repositories;
 
-import Gnava.Core.Models.Settlement.Settlement;
+import Gnava.Core.Settlements.Settlement;
 
 import java.util.List;
 
