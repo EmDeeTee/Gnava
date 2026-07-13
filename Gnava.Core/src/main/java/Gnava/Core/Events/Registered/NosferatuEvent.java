@@ -15,9 +15,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class NosferatuEvent extends AbstractGameEventDefinition<SettlementEventContext> {
     @Override
     protected String resolveDescription(SettlementEventContext context) {
-        return "Nosferatu attacked %s and ate %d residents".formatted(
+        return "Nosferatu attacked %s and ate %d %s".formatted(
             context.getRandomTargetSettlement(),
-            context.get("damage", Integer.class).orElseThrow()
+            context.get("damage", Integer.class).orElseThrow(),
+            context.getRandomTargetSettlement().getPopulationType().plural()
         );
     }
 
