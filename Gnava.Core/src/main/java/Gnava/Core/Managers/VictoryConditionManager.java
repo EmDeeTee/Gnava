@@ -15,8 +15,8 @@ public final class VictoryConditionManager extends AbstractGameManager {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public VictoryConditionManager(
-            GameState gameState,
-            WorldStatisticsProvider worldStatisticsProvider, ApplicationEventPublisher applicationEventPublisher
+        GameState gameState,
+        WorldStatisticsProvider worldStatisticsProvider, ApplicationEventPublisher applicationEventPublisher
     ) {
         super(gameState);
         this.worldStatisticsProvider = worldStatisticsProvider;
