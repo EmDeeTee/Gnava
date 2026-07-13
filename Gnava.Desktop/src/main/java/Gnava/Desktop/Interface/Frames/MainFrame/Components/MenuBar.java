@@ -65,15 +65,15 @@ public class MenuBar extends JMenuBar {
 
         registerSpellMenuItems();
 
-        createSettlementItem.addActionListener(
-            new CreateSettlementAction(
-                createSettlementCommand,
-                () -> {
-                    MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-                    return new CreateSettlementPopup(frame, settlementNameGenerator).show().orElseThrow();
-                }
-            )
-        );
+        createSettlementItem.addActionListener(l -> {
+            MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+            new CreateSettlementPopup(frame, settlementNameGenerator).show().ifPresent(settlement -> {
+                new CreateSettlementAction(
+                    createSettlementCommand,
+                    () -> settlement
+                ).execute();
+            });
+        });
         showWorldStatisticsItem.addActionListener(new ShowWorldStatisticsAction(worldStatisticsProvider));
         showSpellStatisticsItem.addActionListener(new ShowSpellsStatisticsAction(spellStatisticsProvider));
         openDetailsWindowItem.addActionListener(a -> {
