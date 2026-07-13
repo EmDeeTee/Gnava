@@ -32,6 +32,7 @@ public final class GameEventManager extends AbstractGameManager {
 
     @EventListener
     private void onTimeAdvanced(TimeAdvancedEvent event) {
+        // TODO: This would only select 1 event. But diff providers can cause more than 1 to be selected
         for (IEventContextProvider<? extends EventContext> provider : eventContextProviders) {
             processProvider(provider);
         }
@@ -65,6 +66,9 @@ public final class GameEventManager extends AbstractGameManager {
             if (executedGameEventTypes.contains(event) && event.firesOnce()) {
                 continue;
             }
+            if (!prerequisitesMet(event)) {
+                continue;
+            }
 
             float weight = event.probability();
             if (weight <= 0.0f) {
@@ -94,5 +98,13 @@ public final class GameEventManager extends AbstractGameManager {
         }
 
         return candidates.candidates().getLast();
+    }
+
+    private boolean prerequisitesMet(IGameEventDefinition<?> event) {
+        // TODO/NOTE: Maybe just store .class of executed event types instead of the object
+        return event.prerequisites().stream()
+            .allMatch(required ->
+                executedGameEventTypes.stream().anyMatch(executed -> executed.getClass().equals(required))
+            );
     }
 }

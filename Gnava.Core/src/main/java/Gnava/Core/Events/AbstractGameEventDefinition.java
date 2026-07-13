@@ -28,6 +28,11 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
     }
 
     @Override
+    public List<Class<? extends IGameEventDefinition<?>>>  prerequisites() {
+        return Collections.emptyList();
+    }
+
+    @Override
     public boolean firesOnce() {
         return false;
     }
