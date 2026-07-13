@@ -9,6 +9,7 @@ import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Models.Settlement.Enums.SettlementPopulationType;
 import Gnava.Core.Models.Settlement.Settlement;
 import Gnava.Core.RaceNames.CreatureNameGenerator;
+import Gnava.Core.RaceNames.DefaultCreatureName;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,7 +25,11 @@ public final class Gnomerooms extends AbstractGameEventDefinition<SettlementEven
     @Override
     protected String resolveDescription(SettlementEventContext context) {
         return "%s from %s fell into the gnomerooms".formatted(
-            creatureNameGenerator.generate(context.getRandomTargetSettlement().orElseThrow().getPopulationType()).fullName(),
+            creatureNameGenerator
+                .generate(context.getRandomTargetSettlement().orElseThrow().getPopulationType())
+                .creatureName()
+                .orElse(DefaultCreatureName.get())
+                .fullName(),
             context.getRandomTargetSettlement().orElseThrow().getName()
         );
     }

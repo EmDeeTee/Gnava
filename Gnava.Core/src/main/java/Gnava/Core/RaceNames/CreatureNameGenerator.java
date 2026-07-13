@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -22,14 +23,27 @@ public final class CreatureNameGenerator {
             ));
     }
 
-    public CreatureName generate(SettlementPopulationType targetPopulationType) {
+    public CreatureNameGenerationResult generate(SettlementPopulationType targetPopulationType) {
         if (!creatureNamesProviders.containsKey(targetPopulationType)) {
-            // NOTE: This is probably not a very good idea
-            return new CreatureName("Not", "Found", SettlementPopulationType.GNOME);
+            return new CreatureNameGenerationResult(
+                Optional.empty(),
+                targetPopulationType
+            );
         }
+
         ICreatureNamesProvider namesProvider = creatureNamesProviders.get(targetPopulationType);
         List<CreatureName> possibleCreatureNames = namesProvider.getCreatureNames();
 
-        return possibleCreatureNames.get(ThreadLocalRandom.current().nextInt(possibleCreatureNames.size()));
+        if (possibleCreatureNames.isEmpty()) {
+            return new CreatureNameGenerationResult(
+                Optional.empty(),
+                targetPopulationType
+            );
+        }
+
+        return new CreatureNameGenerationResult(
+            Optional.of(possibleCreatureNames.get(ThreadLocalRandom.current().nextInt(possibleCreatureNames.size()))),
+            targetPopulationType
+        );
     }
 }

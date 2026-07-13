@@ -1,8 +1,6 @@
 package Gnava.Core.RaceNames;
 
-import Gnava.Core.Models.Settlement.Enums.SettlementPopulationType;
-
-public record CreatureName(String firstname, String lastname, SettlementPopulationType populationType) {
+public record CreatureName(String firstname, String lastname) {
     public String fullName() {
         return firstname + " " + lastname;
     }
