@@ -15,6 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public final class GameEventManager extends AbstractGameManager {
+    // TODO/NOTE: Maybe just store .class of executed event types instead of the object
     private final Set<IGameEventDefinition<? extends EventContext>> executedGameEventTypes = new HashSet<>();
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -28,6 +29,10 @@ public final class GameEventManager extends AbstractGameManager {
         super(gameState);
         this.applicationEventPublisher = applicationEventPublisher;
         this.eventContextProviders = eventContextProviders;
+    }
+
+    public boolean hasEventHappened(Class<? extends IGameEventDefinition<?>> eventType) {
+        return executedGameEventTypes.stream().anyMatch(t -> t.getClass() == eventType);
     }
 
     @EventListener
@@ -101,7 +106,6 @@ public final class GameEventManager extends AbstractGameManager {
     }
 
     private boolean prerequisitesMet(IGameEventDefinition<?> event) {
-        // TODO/NOTE: Maybe just store .class of executed event types instead of the object
         return event.prerequisites().stream()
             .allMatch(required ->
                 executedGameEventTypes.stream().anyMatch(executed -> executed.getClass().equals(required))

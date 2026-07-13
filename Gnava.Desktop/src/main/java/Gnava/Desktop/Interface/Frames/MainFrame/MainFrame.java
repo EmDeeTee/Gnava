@@ -134,8 +134,8 @@ public class MainFrame extends JFrame {
 
     @EventListener
     private void onGameOutcomeReceived(GameOutcomeReceivedEvent gameOutcome) {
-        if (gameOutcome.gameOutcome() == GameOutcome.GAME_LOST) {
-            System.out.println("GAME LOST EVENT RECEIVED");
+        if (gameOutcome.gameOutcome() == GameOutcome.GAME_ENDED) {
+            System.out.println("GAME ENDED EVENT RECEIVED");
         }
     }
 
