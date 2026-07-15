@@ -8,10 +8,12 @@ import Gnava.Core.EventBus.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.TimeManager;
 import Gnava.Core.Settlements.Settlement;
+import Gnava.Desktop.Facades.Translation;
 import Gnava.Desktop.Interface.Elements.AdvanceTimeButton;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
+import Gnava.Desktop.Interface.Translations.TranslationKey;
 import org.springframework.context.event.EventListener;
 
 import javax.swing.*;
@@ -85,8 +87,8 @@ public class MainFrame extends JFrame {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
         topPanel.setBackground(Color.LIGHT_GRAY);
 
-        JLabel currentTimeLabel = new JLabel("Current day:");
-        AdvanceTimeButton advanceTimeButton = new AdvanceTimeButton("Pass time");
+        JLabel currentTimeLabel = new JLabel(Translation.t(TranslationKey.CURRENT_DAY));
+        AdvanceTimeButton advanceTimeButton = new AdvanceTimeButton(Translation.t(TranslationKey.PASS_TIME));
 
         advanceTimeButton.addActionListener(e -> timeManager.advanceTime());
 
@@ -99,7 +101,7 @@ public class MainFrame extends JFrame {
 
     private JPanel buildBottomPanel() {
         JScrollPane settlementScrollPane = new JScrollPane(settlementList);
-        settlementScrollPane.setBorder(BorderFactory.createTitledBorder("Settlements"));
+        settlementScrollPane.setBorder(BorderFactory.createTitledBorder(Translation.t(TranslationKey.SETTLEMENTS)));
 
         JPanel bottom = new JPanel(new GridLayout(2, 1, 5, 5));
         bottom.add(gameEventsPanel);

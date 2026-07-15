@@ -1,8 +1,10 @@
 package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 
 import Gnava.Core.Events.ExecutedGameEvent;
+import Gnava.Desktop.Facades.Translation;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Renderers.GameEventListRenderer;
+import Gnava.Desktop.Interface.Translations.TranslationKey;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -28,7 +30,7 @@ public class GameEventsPanel extends JPanel {
         eventList.addListSelectionListener(this::onEventSelected);
 
         JScrollPane scrollPane = new JScrollPane(eventList);
-        scrollPane.setBorder(BorderFactory.createTitledBorder("Events"));
+        scrollPane.setBorder(BorderFactory.createTitledBorder(Translation.t(TranslationKey.EVENTS)));
 
         add(toolbar, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);

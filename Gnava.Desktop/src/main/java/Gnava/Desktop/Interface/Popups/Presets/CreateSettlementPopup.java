@@ -78,7 +78,7 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0.0;
-        panel.add(new JLabel("Population type:"), gbc);
+        panel.add(new JLabel(TranslationManager.getInstance().getTranslationTable().t(TranslationKey.POPULATION_TYPE)), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -91,7 +91,12 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
     private void submit() {
         String name = nameField.getText().trim();
         if (name.isEmpty()) {
-            JOptionPane.showMessageDialog(dialog, "Name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                dialog,
+                TranslationManager.getInstance().getTranslationTable().t(TranslationKey.ERROR_NAME_CANT_BE_EMPTY),
+                TranslationManager.getInstance().getTranslationTable().t(TranslationKey.ERROR),
+                JOptionPane.ERROR_MESSAGE
+            );
             return;
         }
 

@@ -9,6 +9,7 @@ import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Statistics.SpellStatisticsProvider;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
+import Gnava.Desktop.Facades.Translation;
 import Gnava.Desktop.Interface.Actions.CastSpellAction;
 import Gnava.Desktop.Interface.Actions.CreateSettlementAction;
 import Gnava.Desktop.Interface.Actions.ShowSpellsStatisticsAction;
@@ -18,7 +19,6 @@ import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.CreateSettlementPopup;
 import Gnava.Desktop.Interface.Popups.Presets.SettlementSelectionPopup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
-import Gnava.Desktop.Interface.Translations.TranslationManager;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -27,17 +27,17 @@ import java.util.List;
 
 @Component
 public class MenuBar extends JMenuBar {
-    private final JMenu actionsMenu = new JMenu("Actions");
+    private final JMenu actionsMenu = new JMenu(Translation.t(TranslationKey.MENU_ACTIONS));
     private final JMenuItem createSettlementItem = new JMenuItem("Create settlement");
 
-    private final JMenu statisticsMenu = new JMenu("Statistics");
-    private final JMenu viewMenu = new JMenu("View");
+    private final JMenu statisticsMenu = new JMenu(Translation.t(TranslationKey.MENU_STATISTICS));
+    private final JMenu viewMenu = new JMenu(Translation.t(TranslationKey.MENU_VIEW));
 
     private final JMenuItem showWorldStatisticsItem = new JMenuItem("World statistics");
     private final JMenuItem showSpellStatisticsItem = new JMenuItem("Spell statistics");
     private final JMenuItem openDetailsWindowItem = new JMenuItem("Details");
 
-    private final JMenu spellMenu = new JMenu(TranslationManager.getInstance().getTranslationTable().t(TranslationKey.MENU_SPELL_BOOK));
+    private final JMenu spellMenu = new JMenu(Translation.t(TranslationKey.MENU_SPELL_BOOK));
 
     private final CastSpellCommand castSpellCommand;
     private final List<AbstractSpell> spells;
