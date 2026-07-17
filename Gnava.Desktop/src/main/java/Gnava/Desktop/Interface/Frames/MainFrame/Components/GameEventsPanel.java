@@ -48,6 +48,7 @@ public class GameEventsPanel extends JPanel {
         if (!event.getValueIsAdjusting()) {
             ExecutedGameEvent selected = eventList.getSelectedValue();
             if (selected != null) {
+                // TODO: Now, this would have to call the translation service on the context and the template strings
                 new PlaintextPopup(parent, selected.description(), "Happened on day %s".formatted(selected.happenedOnDay())).show();
                 eventList.clearSelection();
             }

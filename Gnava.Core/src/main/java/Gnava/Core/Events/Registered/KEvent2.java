@@ -5,6 +5,7 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Events.IGameEventDefinition;
+import Gnava.Core.Events.TranslationData;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -35,6 +36,16 @@ public final class KEvent2 extends AbstractGameEventDefinition<SettlementEventCo
     @Override
     protected String resolveTitle(SettlementEventContext context) {
         return "Rumors of ruin";
+    }
+
+    @Override
+    protected String getTitleTranslationKey() {
+        return "";
+    }
+
+    @Override
+    protected String getDescriptionTranslationKey() {
+        return "";
     }
 
     @Override

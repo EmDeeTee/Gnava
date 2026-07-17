@@ -1,5 +1,6 @@
 package Gnava.Desktop.Interface.Translations;
 
+@Deprecated
 public enum TranslationKey {
     GKINGDOMS,
     CREATE_SETTLEMENT,

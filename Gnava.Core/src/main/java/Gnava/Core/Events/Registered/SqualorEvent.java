@@ -4,6 +4,7 @@ import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.SettlementNotInSqualorCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
+import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
 import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,16 @@ public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEv
     protected String resolveTitle(SettlementEventContext context) {
         Settlement settlement = context.getRandomTargetSettlement();
         return "Squalor hits " + settlement.getName();
+    }
+
+    @Override
+    protected String getTitleTranslationKey() {
+        return "";
+    }
+
+    @Override
+    protected String getDescriptionTranslationKey() {
+        return "";
     }
 
     private String getReason(SettlementEventContext context) {

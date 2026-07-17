@@ -5,6 +5,7 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
+import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,16 @@ public final class NosferatuEvent extends AbstractGameEventDefinition<Settlement
     @Override
     protected String resolveTitle(SettlementEventContext context) {
         return "Nosferatu!";
+    }
+
+    @Override
+    protected String getTitleTranslationKey() {
+        return "";
+    }
+
+    @Override
+    protected String getDescriptionTranslationKey() {
+        return "";
     }
 
     @Override

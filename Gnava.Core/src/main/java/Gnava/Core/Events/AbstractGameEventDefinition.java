@@ -5,6 +5,7 @@ import Gnava.Core.Events.Contexts.EventContext;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractGameEventDefinition<C extends EventContext> implements IGameEventDefinition<C> {
     @Override
@@ -13,7 +14,14 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
         apply(context);
         String title = resolveTitle(context);
         String description = resolveDescription(context);
-        return new ExecutedGameEvent(title, description, isStoryEvent(), context.getGameState().getCurrentDay(), isMinor());
+        return new ExecutedGameEvent(
+            title,
+            description,
+            isStoryEvent(),
+            context.getGameState().getCurrentDay(),
+            isMinor(),
+            translationData(context)
+        );
     }
 
     @Override
@@ -28,7 +36,7 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
     }
 
     @Override
-    public List<Class<? extends IGameEventDefinition<?>>>  prerequisites() {
+    public List<Class<? extends IGameEventDefinition<?>>> prerequisites() {
         return Collections.emptyList();
     }
 
@@ -60,7 +68,25 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
 
     protected void apply(C context) { }
 
+    @Deprecated
     protected abstract String resolveDescription(C context);
 
+    @Deprecated
     protected abstract String resolveTitle(C context);
+
+    protected TranslationData translationData(C context) {
+        return new TranslationData(
+            getTitleTranslationKey(),
+            getDescriptionTranslationKey(),
+            getTranslationContext(context)
+        );
+    }
+
+    protected abstract String getTitleTranslationKey();
+
+    protected abstract String getDescriptionTranslationKey();
+
+    protected Map<String, String> getTranslationContext(C context) {
+        return Collections.emptyMap();
+    }
 }
