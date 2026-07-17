@@ -1,10 +1,12 @@
 package Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
 
 import Gnava.Core.Events.ExecutedGameEvent;
+import Gnava.Core.Events.TranslationData;
 import Gnava.Desktop.Facades.Translation;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.Renderers.GameEventListRenderer;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
+import Gnava.Desktop.Interface.Translations.Translator;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
@@ -18,10 +20,14 @@ public class GameEventsPanel extends JPanel {
     private final DefaultListModel<ExecutedGameEvent> eventListModel = new DefaultListModel<>();
     private final JList<ExecutedGameEvent> eventList = new JList<>(eventListModel);
 
+    private final Translator translator;
+
     public GameEventsPanel(
-        GameEventListRenderer gameEventListRenderer
+        GameEventListRenderer gameEventListRenderer,
+        Translator translator
     ) {
         super(new BorderLayout(5, 5));
+        this.translator = translator;
         this.parent = (JFrame) SwingUtilities.getWindowAncestor(this);
 
         JButton filterButton = new JButton("Filter");
@@ -52,10 +58,10 @@ public class GameEventsPanel extends JPanel {
         if (!event.getValueIsAdjusting()) {
             ExecutedGameEvent selected = eventList.getSelectedValue();
             if (selected != null) {
-                // TODO: Now, this would have to call the translation service on the context and the template strings
+                TranslationData translationData = selected.translationData();
                 new PlaintextPopup(
                     parent,
-                    selected.description(),
+                    translator.t(translationData.descriptionKey(), translationData.context()),
                     "Happened on day %s".formatted(selected.happenedOnDay())
                 ).show();
                 eventList.clearSelection();
