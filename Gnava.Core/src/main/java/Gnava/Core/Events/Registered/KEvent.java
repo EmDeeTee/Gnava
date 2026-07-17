@@ -6,6 +6,7 @@ import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldPopulationCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.WorldEventContext;
+import Gnava.Core.Events.TranslationData;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -34,6 +35,11 @@ public final class KEvent extends AbstractGameEventDefinition<WorldEventContext>
     @Override
     protected String resolveTitle(WorldEventContext context) {
         return "A strange figure seen on the horizon";
+    }
+
+    @Override
+    protected TranslationData getTranslationData() {
+        return null;
     }
 
     @Override

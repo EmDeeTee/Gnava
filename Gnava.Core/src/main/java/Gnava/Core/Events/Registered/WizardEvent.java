@@ -5,6 +5,7 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
+import Gnava.Core.Events.TranslationData;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,6 +32,11 @@ public final class WizardEvent extends AbstractGameEventDefinition<SettlementEve
     @Override
     protected String resolveTitle(SettlementEventContext context) {
         return "Local wizard discovers ancient ruins";
+    }
+
+    @Override
+    protected TranslationData getTranslationData() {
+        return null;
     }
 
     @Override

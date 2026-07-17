@@ -4,6 +4,7 @@ import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
+import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,11 @@ public final class PopulationTotalGrowthEvent extends AbstractGameEventDefinitio
     @Override
     protected String resolveTitle(SettlementEventContext context) {
         return "%s expands".formatted(context.getRandomTargetSettlement().getName());
+    }
+
+    @Override
+    protected TranslationData getTranslationData() {
+        return null;
     }
 
     @Override

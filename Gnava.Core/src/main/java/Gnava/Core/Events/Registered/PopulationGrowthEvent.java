@@ -5,6 +5,7 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.SettlementHasFreePopulationCapacityCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
+import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.AddPopulationResult;
 import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
@@ -36,6 +37,16 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
     protected String resolveTitle(SettlementEventContext context) {
         return "Population grows in %s".formatted(
             context.getRandomTargetSettlement()
+        );
+    }
+
+    @Override
+    protected TranslationData getTranslationData() {
+        return new TranslationData(
+            "events.population_growth.title",
+            "events.population_growth.description",
+            null,
+        null
         );
     }
 

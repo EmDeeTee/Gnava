@@ -6,6 +6,7 @@ import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondit
 import Gnava.Core.Events.Conditions.Settlement.SettlementPopulationTypeCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
+import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.Enums.SettlementPopulationType;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.RaceNames.CreatureNameGenerator;
@@ -37,6 +38,11 @@ public final class Gnomerooms extends AbstractGameEventDefinition<SettlementEven
     @Override
     protected String resolveTitle(SettlementEventContext context) {
         return "Gnomerooms incident";
+    }
+
+    @Override
+    protected TranslationData getTranslationData() {
+        return null;
     }
 
     @Override
