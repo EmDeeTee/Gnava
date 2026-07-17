@@ -6,6 +6,7 @@ import Gnava.Desktop.Interface.Translations.Tables.TranslationTableEnglish;
 
 import java.util.Objects;
 
+@Deprecated
 public class TranslationManager {
     private static TranslationManager instance;
 

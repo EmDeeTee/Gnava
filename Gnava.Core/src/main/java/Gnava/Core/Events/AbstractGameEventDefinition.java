@@ -5,6 +5,7 @@ import Gnava.Core.Events.Contexts.EventContext;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractGameEventDefinition<C extends EventContext> implements IGameEventDefinition<C> {
     @Override
@@ -13,7 +14,19 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
         apply(context);
         String title = resolveTitle(context);
         String description = resolveDescription(context);
-        return new ExecutedGameEvent(title, description, isStoryEvent(), context.getGameState().getCurrentDay(), isMinor());
+        return new ExecutedGameEvent(
+            title,
+            description,
+            isStoryEvent(),
+            context.getGameState().getCurrentDay(),
+            isMinor(),
+            new TranslationData(
+                "place.hodler",
+                Map.ofEntries(
+                    Map.entry("hello", "hola")
+                )
+            )
+        );
     }
 
     @Override

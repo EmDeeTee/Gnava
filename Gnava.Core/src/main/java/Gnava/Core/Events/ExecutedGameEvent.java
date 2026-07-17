@@ -5,7 +5,8 @@ public record ExecutedGameEvent(
     String description,
     boolean storyEvent,
     int happenedOnDay,
-    boolean isMinor
+    boolean isMinor,
+    TranslationData translationData
 ) {
     @Override
     public String toString() {

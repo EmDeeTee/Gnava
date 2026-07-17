@@ -11,6 +11,8 @@ import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.TranslationManager;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @Component
 public class Gnava {
     private final MainFrame mainFrame;
