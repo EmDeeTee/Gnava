@@ -69,10 +69,14 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
     protected void apply(C context) { }
 
     @Deprecated
-    protected abstract String resolveDescription(C context);
+    protected String resolveDescription(C context) {
+        return "";
+    }
 
     @Deprecated
-    protected abstract String resolveTitle(C context);
+    protected String resolveTitle(C context) {
+        return "";
+    }
 
     protected TranslationData translationData(C context) {
         return new TranslationData(

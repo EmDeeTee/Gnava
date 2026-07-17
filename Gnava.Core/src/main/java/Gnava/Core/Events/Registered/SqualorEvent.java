@@ -4,12 +4,11 @@ import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.SettlementNotInSqualorCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
-import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -22,32 +21,35 @@ public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEv
     }
 
     @Override
+    protected void prepare(SettlementEventContext context) {
+        context.set("reason", getReason(context));
+    }
+
+    @Override
     protected void apply(SettlementEventContext context) {
         context.getRandomTargetSettlement().setWealthLevel(SettlementWealthLevel.DESTITUTE);
     }
 
     @Override
-    protected String resolveDescription(SettlementEventContext context) {
-        return getReason(context);
-    }
-
-    @Override
-    protected String resolveTitle(SettlementEventContext context) {
-        Settlement settlement = context.getRandomTargetSettlement();
-        return "Squalor hits " + settlement.getName();
-    }
-
-    @Override
     protected String getTitleTranslationKey() {
-        return "";
+        return "events.squalor.title";
     }
 
     @Override
     protected String getDescriptionTranslationKey() {
-        return "";
+        return "events.squalor.description";
+    }
+
+    @Override
+    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
+        return Map.ofEntries(
+            Map.entry("name", context.getRandomTargetSettlement().getName()),
+            Map.entry("reason", context.get("reason", String.class).orElseThrow())
+        );
     }
 
     private String getReason(SettlementEventContext context) {
+        // TODO: This should also not be here and be translated by the UI
         String[] reasons = {
             "Because of bad budget management, %s is now in squalor".formatted(context.getRandomTargetSettlement()),
             "%s got hit with a Squalormelon".formatted(context.getRandomTargetSettlement())

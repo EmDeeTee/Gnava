@@ -6,7 +6,6 @@ import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondit
 import Gnava.Core.Events.Conditions.Settlement.SettlementPopulationTypeCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.Enums.SettlementPopulationType;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.RaceNames.CreatureNameGenerator;
@@ -14,6 +13,7 @@ import Gnava.Core.RaceNames.DefaultCreatureName;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public final class Gnomerooms extends AbstractGameEventDefinition<SettlementEventContext> {
@@ -24,30 +24,30 @@ public final class Gnomerooms extends AbstractGameEventDefinition<SettlementEven
     }
 
     @Override
-    protected String resolveDescription(SettlementEventContext context) {
-        return "%s from %s fell into the gnomerooms".formatted(
-            creatureNameGenerator
-                .generate(context.getRandomTargetSettlement().getPopulationType())
-                .creatureName()
-                .orElse(DefaultCreatureName.get())
-                .fullName(),
-            context.getRandomTargetSettlement().getName()
-        );
-    }
-
-    @Override
-    protected String resolveTitle(SettlementEventContext context) {
-        return "Gnomerooms incident";
+    protected void prepare(SettlementEventContext context) {
+        context.set("person", creatureNameGenerator
+            .generate(context.getRandomTargetSettlement().getPopulationType())
+            .creatureName()
+            .orElse(DefaultCreatureName.get())
+            .fullName());
     }
 
     @Override
     protected String getTitleTranslationKey() {
-        return "";
+        return "events.gnomerooms.title";
     }
 
     @Override
     protected String getDescriptionTranslationKey() {
-        return "";
+        return "events.gnomerooms.description";
+    }
+
+    @Override
+    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
+        return Map.ofEntries(
+            Map.entry("person", context.get("person", String.class).orElseThrow()),
+            Map.entry("name", context.getRandomTargetSettlement().getName())
+        );
     }
 
     @Override

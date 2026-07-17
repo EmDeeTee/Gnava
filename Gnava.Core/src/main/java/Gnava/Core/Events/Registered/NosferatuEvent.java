@@ -5,37 +5,34 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 public final class NosferatuEvent extends AbstractGameEventDefinition<SettlementEventContext> {
     @Override
-    protected String resolveDescription(SettlementEventContext context) {
-        return "Nosferatu attacked %s and ate %d %s".formatted(
-            context.getRandomTargetSettlement(),
-            context.get("damage", Integer.class).orElseThrow(),
-            context.getRandomTargetSettlement().getPopulationType().plural()
-        );
-    }
-
-    @Override
-    protected String resolveTitle(SettlementEventContext context) {
-        return "Nosferatu!";
-    }
-
-    @Override
     protected String getTitleTranslationKey() {
-        return "";
+        return "events.nosferatu.title";
     }
 
     @Override
     protected String getDescriptionTranslationKey() {
-        return "";
+        return "events.nosferatu.description";
+    }
+
+    @Override
+    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
+        Settlement targetSettlement = context.getRandomTargetSettlement();
+
+        return Map.ofEntries(
+            Map.entry("name", targetSettlement.getName()),
+            Map.entry("amount", String.valueOf(context.get("damage", Integer.class).orElseThrow())),
+            Map.entry("plural", targetSettlement.getPopulationType().plural())
+        );
     }
 
     @Override

@@ -1,8 +1,8 @@
 package Gnava.Core.Events;
 
 public record ExecutedGameEvent(
-    String title,
-    String description,
+    @Deprecated String title,
+    @Deprecated String description,
     boolean storyEvent,
     int happenedOnDay,
     boolean isMinor,
@@ -11,9 +11,5 @@ public record ExecutedGameEvent(
     @Override
     public String toString() {
         return title;
-    }
-
-    public String toStringNew() {
-        return translationData.titleKey();
     }
 }

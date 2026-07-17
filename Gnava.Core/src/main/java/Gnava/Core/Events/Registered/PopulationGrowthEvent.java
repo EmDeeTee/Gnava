@@ -34,13 +34,6 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
     }
 
     @Override
-    protected String resolveTitle(SettlementEventContext context) {
-        return "Population grows in %s".formatted(
-            context.getRandomTargetSettlement()
-        );
-    }
-
-    @Override
     protected String getTitleTranslationKey() {
         return "events.population_growth.title";
     }
@@ -52,31 +45,16 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
 
     @Override
     protected Map<String, String> getTranslationContext(SettlementEventContext context) {
-        return Map.ofEntries(
-            Map.entry("name", context.getRandomTargetSettlement().getName())
-        );
-    }
-
-    @Override
-    protected String resolveDescription(SettlementEventContext context) {
         AddPopulationResult result = context.get("addResult", AddPopulationResult.class).orElseThrow();
-        int added = result.addedAmount();
-        int overflow = result.overflow();
 
-        StringBuilder message = new StringBuilder();
-
-        message.append("Population grows in %s by %d".formatted(
-            context.getRandomTargetSettlement(),
-            added
-        ));
-
-        if (overflow > 0) {
-            message.append("<br />(")
-                .append(overflow)
-                .append(" population rejected due to lack of space)");
-        }
-
-        return message.toString();
+        return Map.ofEntries(
+            Map.entry("name", context.getRandomTargetSettlement().getName()),
+            Map.entry("amount", String.valueOf(result.addedAmount())),
+            Map.entry(
+                "rejectedText",
+                result.overflow() > 0 ? "(%d population rejected due to lack of space)".formatted(result.overflow()) : ""
+            )
+        );
     }
 
     @Override

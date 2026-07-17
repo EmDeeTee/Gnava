@@ -4,11 +4,11 @@ import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 // TODO: Wealthy settlements should expand its total and max population faster
@@ -22,26 +22,21 @@ public final class PopulationTotalGrowthEvent extends AbstractGameEventDefinitio
     }
 
     @Override
-    protected String resolveDescription(SettlementEventContext context) {
-        return "%s has expanded its borders to allow for %d more homes".formatted(
-            context.getRandomTargetSettlement().getName(),
-            context.get("growth", Integer.class).orElseThrow()
-        );
-    }
-
-    @Override
-    protected String resolveTitle(SettlementEventContext context) {
-        return "%s expands".formatted(context.getRandomTargetSettlement().getName());
-    }
-
-    @Override
     protected String getTitleTranslationKey() {
-        return "";
+        return "events.population_total_growth.title";
     }
 
     @Override
     protected String getDescriptionTranslationKey() {
-        return "";
+        return "events.population_total_growth.description";
+    }
+
+    @Override
+    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
+        return Map.ofEntries(
+            Map.entry("name", context.getRandomTargetSettlement().getName()),
+            Map.entry("amount", String.valueOf(context.get("growth", Integer.class).orElseThrow()))
+        );
     }
 
     @Override

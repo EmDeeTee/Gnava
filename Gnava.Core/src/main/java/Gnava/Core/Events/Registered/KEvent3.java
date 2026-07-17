@@ -3,7 +3,6 @@ package Gnava.Core.Events.Registered;
 import Gnava.Core.Events.AbstractGameEventDefinition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Events.IGameEventDefinition;
-import Gnava.Core.Events.TranslationData;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,23 +10,13 @@ import java.util.List;
 @Component
 public final class KEvent3 extends AbstractGameEventDefinition<SettlementEventContext> {
     @Override
-    protected String resolveDescription(SettlementEventContext context) {
-        return "gg";
-    }
-
-    @Override
-    protected String resolveTitle(SettlementEventContext context) {
-        return "KApocalypse";
-    }
-
-    @Override
     protected String getTitleTranslationKey() {
-        return "";
+        return "events.k_event_3.title";
     }
 
     @Override
     protected String getDescriptionTranslationKey() {
-        return "";
+        return "events.k_event_3.description";
     }
 
     @Override

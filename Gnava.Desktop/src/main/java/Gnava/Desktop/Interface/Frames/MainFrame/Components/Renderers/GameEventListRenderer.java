@@ -36,7 +36,12 @@ public class GameEventListRenderer extends DefaultListCellRenderer {
             throw new UnexpectedObjectTypeException("GameEventListRenderer got a non GameObject value");
         }
 
-        setText(translator.t(executedGameEvent.translationData().titleKey(), executedGameEvent.translationData().context()));
+        String titleKey = executedGameEvent.translationData().titleKey();
+        String text = (titleKey == null || titleKey.isBlank())
+            ? executedGameEvent.title()
+            : translator.t(titleKey, executedGameEvent.translationData().context());
+
+        setText(text);
 
         if (executedGameEvent.storyEvent()) {
             setFont(getFont().deriveFont(Font.BOLD, 14f));

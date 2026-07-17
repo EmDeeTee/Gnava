@@ -5,10 +5,10 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Events.TranslationData;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public final class WizardEvent extends AbstractGameEventDefinition<SettlementEventContext> {
@@ -21,27 +21,21 @@ public final class WizardEvent extends AbstractGameEventDefinition<SettlementEve
     }
 
     @Override
-    protected String resolveDescription(SettlementEventContext context) {
-        // TODO: Add wizard names to names generator
-        return "A local wizard, %s, discovered ancient ruins in %s. Dozens flock to the settlement to see".formatted(
-            "WIZARD_NAME",
-            context.getRandomTargetSettlement().getName()
-        );
-    }
-
-    @Override
-    protected String resolveTitle(SettlementEventContext context) {
-        return "Local wizard discovers ancient ruins";
-    }
-
-    @Override
     protected String getTitleTranslationKey() {
-        return "";
+        return "events.wizard.title";
     }
 
     @Override
     protected String getDescriptionTranslationKey() {
-        return "";
+        return "events.wizard.description";
+    }
+
+    @Override
+    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
+        return Map.ofEntries(
+            Map.entry("wizardName", "WIZARD_NAME"),
+            Map.entry("name", context.getRandomTargetSettlement().getName())
+        );
     }
 
     @Override

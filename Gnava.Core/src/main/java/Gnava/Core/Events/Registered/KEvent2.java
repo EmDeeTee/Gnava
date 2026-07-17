@@ -5,10 +5,10 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Events.IGameEventDefinition;
-import Gnava.Core.Events.TranslationData;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public final class KEvent2 extends AbstractGameEventDefinition<SettlementEventContext> {
@@ -20,32 +20,26 @@ public final class KEvent2 extends AbstractGameEventDefinition<SettlementEventCo
     }
 
     @Override
-    protected String resolveDescription(SettlementEventContext context) {
-        return "There is talk of a very dangerous person roaming the realm at night.<br><br>It got so bad that 100 %s escaped from %s."
-            .formatted(
-                context.getRandomTargetSettlement().getPopulationType().plural(),
-                context.getRandomTargetSettlement().getName()
-            );
-    }
-
-    @Override
     protected void apply(SettlementEventContext context) {
         context.getRandomTargetSettlement().addPopulation(-100);
     }
 
     @Override
-    protected String resolveTitle(SettlementEventContext context) {
-        return "Rumors of ruin";
-    }
-
-    @Override
     protected String getTitleTranslationKey() {
-        return "";
+        return "events.k_event_2.title";
     }
 
     @Override
     protected String getDescriptionTranslationKey() {
-        return "";
+        return "events.k_event_2.description";
+    }
+
+    @Override
+    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
+        return Map.ofEntries(
+            Map.entry("name", context.getRandomTargetSettlement().getName()),
+            Map.entry("plural", context.getRandomTargetSettlement().getPopulationType().plural())
+        );
     }
 
     @Override
