@@ -4,7 +4,7 @@ import Gnava.Core.Events.ExecutedGameEvent;
 import Gnava.Core.Events.TranslationData;
 import Gnava.Desktop.Facades.Translation;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
-import Gnava.Desktop.Interface.Frames.MainFrame.Components.Renderers.GameEventListRenderer;
+import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel.Renderers.GameEventListRenderer;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.Translator;
 import org.springframework.stereotype.Component;
