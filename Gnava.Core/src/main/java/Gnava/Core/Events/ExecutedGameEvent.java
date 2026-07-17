@@ -12,4 +12,8 @@ public record ExecutedGameEvent(
     public String toString() {
         return title;
     }
+
+    public String toStringNew() {
+        return translationData.titleKey();
+    }
 }

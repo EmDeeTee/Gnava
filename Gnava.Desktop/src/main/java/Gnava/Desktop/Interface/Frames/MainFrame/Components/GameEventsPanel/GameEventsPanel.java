@@ -1,24 +1,28 @@
-package Gnava.Desktop.Interface.Frames.MainFrame.Components;
+package Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
 
 import Gnava.Core.Events.ExecutedGameEvent;
 import Gnava.Desktop.Facades.Translation;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
-import Gnava.Desktop.Interface.Renderers.GameEventListRenderer;
+import Gnava.Desktop.Interface.Frames.MainFrame.Components.Renderers.GameEventListRenderer;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 
+@Component
 public class GameEventsPanel extends JPanel {
     private final JFrame parent;
 
     private final DefaultListModel<ExecutedGameEvent> eventListModel = new DefaultListModel<>();
     private final JList<ExecutedGameEvent> eventList = new JList<>(eventListModel);
 
-    public GameEventsPanel(JFrame parent) {
+    public GameEventsPanel(
+        GameEventListRenderer gameEventListRenderer
+    ) {
         super(new BorderLayout(5, 5));
-        this.parent = parent;
+        this.parent = (JFrame) SwingUtilities.getWindowAncestor(this);
 
         JButton filterButton = new JButton("Filter");
         filterButton.setEnabled(false); // Placeholder
@@ -26,7 +30,7 @@ public class GameEventsPanel extends JPanel {
         JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
         toolbar.add(filterButton);
 
-        eventList.setCellRenderer(new GameEventListRenderer());
+        eventList.setCellRenderer(gameEventListRenderer);
         eventList.addListSelectionListener(this::onEventSelected);
 
         JScrollPane scrollPane = new JScrollPane(eventList);
@@ -49,7 +53,11 @@ public class GameEventsPanel extends JPanel {
             ExecutedGameEvent selected = eventList.getSelectedValue();
             if (selected != null) {
                 // TODO: Now, this would have to call the translation service on the context and the template strings
-                new PlaintextPopup(parent, selected.description(), "Happened on day %s".formatted(selected.happenedOnDay())).show();
+                new PlaintextPopup(
+                    parent,
+                    selected.description(),
+                    "Happened on day %s".formatted(selected.happenedOnDay())
+                ).show();
                 eventList.clearSelection();
             }
         }

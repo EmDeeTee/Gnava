@@ -1,12 +1,20 @@
-package Gnava.Desktop.Interface.Renderers;
+package Gnava.Desktop.Interface.Frames.MainFrame.Components.Renderers;
 
 import Gnava.Core.Events.ExecutedGameEvent;
-import Gnava.Desktop.Interface.Renderers.Exceptions.UnexpectedObjectTypeException;
+import Gnava.Desktop.Interface.Frames.MainFrame.Components.Renderers.Exceptions.UnexpectedObjectTypeException;
+import Gnava.Desktop.Interface.Translations.Translator;
 
 import javax.swing.*;
 import java.awt.*;
 
+@org.springframework.stereotype.Component
 public class GameEventListRenderer extends DefaultListCellRenderer {
+    private final Translator translator;
+
+    public GameEventListRenderer(Translator translator) {
+        this.translator = translator;
+    }
+
     @Override
     public Component getListCellRendererComponent(
         JList<?> list,
@@ -27,6 +35,8 @@ public class GameEventListRenderer extends DefaultListCellRenderer {
         if (executedGameEvent == null) {
             throw new UnexpectedObjectTypeException("GameEventListRenderer got a non GameObject value");
         }
+
+        setText(translator.t(executedGameEvent.translationData().titleKey(), executedGameEvent.translationData().context()));
 
         if (executedGameEvent.storyEvent()) {
             setFont(getFont().deriveFont(Font.BOLD, 14f));

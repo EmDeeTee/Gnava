@@ -10,7 +10,7 @@ import Gnava.Core.Managers.TimeManager;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Desktop.Facades.Translation;
 import Gnava.Desktop.Interface.Elements.AdvanceTimeButton;
-import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
+import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel.GameEventsPanel;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
@@ -24,7 +24,7 @@ import java.net.URL;
 public class MainFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
     private final MenuBar menu;
-    private final GameEventsPanel gameEventsPanel = new GameEventsPanel(this);
+    private final GameEventsPanel gameEventsPanel;
 
     private final DefaultListModel<Settlement> settlementListModel = new DefaultListModel<>();
 
@@ -38,12 +38,14 @@ public class MainFrame extends JFrame {
         String title,
         TimeManager timeManager,
         SettlementManager settlementManager,
-        MenuBar menuBar
+        MenuBar menuBar,
+        GameEventsPanel gameEventsPanel
     ) {
         super(title);
         this.menu = menuBar;
         this.timeManager = timeManager;
         this.settlementManager = settlementManager;
+        this.gameEventsPanel = gameEventsPanel;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(PREFERRED_SIZE);
         setSize(PREFERRED_SIZE);

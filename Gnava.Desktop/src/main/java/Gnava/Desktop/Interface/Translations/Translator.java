@@ -21,11 +21,11 @@ public final class Translator {
     }
 
     public String t(String key) {
-        return bundle.getString(key);
+        return getBundleString(key);
     }
 
     public String t(String key, Map<String, String> context) {
-        String translation = bundle.getString(key);
+        String translation = getBundleString(key);
 
         for (Map.Entry<String, String> entry : context.entrySet()) {
             translation = translation.replace(
@@ -35,5 +35,9 @@ public final class Translator {
         }
 
         return translation;
+    }
+
+    private String getBundleString(String key) {
+        return bundle.containsKey(key) ? bundle.getString(key) : "Key not found";
     }
 }

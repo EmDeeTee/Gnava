@@ -5,12 +5,12 @@ import Gnava.Core.Events.Conditions.EventCondition;
 import Gnava.Core.Events.Conditions.Settlement.SettlementHasFreePopulationCapacityCondition;
 import Gnava.Core.Events.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.Events.Contexts.SettlementEventContext;
-import Gnava.Core.Events.TranslationData;
 import Gnava.Core.Settlements.AddPopulationResult;
 import Gnava.Core.Settlements.Settlement;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -48,6 +48,13 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
     @Override
     protected String getDescriptionTranslationKey() {
         return "events.population_growth.description";
+    }
+
+    @Override
+    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
+        return Map.ofEntries(
+            Map.entry("name", context.getRandomTargetSettlement().getName())
+        );
     }
 
     @Override
