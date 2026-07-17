@@ -5,6 +5,7 @@ public enum SettlementPopulationType {
     DWARF,
     GOBLIN;
 
+    // TODO: That probably doesn't belong in Core
     public String plural() {
         return switch (this) {
             case GNOME -> "gnomes";
