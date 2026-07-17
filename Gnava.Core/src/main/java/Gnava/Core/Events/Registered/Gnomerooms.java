@@ -41,8 +41,13 @@ public final class Gnomerooms extends AbstractGameEventDefinition<SettlementEven
     }
 
     @Override
-    protected TranslationData getTranslationData() {
-        return null;
+    protected String getTitleTranslationKey() {
+        return "";
+    }
+
+    @Override
+    protected String getDescriptionTranslationKey() {
+        return "";
     }
 
     @Override

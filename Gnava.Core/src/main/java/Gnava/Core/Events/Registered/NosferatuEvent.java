@@ -29,8 +29,13 @@ public final class NosferatuEvent extends AbstractGameEventDefinition<Settlement
     }
 
     @Override
-    protected TranslationData getTranslationData() {
-        return null;
+    protected String getTitleTranslationKey() {
+        return "";
+    }
+
+    @Override
+    protected String getDescriptionTranslationKey() {
+        return "";
     }
 
     @Override

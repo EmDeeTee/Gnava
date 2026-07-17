@@ -38,8 +38,13 @@ public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEv
     }
 
     @Override
-    protected TranslationData getTranslationData() {
-        return null;
+    protected String getTitleTranslationKey() {
+        return "";
+    }
+
+    @Override
+    protected String getDescriptionTranslationKey() {
+        return "";
     }
 
     private String getReason(SettlementEventContext context) {

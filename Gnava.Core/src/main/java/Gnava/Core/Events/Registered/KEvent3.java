@@ -21,8 +21,13 @@ public final class KEvent3 extends AbstractGameEventDefinition<SettlementEventCo
     }
 
     @Override
-    protected TranslationData getTranslationData() {
-        return null;
+    protected String getTitleTranslationKey() {
+        return "";
+    }
+
+    @Override
+    protected String getDescriptionTranslationKey() {
+        return "";
     }
 
     @Override

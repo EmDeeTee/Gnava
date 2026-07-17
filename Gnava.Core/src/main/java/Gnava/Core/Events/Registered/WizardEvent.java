@@ -35,8 +35,13 @@ public final class WizardEvent extends AbstractGameEventDefinition<SettlementEve
     }
 
     @Override
-    protected TranslationData getTranslationData() {
-        return null;
+    protected String getTitleTranslationKey() {
+        return "";
+    }
+
+    @Override
+    protected String getDescriptionTranslationKey() {
+        return "";
     }
 
     @Override

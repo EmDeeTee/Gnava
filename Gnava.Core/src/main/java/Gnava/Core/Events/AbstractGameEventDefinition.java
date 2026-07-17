@@ -5,6 +5,7 @@ import Gnava.Core.Events.Contexts.EventContext;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractGameEventDefinition<C extends EventContext> implements IGameEventDefinition<C> {
     @Override
@@ -19,7 +20,7 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
             isStoryEvent(),
             context.getGameState().getCurrentDay(),
             isMinor(),
-            getTranslationData()
+            translationData(context)
         );
     }
 
@@ -67,9 +68,25 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
 
     protected void apply(C context) { }
 
+    @Deprecated
     protected abstract String resolveDescription(C context);
 
+    @Deprecated
     protected abstract String resolveTitle(C context);
 
-    protected abstract TranslationData getTranslationData();
+    protected TranslationData translationData(C context) {
+        return new TranslationData(
+            getTitleTranslationKey(),
+            getDescriptionTranslationKey(),
+            getTranslationContext(context)
+        );
+    }
+
+    protected abstract String getTitleTranslationKey();
+
+    protected abstract String getDescriptionTranslationKey();
+
+    protected Map<String, String> getTranslationContext(C context) {
+        return Collections.emptyMap();
+    }
 }

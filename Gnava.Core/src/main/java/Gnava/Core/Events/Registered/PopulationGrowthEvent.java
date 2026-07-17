@@ -41,13 +41,13 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
     }
 
     @Override
-    protected TranslationData getTranslationData() {
-        return new TranslationData(
-            "events.population_growth.title",
-            "events.population_growth.description",
-            null,
-        null
-        );
+    protected String getTitleTranslationKey() {
+        return "events.population_growth.title";
+    }
+
+    @Override
+    protected String getDescriptionTranslationKey() {
+        return "events.population_growth.description";
     }
 
     @Override
