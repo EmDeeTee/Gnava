@@ -52,7 +52,7 @@ public final class PopulationGrowthEvent extends AbstractGameEventDefinition<Set
             Map.entry("amount", String.valueOf(result.addedAmount())),
             Map.entry(
                 "rejectedText",
-                result.overflow() > 0 ? "(%d population rejected due to lack of space)".formatted(result.overflow()) : ""
+                result.overflow() > 0 ? "(%d population rejected due to lack of space)".formatted(result.overflow()) : "" // TODO: This text should also be a UI concern
             )
         );
     }
