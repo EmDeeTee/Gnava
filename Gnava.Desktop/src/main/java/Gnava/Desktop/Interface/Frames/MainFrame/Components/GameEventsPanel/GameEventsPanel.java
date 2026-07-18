@@ -3,6 +3,9 @@ package Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
 import Gnava.Core.Events.ExecutedGameEvent;
 import Gnava.Core.Events.TranslationData;
 import Gnava.Desktop.Facades.Translation;
+import Gnava.Desktop.Interface.Elements.GnavaButton;
+import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel.Options.FilterOptions;
+import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel.Options.FilterOptionsManager;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel.Renderers.GameEventListRenderer;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
@@ -20,19 +23,34 @@ public class GameEventsPanel extends JPanel {
 
     private final DefaultListModel<ExecutedGameEvent> eventListModel = new DefaultListModel<>();
     private final JList<ExecutedGameEvent> eventList = new JList<>(eventListModel);
+    private final java.util.List<ExecutedGameEvent> allEvents = new java.util.ArrayList<>();
 
     private final Translator translator;
+    private final FilterOptionsManager filterOptionsManager;
 
     public GameEventsPanel(
         GameEventListRenderer gameEventListRenderer,
-        Translator translator
+        Translator translator,
+        FilterOptionsManager filterOptionsManager
     ) {
         super(new BorderLayout(5, 5));
         this.translator = translator;
+        this.filterOptionsManager = filterOptionsManager;
         this.parent = (JFrame) SwingUtilities.getWindowAncestor(this);
 
-        JButton filterButton = new JButton("Filter");
-        filterButton.setEnabled(false); // Placeholder
+        GnavaButton filterButton = new GnavaButton("Filter");
+        filterButton.addActionListener(l -> {
+            FilterOptions options = filterOptionsManager.filterOptions();
+            boolean nextState = !options.showOnlyMajorEvents();
+            filterOptionsManager.setShowMajorEventsOnly(nextState);
+
+            new PlaintextPopup(
+                SwingUtilities.getWindowAncestor(this),
+                "Showing only major events: %b".formatted(nextState)
+            ).show();
+
+            applyFilter(filterOptionsManager);
+        });
 
         JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
         toolbar.add(filterButton);
@@ -48,10 +66,12 @@ public class GameEventsPanel extends JPanel {
     }
 
     public void addEvent(ExecutedGameEvent event) {
-        eventListModel.add(0, event);
+        allEvents.addFirst(event);
+        applyFilter(this.filterOptionsManager);
     }
 
     public void clear() {
+        allEvents.clear();
         eventListModel.clear();
     }
 
@@ -70,6 +90,19 @@ public class GameEventsPanel extends JPanel {
                 ).show();
                 eventList.clearSelection();
             }
+        }
+    }
+
+    private void applyFilter(FilterOptionsManager filterOptionsManager) {
+        eventListModel.clear();
+
+        FilterOptions options = filterOptionsManager.filterOptions();
+
+        for (ExecutedGameEvent event : allEvents) {
+            if (options.showOnlyMajorEvents() && event.isMinor()) {
+                continue;
+            }
+            eventListModel.addElement(event);
         }
     }
 }
