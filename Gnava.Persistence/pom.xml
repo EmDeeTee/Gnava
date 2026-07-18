@@ -6,7 +6,7 @@
     <parent>
         <groupId>Gnava</groupId>
         <artifactId>Gnava</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>Gnava.Persistence</artifactId>
@@ -20,7 +20,6 @@
         <dependency>
             <groupId>Gnava</groupId>
             <artifactId>Gnava.Core</artifactId>
-            <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
