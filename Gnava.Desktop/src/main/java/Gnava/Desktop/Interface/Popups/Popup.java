@@ -14,7 +14,7 @@ import java.util.Optional;
 
 // TODO: This code is a little crusty and could use a refactor
 public abstract class Popup<T> {
-    protected static final Dimension DEFAULT_DIMENSION = new Dimension(320, 200);
+    protected static final Dimension DEFAULT_DIMENSION = new Dimension(320, 205);
 
     protected final JDialog dialog;
     private final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
