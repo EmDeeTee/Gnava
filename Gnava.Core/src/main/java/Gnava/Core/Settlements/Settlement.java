@@ -44,6 +44,7 @@ public final class Settlement {
         return maxPopulation;
     }
 
+    // TODO: This should be implemented just like adding population below
     public void setMaxPopulation(int newMax) {
         this.maxPopulation = newMax;
     }

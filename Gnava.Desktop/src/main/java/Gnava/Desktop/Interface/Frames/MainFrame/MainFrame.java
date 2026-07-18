@@ -14,12 +14,14 @@ import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel.GameE
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;
 import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
+import Gnava.Desktop.Interface.Translations.Translator;
 import org.springframework.context.event.EventListener;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.net.URL;
+import java.util.Map;
 
 public class MainFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(400, 600);
@@ -33,19 +35,22 @@ public class MainFrame extends JFrame {
 
     private final TimeManager timeManager;
     private final SettlementManager settlementManager;
+    private final Translator translator;
 
     public MainFrame(
         String title,
         TimeManager timeManager,
         SettlementManager settlementManager,
         MenuBar menuBar,
-        GameEventsPanel gameEventsPanel
+        GameEventsPanel gameEventsPanel,
+            Translator translator
     ) {
         super(title);
         this.menu = menuBar;
         this.timeManager = timeManager;
         this.settlementManager = settlementManager;
         this.gameEventsPanel = gameEventsPanel;
+        this.translator = translator;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(PREFERRED_SIZE);
         setSize(PREFERRED_SIZE);
@@ -151,12 +156,18 @@ public class MainFrame extends JFrame {
                     StringBuilder sb = new StringBuilder();
 
                     if (selected.isPlayer()) {
-                        sb.append("<b>This is your settlement!</b>").append("<br>").append("<br>");
+                        sb.append(translator.t("ui.popups.settlement_details.is_player"));
                     }
-                    sb.append("Settlement: ").append(selected.getName()).append("<br>");
-                    sb.append("Population type: ").append(selected.getPopulationType()).append("<br>");
-                    sb.append("Population: ").append(selected.getTotalPopulation()).append("/").append(selected.getMaxPopulation()).append("<br>");
-                    sb.append("Wealth: ").append(selected.getWealthLevel()).append("<br>");
+                    sb.append(translator.t(
+                        "ui.popups.settlement_details.text",
+                        Map.ofEntries(
+                            Map.entry("name", selected.getName()),
+                            Map.entry("population_type", selected.getPopulationType().toString()),
+                            Map.entry("population", String.valueOf(selected.getTotalPopulation())),
+                            Map.entry("max_population", String.valueOf(selected.getMaxPopulation())),
+                            Map.entry("wealth", selected.getWealthLevel().toString())
+                        )
+                    ));
 
                     new PlaintextPopup(this, sb.toString()).show();
                     settlementList.setSelectedValue(null, false);

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
+import java.util.Map;
 
 @Component
 public class GameEventsPanel extends JPanel {
@@ -62,7 +63,10 @@ public class GameEventsPanel extends JPanel {
                 new PlaintextPopup(
                     parent,
                     translator.t(translationData.descriptionKey(), translationData.context()),
-                    "Happened on day %s".formatted(selected.happenedOnDay())
+                    translator.t(
+                        "ui.popups.event_details.title",
+                        Map.of("day", String.valueOf(selected.happenedOnDay()))
+                    )
                 ).show();
                 eventList.clearSelection();
             }

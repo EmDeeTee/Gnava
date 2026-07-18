@@ -7,6 +7,7 @@ import Gnava.Desktop.Interface.Frames.MainFrame.Components.MenuBar;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.TranslationManager;
+import Gnava.Desktop.Interface.Translations.Translator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,14 +20,16 @@ public class GnavaConfiguration {
         TimeManager timeManager,
         SettlementManager settlementManager,
         MenuBar menuBar,
-        GameEventsPanel gameEventsPanel
+        GameEventsPanel gameEventsPanel,
+        Translator translator
     ) {
         return new MainFrame(
             TranslationManager.getInstance().getTranslationTable().t(TranslationKey.GKINGDOMS),
             timeManager,
             settlementManager,
             menuBar,
-            gameEventsPanel
+            gameEventsPanel,
+            translator
         );
     }
 }

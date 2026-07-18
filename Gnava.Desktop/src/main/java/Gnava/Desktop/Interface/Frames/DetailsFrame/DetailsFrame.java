@@ -3,6 +3,7 @@ package Gnava.Desktop.Interface.Frames.DetailsFrame;
 import Gnava.Core.EventBus.Events.SettlementCreatedEvent;
 import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.Repositories.ISettlementProvider;
+import Gnava.Desktop.Interface.Translations.Translator;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,8 @@ public final class DetailsFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(600, 400);
     private final SettlementTableModel settlementTableModel;
 
-    public DetailsFrame(ISettlementProvider settlementProvider) {
-        setTitle("Detailed settlements view");
+    public DetailsFrame(ISettlementProvider settlementProvider, Translator translator) {
+        setTitle(translator.t("ui.frames.details"));
         setIconImage(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB));
         setSize(PREFERRED_SIZE);
         setMinimumSize(PREFERRED_SIZE);
