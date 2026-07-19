@@ -90,7 +90,7 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel buildTopPanel() {
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 10));
         topPanel.setBackground(Color.LIGHT_GRAY);
 
         JLabel currentTimeLabel = new JLabel(Translation.t(TranslationKey.CURRENT_DAY));
