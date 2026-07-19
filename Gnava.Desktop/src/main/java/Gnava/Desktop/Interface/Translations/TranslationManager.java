@@ -6,6 +6,9 @@ import Gnava.Desktop.Interface.Translations.Tables.TranslationTableEnglish;
 
 import java.util.Objects;
 
+/**
+ * @deprecated Use {@link Translator} instead
+ */
 @Deprecated
 public class TranslationManager {
     private static TranslationManager instance;
