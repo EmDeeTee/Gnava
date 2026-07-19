@@ -5,17 +5,18 @@ import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Desktop.Interface.Translations.Translator;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-@Service
+@Component
 public final class DetailsFrame extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(600, 400);
     private final SettlementTableModel settlementTableModel;
 
+    // TODO: Maybe move this to a separate method so spring wil not eager create UI
     public DetailsFrame(ISettlementProvider settlementProvider, Translator translator) {
         setTitle(translator.t("ui.frames.details"));
         setIconImage(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB));

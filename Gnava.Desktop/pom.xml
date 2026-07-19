@@ -27,6 +27,12 @@
             <artifactId>Gnava.Persistence</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.6</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

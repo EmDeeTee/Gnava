@@ -14,6 +14,7 @@ import Gnava.Desktop.Interface.Actions.CastSpellAction;
 import Gnava.Desktop.Interface.Actions.CreateSettlementAction;
 import Gnava.Desktop.Interface.Actions.ShowSpellsStatisticsAction;
 import Gnava.Desktop.Interface.Actions.ShowWorldStatisticsAction;
+import Gnava.Desktop.Interface.Frames.ChartFrame.ChartFrame;
 import Gnava.Desktop.Interface.Frames.DetailsFrame.DetailsFrame;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Presets.CreateSettlementPopup;
@@ -39,6 +40,7 @@ public class MenuBar extends JMenuBar {
     private final JMenuItem showWorldStatisticsItem = new JMenuItem();
     private final JMenuItem showSpellStatisticsItem = new JMenuItem();
     private final JMenuItem openDetailsWindowItem = new JMenuItem();
+    private final JMenuItem openChart = new JMenuItem();
 
     private final JMenu spellMenu = new JMenu(Translation.t(TranslationKey.MENU_SPELL_BOOK));
 
@@ -54,6 +56,7 @@ public class MenuBar extends JMenuBar {
         SpellStatisticsProvider spellStatisticsProvider,
         List<AbstractSpell> spells,
         DetailsFrame detailsFrame,
+        ChartFrame chartFrame,
         ISettlementProvider settlementProvider,
         SettlementNameGenerator settlementNameGenerator,
         Translator translator
@@ -69,6 +72,14 @@ public class MenuBar extends JMenuBar {
         showSpellStatisticsItem.setText(translator.t("ui.menus.actions.show_spell_statistics"));
         statisticsMenu.add(showSpellStatisticsItem);
         viewMenu.add(openDetailsWindowItem);
+        openChart.setText(translator.t("ui.menus.actions.show_population_chart"));
+        openChart.addActionListener(l -> {
+            SwingUtilities.invokeLater(() -> {
+                chartFrame.setVisible(true);
+                chartFrame.display();
+            });
+        });
+        viewMenu.add(openChart);
 
         registerSpellMenuItems();
 
