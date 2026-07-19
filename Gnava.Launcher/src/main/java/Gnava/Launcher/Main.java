@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import javax.swing.SwingUtilities;
+
 public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
@@ -14,6 +16,8 @@ public class Main {
         Gnava gnava = context.getBean(Gnava.class);
 
         LOGGER.info("Gnava starting UI");
-        gnava.initUi();
+        // Swing components must be built and shown on the event dispatch thread. Doing it on the
+        // main thread happens to work on Windows but leaves dialogs unpainted on X11/Wayland.
+        SwingUtilities.invokeLater(gnava::initUi);
     }
 }
