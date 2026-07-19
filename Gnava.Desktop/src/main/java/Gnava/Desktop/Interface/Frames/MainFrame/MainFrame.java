@@ -77,15 +77,14 @@ public class MainFrame extends JFrame {
         JPanel topPanel = buildTopPanel();
         JPanel bottomPanel = buildBottomPanel();
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-        splitPane.setTopComponent(topPanel);
-        splitPane.setBottomComponent(bottomPanel);
-        splitPane.setResizeWeight(0.2);
-        splitPane.setDividerSize(0);
-        splitPane.setEnabled(false);
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(bottomPanel, BorderLayout.CENTER);
+
+        getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(splitPane, BorderLayout.CENTER);
+        getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         setJMenuBar(menu);
     }
