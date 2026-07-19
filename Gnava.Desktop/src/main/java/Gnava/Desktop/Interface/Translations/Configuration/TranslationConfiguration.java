@@ -19,12 +19,12 @@ public class TranslationConfiguration {
             return Locale.of("crustyDutch");
         }
 
-        LOGGER.debug("Guessing the locale...");
+        LOGGER.info("Guessing the locale...");
         Locale selectedLocale = System.getProperty("os.name").startsWith("Windows")
             ? Locale.ENGLISH
             : Locale.of("crustyDutch");
 
-        LOGGER.debug("Selected {} as locale", selectedLocale);
+        LOGGER.info("Selected {} as locale", selectedLocale);
         return selectedLocale;
     }
 }
