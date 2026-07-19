@@ -17,6 +17,8 @@ public abstract class Popup<T> {
     protected static final Dimension DEFAULT_DIMENSION = new Dimension(320, 205);
 
     protected final JDialog dialog;
+    private final Window owner;
+    private final Dimension size;
     private final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
     private boolean withDefaultOk = false;
@@ -36,12 +38,13 @@ public abstract class Popup<T> {
     }
 
     protected Popup(Window owner, String title, Dimension size) {
+        this.owner = owner;
+        this.size = size;
+
         dialog = new JDialog(owner, title, Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.setResizable(false);
         dialog.setLayout(new BorderLayout());
-        dialog.setSize(size);
-        dialog.setLocationRelativeTo(owner);
 
         dialog.add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -52,9 +55,17 @@ public abstract class Popup<T> {
         for (GnavaButton btn : buildButtons()) {
             buttonPanel.add(btn);
         }
-        buttonPanel.revalidate();
-        buttonPanel.repaint();
         registerKeyBindings();
+
+        // A dialog that is realized at a fixed setSize() without ever being packed loses its
+        // initial paint on X11/Wayland peers and comes up blank; Windows peers repaint anyway,
+        // which is why this only broke on Linux. Pack first, then re-apply the fixed size.
+        dialog.pack();
+        dialog.setSize(size);
+        // Centering has to happen after sizing, otherwise the dialog is placed using its
+        // pre-layout dimensions and ends up off-centre.
+        dialog.setLocationRelativeTo(owner);
+
         dialog.setVisible(true);
 
         return Optional.ofNullable(result);
