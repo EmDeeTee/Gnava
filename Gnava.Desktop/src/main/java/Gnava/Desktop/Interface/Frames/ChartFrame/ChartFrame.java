@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+// FIXME: Can't this memory leak?
 @Component
 public final class ChartFrame extends JFrame {
     private final Translator translator;
