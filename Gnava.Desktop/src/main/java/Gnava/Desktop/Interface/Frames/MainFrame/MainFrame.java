@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
         SettlementManager settlementManager,
         MenuBar menuBar,
         GameEventsPanel gameEventsPanel,
-            Translator translator
+        Translator translator
     ) {
         super(title);
         this.menu = menuBar;
