@@ -9,6 +9,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,8 @@ import java.awt.image.BufferedImage;
 // FIXME: Can't this memory leak?
 @Component
 public final class ChartFrame extends JFrame {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChartFrame.class);
+    
     private final Translator translator;
     private final ISettlementProvider settlementProvider;
 
@@ -60,11 +64,17 @@ public final class ChartFrame extends JFrame {
 
     @EventListener
     private void onTimeAdvanced(TimeAdvancedEvent event) {
-        SwingUtilities.invokeLater(this::refreshData);
+        if (isVisible()) {
+            LOGGER.debug("Updating chart because time advanced");
+            SwingUtilities.invokeLater(this::refreshData);
+        }
     }
 
     @EventListener
     private void onSettlementAdded(SettlementCreatedEvent event) {
-        SwingUtilities.invokeLater(this::refreshData);
+        if (isVisible()) {
+            LOGGER.debug("Updating chart because a settlement got added");
+            SwingUtilities.invokeLater(this::refreshData);
+        }
     }
 }
