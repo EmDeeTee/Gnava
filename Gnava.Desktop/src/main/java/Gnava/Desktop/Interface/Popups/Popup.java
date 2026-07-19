@@ -60,10 +60,9 @@ public abstract class Popup<T> {
         // A dialog that is realized at a fixed setSize() without ever being packed loses its
         // initial paint on X11/Wayland peers and comes up blank; Windows peers repaint anyway,
         // which is why this only broke on Linux. Pack first, then re-apply the fixed size.
+        // https://github.com/EmDeeTee/Gnava/pull/11
         dialog.pack();
         dialog.setSize(size);
-        // Centering has to happen after sizing, otherwise the dialog is placed using its
-        // pre-layout dimensions and ends up off-centre.
         dialog.setLocationRelativeTo(owner);
 
         dialog.setVisible(true);

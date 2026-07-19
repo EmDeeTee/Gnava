@@ -18,6 +18,7 @@ public class Main {
         LOGGER.info("Gnava starting UI");
         // Swing components must be built and shown on the event dispatch thread. Doing it on the
         // main thread happens to work on Windows but leaves dialogs unpainted on X11/Wayland.
+        // https://github.com/EmDeeTee/Gnava/pull/11
         SwingUtilities.invokeLater(gnava::initUi);
     }
 }
