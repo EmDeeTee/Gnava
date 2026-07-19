@@ -7,7 +7,7 @@ import Gnava.Desktop.Interface.Translations.Translator;
 /**
  * @deprecated Use {@link Translator} instead
  */
-@Deprecated
+@Deprecated(since = "1.0.0")
 public final class Translation {
     public static String t(TranslationKey key) {
         return TranslationManager.getInstance().getTranslationTable().t(key);

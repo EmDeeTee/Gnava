@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * @deprecated Use {@link Translator} instead
  */
-@Deprecated
+@Deprecated(since = "1.0.0")
 public class TranslationManager {
     private static TranslationManager instance;
 

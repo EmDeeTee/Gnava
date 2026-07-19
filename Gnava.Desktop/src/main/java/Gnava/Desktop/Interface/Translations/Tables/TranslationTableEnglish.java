@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
+@Deprecated(since = "1.0.0")
 public class TranslationTableEnglish implements TranslationTable {
     private final Map<TranslationKey, String> table;
 

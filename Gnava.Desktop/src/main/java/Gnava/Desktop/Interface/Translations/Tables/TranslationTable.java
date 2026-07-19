@@ -4,6 +4,7 @@ import Gnava.Desktop.Interface.Translations.TranslationKey;
 
 import java.util.Map;
 
+@Deprecated(since = "1.0.0")
 public interface TranslationTable {
     String language();
 
