@@ -86,6 +86,8 @@ public abstract class AbstractGameEventDefinition<C extends EventContext> implem
         );
     }
 
+    // TODO: I want this to work more like Paradox's engine, where events define only one translation key, ex. events.growth_event
+    // and then the engine automatically figures out that this event also has keys for .title and .description
     protected abstract String getTitleTranslationKey();
 
     protected abstract String getDescriptionTranslationKey();
