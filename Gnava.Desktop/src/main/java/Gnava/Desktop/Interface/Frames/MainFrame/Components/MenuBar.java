@@ -3,6 +3,7 @@ package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 import Gnava.Core.Commands.CastSpellCommand;
 import Gnava.Core.Commands.CastSpellRequest;
 import Gnava.Core.Commands.CreateSettlementCommand;
+import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
 import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Repositories.ISettlementProvider;
@@ -59,7 +60,8 @@ public class MenuBar extends JMenuBar {
         ChartFrame chartFrame,
         ISettlementProvider settlementProvider,
         SettlementNameGenerator settlementNameGenerator,
-        Translator translator
+        Translator translator,
+        SettlementCreationPolicy settlementCreationPolicy
     ) {
         super();
         this.castSpellCommand = castSpellCommand;
@@ -86,7 +88,7 @@ public class MenuBar extends JMenuBar {
         createSettlementItem.setText(translator.t("ui.menus.actions.create_settlement"));
         createSettlementItem.addActionListener(l -> {
             MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-            new CreateSettlementPopup(frame, settlementNameGenerator).show().ifPresent(settlement -> {
+            new CreateSettlementPopup(frame, settlementNameGenerator, settlementCreationPolicy).show().ifPresent(settlement -> {
                 new CreateSettlementAction(
                     createSettlementCommand,
                     () -> settlement

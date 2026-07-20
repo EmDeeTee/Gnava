@@ -1,6 +1,7 @@
 package Gnava.Desktop;
 
 import Gnava.Core.Commands.CreateSettlementCommand;
+import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
 import Gnava.Desktop.Interface.Actions.CreateSettlementAction;
@@ -16,15 +17,18 @@ public class Gnava {
     private final MainFrame mainFrame;
     private final SettlementManager settlementManager;
     private final SettlementNameGenerator settlementNameGenerator;
+    private final SettlementCreationPolicy settlementCreationPolicy;
 
     public Gnava(
         MainFrame mainFrame,
         SettlementManager settlementManager,
-        SettlementNameGenerator settlementNameGenerator
+        SettlementNameGenerator settlementNameGenerator,
+        SettlementCreationPolicy settlementCreationPolicy
     ) {
         this.mainFrame = mainFrame;
         this.settlementManager = settlementManager;
         this.settlementNameGenerator = settlementNameGenerator;
+        this.settlementCreationPolicy = settlementCreationPolicy;
     }
 
     public void initUi() {
@@ -41,7 +45,8 @@ public class Gnava {
                 TranslationManager.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT),
                 true,
                 true,
-                settlementNameGenerator
+                settlementNameGenerator,
+                settlementCreationPolicy
             ).show().orElseThrow()
         ).execute();
     }

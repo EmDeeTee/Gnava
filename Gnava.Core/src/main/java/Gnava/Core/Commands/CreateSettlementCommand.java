@@ -2,11 +2,11 @@ package Gnava.Core.Commands;
 
 import Gnava.Core.Managers.SettlementCreationResult;
 import Gnava.Core.Managers.Settlement.SettlementManager;
-import Gnava.Core.Settlements.Settlement;
+import Gnava.Core.Settlements.Requests.CreateSettlementRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateSettlementCommand implements Command<Settlement, SettlementCreationResult> {
+public class CreateSettlementCommand implements Command<CreateSettlementRequest, SettlementCreationResult> {
     private final SettlementManager settlementManager;
 
     public CreateSettlementCommand(SettlementManager settlementManager) {
@@ -14,7 +14,7 @@ public class CreateSettlementCommand implements Command<Settlement, SettlementCr
     }
 
     @Override
-    public SettlementCreationResult execute(Settlement settlement) {
-        return settlementManager.tryCreateSettlement(settlement);
+    public SettlementCreationResult execute(CreateSettlementRequest request) {
+        return settlementManager.tryCreateSettlement(request);
     }
 }

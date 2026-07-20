@@ -1,8 +1,10 @@
 package Gnava.Desktop.Interface.Popups.Presets;
 
+import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
+import Gnava.Core.Managers.SettlementCreationResult;
 import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
 import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
-import Gnava.Core.Settlements.Settlement;
+import Gnava.Core.Settlements.Requests.CreateSettlementRequest;
 import Gnava.Core.Settlements.Enums.SettlementPopulationType;
 import Gnava.Desktop.Interface.Elements.GnavaButton;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
@@ -13,18 +15,21 @@ import Gnava.Desktop.Interface.Translations.TranslationManager;
 import javax.swing.*;
 import java.awt.*;
 
-public final class CreateSettlementPopup extends Popup<Settlement> {
+public final class CreateSettlementPopup extends Popup<CreateSettlementRequest> {
     private final JTextField nameField = new JTextField(15);
     private final JComboBox<SettlementPopulationType> populationTypeCombo = new JComboBox<>(SettlementPopulationType.values());
     private final boolean player;
     private final SettlementNameGenerator settlementNameGenerator;
+    private final SettlementCreationPolicy settlementCreationPolicy;
 
-    public CreateSettlementPopup(MainFrame mainFrame, SettlementNameGenerator settlementNameGenerator) {
+    public CreateSettlementPopup(MainFrame mainFrame, SettlementNameGenerator settlementNameGenerator, SettlementCreationPolicy settlementCreationPolicy) {
         this(
             mainFrame,
             TranslationManager.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT),
             false,
-            false, settlementNameGenerator
+            false,
+            settlementNameGenerator,
+            settlementCreationPolicy
         );
     }
 
@@ -33,10 +38,12 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
         String title,
         boolean forced,
         boolean isForPlayer,
-        SettlementNameGenerator settlementNameGenerator
+        SettlementNameGenerator settlementNameGenerator,
+        SettlementCreationPolicy settlementCreationPolicy
     ) {
         super(mainFrame, title);
         this.settlementNameGenerator = settlementNameGenerator;
+        this.settlementCreationPolicy = settlementCreationPolicy;
         withDefaultOk(this::submit);
         if (!forced) {
             withDefaultCancel(null);
@@ -100,15 +107,24 @@ public final class CreateSettlementPopup extends Popup<Settlement> {
             return;
         }
 
-        setResult(new Settlement(
+        CreateSettlementRequest request = new CreateSettlementRequest(
             name,
             1,
             10,
             (SettlementPopulationType) populationTypeCombo.getSelectedItem(),
             SettlementWealthLevel.MODERATE,
             player
-        ));
-
-        close();
+        );
+        SettlementCreationResult result = settlementCreationPolicy.validate(request);
+        if (result.ok()) {
+            setResult(request);
+            close();
+        } else {
+            JOptionPane.showMessageDialog(
+                JOptionPane.getRootFrame(),
+                result.reason()
+            );
+            return;
+        }
     }
 }

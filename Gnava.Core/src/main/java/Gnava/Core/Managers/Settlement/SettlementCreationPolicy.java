@@ -1,11 +1,13 @@
 package Gnava.Core.Managers.Settlement;
 
 import Gnava.Core.Managers.SettlementCreationResult;
-import Gnava.Core.Settlements.Settlement;
+import Gnava.Core.Settlements.Requests.CreateSettlementRequest;
 import Gnava.Core.Repositories.ISettlementRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+import java.util.Objects;
+
+@Service
 public final class SettlementCreationPolicy {
     private static final int MAX_SETTLEMENTS = 10;
     private final ISettlementRepository settlementRepository;
@@ -14,12 +16,15 @@ public final class SettlementCreationPolicy {
         this.settlementRepository = settlementRepository;
     }
 
-    public SettlementCreationResult validate(Settlement target) {
+    public SettlementCreationResult validate(CreateSettlementRequest target) {
         if (settlementRepository.count() >= MAX_SETTLEMENTS) {
             return new SettlementCreationResult(false, "Too many settlements");
         }
-        if (target.getName().startsWith("K")) {
+        if (target.name().startsWith("K")) {
             return new SettlementCreationResult(false, "Settlement names may not start with 'K'");
+        }
+        if (settlementRepository.getAll().stream().anyMatch(s -> Objects.equals(s.getName(), target.name()))) {
+            return new SettlementCreationResult(false, "Settlements must have unique names");
         }
 
         return new SettlementCreationResult(true, "OK");

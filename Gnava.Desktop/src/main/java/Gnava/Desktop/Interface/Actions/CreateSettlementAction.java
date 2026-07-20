@@ -3,15 +3,16 @@ package Gnava.Desktop.Interface.Actions;
 import Gnava.Core.Commands.Command;
 import Gnava.Core.Commands.CommandAction;
 import Gnava.Core.Managers.SettlementCreationResult;
-import Gnava.Core.Settlements.Settlement;
+import Gnava.Core.Settlements.Requests.CreateSettlementRequest;
 
 import javax.swing.*;
 import java.util.function.Supplier;
 
-public class CreateSettlementAction extends CommandAction<Settlement, SettlementCreationResult> {
+// uhhhhhh
+public class CreateSettlementAction extends CommandAction<CreateSettlementRequest, SettlementCreationResult> {
     public CreateSettlementAction(
-        Command<Settlement, SettlementCreationResult> command,
-        Supplier<Settlement> supplier
+        Command<CreateSettlementRequest, SettlementCreationResult> command,
+        Supplier<CreateSettlementRequest> supplier
     ) {
         super(command, supplier);
     }

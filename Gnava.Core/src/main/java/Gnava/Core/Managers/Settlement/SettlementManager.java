@@ -4,6 +4,7 @@ import Gnava.Core.EventBus.Events.SettlementCreatedEvent;
 import Gnava.Core.GameState;
 import Gnava.Core.Managers.AbstractGameManager;
 import Gnava.Core.Managers.SettlementCreationResult;
+import Gnava.Core.Settlements.Requests.CreateSettlementRequest;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Repositories.ISettlementRepository;
 import org.springframework.context.ApplicationEventPublisher;
@@ -29,13 +30,13 @@ public final class SettlementManager extends AbstractGameManager {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    public SettlementCreationResult tryCreateSettlement(Settlement settlement) {
-        SettlementCreationResult result = settlementCreationPolicy.validate(settlement);
+    public SettlementCreationResult tryCreateSettlement(CreateSettlementRequest request) {
+        SettlementCreationResult result = settlementCreationPolicy.validate(request);
         if (!result.ok()) {
             return result;
         }
 
-        createSettlement(settlement);
+        createSettlement(request);
         return result;
     }
 
@@ -43,7 +44,16 @@ public final class SettlementManager extends AbstractGameManager {
         return this.settlementRepository.getAll();
     }
 
-    private void createSettlement(Settlement settlement) {
+    private void createSettlement(CreateSettlementRequest request) {
+        Settlement settlement = new Settlement(
+            request.name(),
+            request.initialPopulation(),
+            request.maxPopulation(),
+            request.populationType(),
+            request.wealthLevel(),
+            request.isPlayer()
+        );
+
         this.settlementRepository.save(settlement);
         applicationEventPublisher.publishEvent(new SettlementCreatedEvent(settlement));
     }
