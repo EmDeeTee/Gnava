@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.util.function.Supplier;
 
 // uhhhhhh
+// TODO: Maybe just delete it and inject command into the popup?
 public class CreateSettlementAction extends CommandAction<CreateSettlementRequest, SettlementCreationResult> {
     public CreateSettlementAction(
         Command<CreateSettlementRequest, SettlementCreationResult> command,
