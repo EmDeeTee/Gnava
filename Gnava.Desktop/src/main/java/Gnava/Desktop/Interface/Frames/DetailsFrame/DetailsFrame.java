@@ -31,7 +31,6 @@ public final class DetailsFrame extends JFrame {
         setSize(PREFERRED_SIZE);
         setMinimumSize(PREFERRED_SIZE);
         setResizable(false);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         JTable table = new JTable(settlementTableModel);
         JScrollPane scrollPane = new JScrollPane(table);
