@@ -4,6 +4,8 @@ import Gnava.Core.EventBus.Events.SettlementCreatedEvent;
 import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Desktop.Interface.Translations.Translator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +15,17 @@ import java.awt.image.BufferedImage;
 
 @Component
 public final class DetailsFrame extends JFrame {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DetailsFrame.class);
     private static final Dimension PREFERRED_SIZE = new Dimension(600, 400);
     private final SettlementTableModel settlementTableModel;
+    private final Translator translator;
 
-    // TODO: Maybe move this to a separate method so spring wil not eager create UI
     public DetailsFrame(ISettlementProvider settlementProvider, Translator translator) {
+        settlementTableModel = new SettlementTableModel(settlementProvider.getAll());
+        this.translator = translator;
+    }
+
+    public void display() {
         setTitle(translator.t("ui.frames.details"));
         setIconImage(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB));
         setSize(PREFERRED_SIZE);
@@ -25,7 +33,6 @@ public final class DetailsFrame extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        settlementTableModel = new SettlementTableModel(settlementProvider.getAll());
         JTable table = new JTable(settlementTableModel);
         JScrollPane scrollPane = new JScrollPane(table);
 
@@ -35,11 +42,17 @@ public final class DetailsFrame extends JFrame {
 
     @EventListener
     private void onSettlementAdded(SettlementCreatedEvent event) {
-        settlementTableModel.fireTableDataChanged();
+        if (isVisible()) {
+            LOGGER.debug("Updating table because settlement got added");
+            settlementTableModel.fireTableDataChanged();
+        }
     }
 
     @EventListener
     private void onTimeAdvanced(TimeAdvancedEvent event) {
-        settlementTableModel.fireTableDataChanged();
+        if (isVisible()) {
+            LOGGER.debug("Updating table because time advanced");
+            settlementTableModel.fireTableDataChanged();
+        }
     }
 }

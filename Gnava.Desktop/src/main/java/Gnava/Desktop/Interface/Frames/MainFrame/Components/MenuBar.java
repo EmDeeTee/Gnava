@@ -99,7 +99,10 @@ public class MenuBar extends JMenuBar {
         showSpellStatisticsItem.addActionListener(new ShowSpellsStatisticsAction(spellStatisticsProvider));
         openDetailsWindowItem.setText(translator.t("ui.menus.actions.details"));
         openDetailsWindowItem.addActionListener(a -> {
-            detailsFrame.setVisible(true);
+            SwingUtilities.invokeLater(() -> {
+                detailsFrame.setVisible(true);
+                detailsFrame.display();
+            });
         });
 
         add(actionsMenu);
