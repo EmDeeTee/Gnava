@@ -17,6 +17,7 @@ public abstract class Popup<T> {
     protected static final Dimension DEFAULT_DIMENSION = new Dimension(320, 205);
 
     protected final JDialog dialog;
+    // REFACTOR: Probably no need to be aware of parent
     private final Window owner;
     private final Dimension size;
     private final JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.function.Supplier;
 
+@Deprecated
 public abstract class CommandAction<I, O> extends AbstractAction {
     private final Command<I, O> command;
     private final Supplier<I> inputSupplier;
