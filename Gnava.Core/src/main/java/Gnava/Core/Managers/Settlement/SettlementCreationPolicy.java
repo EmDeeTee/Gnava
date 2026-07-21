@@ -23,7 +23,7 @@ public final class SettlementCreationPolicy {
         if (target.name().startsWith("K")) {
             return new SettlementCreationResult(false, "Settlement names may not start with 'K'");
         }
-        if (settlementRepository.getAll().stream().anyMatch(s -> Objects.equals(s.getName(), target.name()))) {
+        if (settlementRepository.getAll().stream().anyMatch(s -> Objects.equals(s.getName().toLowerCase(), target.name().toLowerCase()))) {
             return new SettlementCreationResult(false, "Settlements must have unique names");
         }
 
