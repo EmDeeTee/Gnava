@@ -12,8 +12,13 @@ public abstract class AbstractServerEndpoint {
 
     public final void handle(HttpExchange exchange) throws IOException {
         try (exchange) {
+            if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+                exchange.getResponseHeaders().set("Allow", "GET");
+                exchange.sendResponseHeaders(405, -1);
+                return;
+            }
+            
             Object response = buildResponse(exchange);
-
             byte[] body = MAPPER.writeValueAsBytes(response);
 
             exchange.getResponseHeaders().set("Content-Type", "application/json");
