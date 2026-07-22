@@ -13,7 +13,7 @@ public final class HelloEndpoint extends AbstractServerEndpoint {
     }
 
     @Override
-    protected Object handle(HttpExchange exchange) {
+    protected Object buildResponse(HttpExchange exchange) {
         return new HelloResponse(
             "world"
         );

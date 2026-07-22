@@ -5,6 +5,8 @@ import Gnava.Core.Commands.CastSpellRequest;
 import Gnava.Core.Commands.CreateSettlementCommand;
 import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
 import Gnava.Core.Server.ApiServer;
+import Gnava.Core.Server.ServerStartResult;
+import Gnava.Core.Server.ServerStopResult;
 import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Repositories.ISettlementProvider;
@@ -90,18 +92,16 @@ public class MenuBar extends JMenuBar {
         });
         viewMenu.add(openChart);
         startServer.addActionListener(l -> {
-            try {
-                apiServer.start();
-                SwingUtilities.invokeLater(() -> {
-                    serverStatus.setSelected(apiServer.isRunning());
-                });
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            ServerStartResult result = apiServer.start();
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(this, result, "Message", JOptionPane.INFORMATION_MESSAGE);
+                serverStatus.setSelected(apiServer.isRunning());
+            });
         });
         stopServer.addActionListener(l -> {
-            apiServer.stop();
+            ServerStopResult result = apiServer.stop();
             SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(this, result, "Message", JOptionPane.INFORMATION_MESSAGE);
                 serverStatus.setSelected(apiServer.isRunning());
             });
         });
