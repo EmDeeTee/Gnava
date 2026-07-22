@@ -1,7 +1,6 @@
 package Gnava.Core.Server.Endpoints;
 
 import com.sun.net.httpserver.HttpExchange;
-import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -13,7 +12,7 @@ public abstract class AbstractServerEndpoint {
 
     public final void init(HttpExchange exchange) throws IOException {
         try (exchange) {
-            JsonNode response = handle(exchange);
+            Object response = handle(exchange);
 
             byte[] body = MAPPER.writeValueAsBytes(response);
 
@@ -23,5 +22,5 @@ public abstract class AbstractServerEndpoint {
         }
     }
 
-    protected abstract JsonNode handle(HttpExchange exchange);
+    protected abstract Object handle(HttpExchange exchange);
 }

@@ -46,6 +46,7 @@ public class MenuBar extends JMenuBar {
     private final JMenuItem openDetailsWindowItem = new JMenuItem();
     private final JMenuItem openChart = new JMenuItem();
     private final JMenuItem startServer = new JMenuItem("Start");
+    private final JMenuItem stopServer = new JMenuItem("Stop");
     private final JMenuItem serverStatus = new JCheckBoxMenuItem("Server running?");
 
     private final JMenu spellMenu = new JMenu(Translation.t(TranslationKey.MENU_SPELL_BOOK));
@@ -92,13 +93,20 @@ public class MenuBar extends JMenuBar {
             try {
                 apiServer.start();
                 SwingUtilities.invokeLater(() -> {
-                    serverStatus.setSelected(true);
+                    serverStatus.setSelected(apiServer.isRunning());
                 });
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+        stopServer.addActionListener(l -> {
+            apiServer.stop();
+            SwingUtilities.invokeLater(() -> {
+                serverStatus.setSelected(apiServer.isRunning());
+            });
+        });
         serverMenu.add(startServer);
+        serverMenu.add(stopServer);
         serverStatus.setEnabled(false);
         serverMenu.add(serverStatus);
 
