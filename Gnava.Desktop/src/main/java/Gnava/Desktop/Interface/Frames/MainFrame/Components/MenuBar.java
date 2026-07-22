@@ -4,6 +4,7 @@ import Gnava.Core.Commands.CastSpellCommand;
 import Gnava.Core.Commands.CastSpellRequest;
 import Gnava.Core.Commands.CreateSettlementCommand;
 import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
+import Gnava.Core.Server.ApiServer;
 import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Repositories.ISettlementProvider;
@@ -26,6 +27,7 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -37,11 +39,14 @@ public class MenuBar extends JMenuBar {
 
     private final JMenu statisticsMenu = new JMenu(Translation.t(TranslationKey.MENU_STATISTICS));
     private final JMenu viewMenu = new JMenu(Translation.t(TranslationKey.MENU_VIEW));
+    private final JMenu serverMenu = new JMenu("Server");
 
     private final JMenuItem showWorldStatisticsItem = new JMenuItem();
     private final JMenuItem showSpellStatisticsItem = new JMenuItem();
     private final JMenuItem openDetailsWindowItem = new JMenuItem();
     private final JMenuItem openChart = new JMenuItem();
+    private final JMenuItem startServer = new JMenuItem("Start");
+    private final JMenuItem serverStatus = new JCheckBoxMenuItem("Server running?");
 
     private final JMenu spellMenu = new JMenu(Translation.t(TranslationKey.MENU_SPELL_BOOK));
 
@@ -61,7 +66,8 @@ public class MenuBar extends JMenuBar {
         ISettlementProvider settlementProvider,
         SettlementNameGenerator settlementNameGenerator,
         Translator translator,
-        SettlementCreationPolicy settlementCreationPolicy
+        SettlementCreationPolicy settlementCreationPolicy,
+        ApiServer apiServer
     ) {
         super();
         this.castSpellCommand = castSpellCommand;
@@ -82,6 +88,19 @@ public class MenuBar extends JMenuBar {
             });
         });
         viewMenu.add(openChart);
+        startServer.addActionListener(l -> {
+            try {
+                apiServer.start();
+                SwingUtilities.invokeLater(() -> {
+                    serverStatus.setSelected(true);
+                });
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        serverMenu.add(startServer);
+        serverStatus.setEnabled(false);
+        serverMenu.add(serverStatus);
 
         registerSpellMenuItems();
 
@@ -109,6 +128,7 @@ public class MenuBar extends JMenuBar {
         add(spellMenu);
         add(statisticsMenu);
         add(viewMenu);
+        add(serverMenu);
     }
 
     private void registerSpellMenuItems() {
