@@ -29,7 +29,6 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -113,15 +112,8 @@ public class MenuBar extends JMenuBar {
         registerSpellMenuItems();
 
         createSettlementItem.setText(translator.t("ui.menus.actions.create_settlement"));
-        createSettlementItem.addActionListener(l -> {
-            MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-            new CreateSettlementPopup(frame, settlementNameGenerator, settlementCreationPolicy).show().ifPresent(settlement -> {
-                new CreateSettlementAction(
-                    createSettlementCommand,
-                    () -> settlement
-                ).execute();
-            });
-        });
+        MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+        createSettlementItem.addActionListener(new CreateSettlementAction(createSettlementCommand, settlementNameGenerator, settlementCreationPolicy, frame));
         showWorldStatisticsItem.addActionListener(new ShowWorldStatisticsAction(worldStatisticsProvider));
         showSpellStatisticsItem.addActionListener(new ShowSpellsStatisticsAction(spellStatisticsProvider));
         openDetailsWindowItem.setText(translator.t("ui.menus.actions.details"));
@@ -161,8 +153,9 @@ public class MenuBar extends JMenuBar {
     private void executeSpell(AbstractSpell spell, @Nullable Settlement target) {
         new CastSpellAction(
             castSpellCommand,
-            () -> new CastSpellRequest(spell, target),
-            SwingUtilities.getWindowAncestor(this)
+            SwingUtilities.getWindowAncestor(this),
+            spell,
+            target
         ).execute();
     }
 }

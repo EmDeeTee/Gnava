@@ -7,7 +7,6 @@ import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
 import Gnava.Core.Settlements.Requests.CreateSettlementRequest;
 import Gnava.Core.Settlements.Enums.SettlementPopulationType;
 import Gnava.Desktop.Interface.Elements.GnavaButton;
-import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
 import Gnava.Desktop.Interface.Popups.Popup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.TranslationManager;
@@ -22,7 +21,7 @@ public final class CreateSettlementPopup extends Popup<CreateSettlementRequest> 
     private final SettlementNameGenerator settlementNameGenerator;
     private final SettlementCreationPolicy settlementCreationPolicy;
 
-    public CreateSettlementPopup(MainFrame mainFrame, SettlementNameGenerator settlementNameGenerator, SettlementCreationPolicy settlementCreationPolicy) {
+    public CreateSettlementPopup(Window mainFrame, SettlementNameGenerator settlementNameGenerator, SettlementCreationPolicy settlementCreationPolicy) {
         this(
             mainFrame,
             TranslationManager.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT),
@@ -34,7 +33,7 @@ public final class CreateSettlementPopup extends Popup<CreateSettlementRequest> 
     }
 
     public CreateSettlementPopup(
-        MainFrame mainFrame,
+        Window mainFrame,
         String title,
         boolean forced,
         boolean isForPlayer,

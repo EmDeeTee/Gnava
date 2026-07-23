@@ -1,30 +1,38 @@
 package Gnava.Desktop.Interface.Actions;
 
 import Gnava.Core.Commands.Command;
-import Gnava.Core.Commands.CommandAction;
+import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
 import Gnava.Core.Managers.SettlementCreationResult;
+import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
 import Gnava.Core.Settlements.Requests.CreateSettlementRequest;
+import Gnava.Desktop.Interface.Popups.Presets.CreateSettlementPopup;
 
-import javax.swing.*;
-import java.util.function.Supplier;
+import java.awt.*;
+import java.util.Optional;
 
-// uhhhhhh
-// TODO: Maybe just delete it and inject command into the popup?
 public class CreateSettlementAction extends CommandAction<CreateSettlementRequest, SettlementCreationResult> {
+    private final SettlementNameGenerator settlementNameGenerator;
+    private final SettlementCreationPolicy settlementCreationPolicy;
+    private final Window owner;
+
     public CreateSettlementAction(
         Command<CreateSettlementRequest, SettlementCreationResult> command,
-        Supplier<CreateSettlementRequest> supplier
+        SettlementNameGenerator settlementNameGenerator,
+        SettlementCreationPolicy settlementCreationPolicy,
+        Window owner
     ) {
-        super(command, supplier);
+        super(command);
+        this.settlementNameGenerator = settlementNameGenerator;
+        this.settlementCreationPolicy = settlementCreationPolicy;
+        this.owner = owner;
     }
 
     @Override
-    protected void handleResult(SettlementCreationResult result) {
-        if (!result.ok()) {
-            JOptionPane.showMessageDialog(
-                null,
-                result.reason()
-            );
-        }
+    protected Optional<CreateSettlementRequest> getInput() {
+        return new CreateSettlementPopup(
+            owner,
+            settlementNameGenerator,
+            settlementCreationPolicy
+        ).show();
     }
 }
