@@ -1,13 +1,13 @@
 package Gnava.Core.Events.Contexts;
 
-import Gnava.Core.GameState;
+import Gnava.Core.TimeState;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 
 public class WorldEventContext extends EventContext {
     public WorldEventContext(
-        GameState gameState,
+        TimeState timeState,
         WorldStatisticsProvider worldStatisticsProvider
     ) {
-        super(gameState, worldStatisticsProvider);
+        super(timeState, worldStatisticsProvider);
     }
 }

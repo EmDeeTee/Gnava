@@ -5,7 +5,7 @@ import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.Events.Contexts.EventContext;
 import Gnava.Core.Events.Contexts.Providers.IEventContextProvider;
 import Gnava.Core.Events.IGameEventDefinition;
-import Gnava.Core.GameState;
+import Gnava.Core.TimeState;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -22,11 +22,11 @@ public final class GameEventManager extends AbstractGameManager {
     private final List<IEventContextProvider<? extends EventContext>> eventContextProviders;
 
     public GameEventManager(
-        GameState gameState,
+        TimeState timeState,
         ApplicationEventPublisher applicationEventPublisher,
         List<IEventContextProvider<? extends EventContext>> eventContextProviders
     ) {
-        super(gameState);
+        super(timeState);
         this.applicationEventPublisher = applicationEventPublisher;
         this.eventContextProviders = eventContextProviders;
     }

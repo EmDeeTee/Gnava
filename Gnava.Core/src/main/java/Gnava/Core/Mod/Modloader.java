@@ -15,7 +15,7 @@ import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 @Service
-public class Modloader {
+public final class Modloader {
     private final IModContext modContext;
     private static final Logger LOGGER = LoggerFactory.getLogger(Modloader.class);
     

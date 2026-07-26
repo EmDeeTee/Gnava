@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 // Maybe turn this class into a GameClock of sorts?
 // So it will own the current time, and then mutate it in the TimeManager?
 @Component
-public class GameState {
+public final class TimeState {
     private int currentDay = 0;
 
-    public GameState() { }
+    public TimeState() { }
 
     public int getCurrentDay() {
         return currentDay;

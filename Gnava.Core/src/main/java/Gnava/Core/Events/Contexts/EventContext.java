@@ -1,7 +1,7 @@
 package Gnava.Core.Events.Contexts;
 
 import Gnava.Core.Statistics.Records.WorldStatistics;
-import Gnava.Core.GameState;
+import Gnava.Core.TimeState;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 
 import java.util.HashMap;
@@ -9,15 +9,15 @@ import java.util.Map;
 import java.util.Optional;
 
 public abstract class EventContext {
-    private final GameState gameState;
+    private final TimeState timeState;
     private final Map<String, Object> attachments = new HashMap<>();
     private final WorldStatisticsProvider worldStatisticsProvider;
 
     public EventContext(
-            GameState gameState,
+            TimeState timeState,
             WorldStatisticsProvider worldStatisticsProvider
     ) {
-        this.gameState = gameState;
+        this.timeState = timeState;
         this.worldStatisticsProvider = worldStatisticsProvider;
     }
 
@@ -35,8 +35,8 @@ public abstract class EventContext {
         return Optional.empty();
     }
 
-    public GameState getGameState() {
-        return gameState;
+    public TimeState getGameState() {
+        return timeState;
     }
 
     public WorldStatistics getWorldStatistics() {

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class Startup {
+public final class Startup {
     private final Modloader modloader;
 
     public Startup(Modloader modloader) {

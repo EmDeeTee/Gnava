@@ -4,7 +4,7 @@ import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.Events.Enums.GameOutcome;
 import Gnava.Core.EventBus.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Events.Registered.KEvent3;
-import Gnava.Core.GameState;
+import Gnava.Core.TimeState;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,11 @@ public final class VictoryConditionManager extends AbstractGameManager {
     private final GameEventManager gameEventManager;
 
     public VictoryConditionManager(
-        GameState gameState,
+        TimeState timeState,
         ApplicationEventPublisher applicationEventPublisher,
         GameEventManager gameEventManager
     ) {
-        super(gameState);
+        super(timeState);
         this.applicationEventPublisher = applicationEventPublisher;
         this.gameEventManager = gameEventManager;
     }

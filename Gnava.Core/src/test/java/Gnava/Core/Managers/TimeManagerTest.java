@@ -1,7 +1,7 @@
 package Gnava.Core.Managers;
 
 import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
-import Gnava.Core.GameState;
+import Gnava.Core.TimeState;
 import Gnava.Core.Mod.Context.GameTimeApi;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationEventPublisher;
@@ -15,16 +15,16 @@ import static org.mockito.Mockito.verify;
 class TimeManagerTest {
     @Test
     void advanceTime_publishesTheNewDayToCoreAndModListeners() {
-        GameState gameState = new GameState();
+        TimeState timeState = new TimeState();
         ApplicationEventPublisher applicationEvents = mock(ApplicationEventPublisher.class);
         GameTimeApi modTime = new GameTimeApi();
         AtomicInteger receivedDay = new AtomicInteger();
         modTime.onDayAdvanced(receivedDay::set);
-        TimeManager timeManager = new TimeManager(gameState, applicationEvents, modTime);
+        TimeManager timeManager = new TimeManager(timeState, applicationEvents, modTime);
 
         timeManager.advanceTime();
 
-        assertEquals(1, gameState.getCurrentDay());
+        assertEquals(1, timeState.getCurrentDay());
         assertEquals(1, receivedDay.get());
         verify(applicationEvents).publishEvent(new TimeAdvancedEvent(1));
     }

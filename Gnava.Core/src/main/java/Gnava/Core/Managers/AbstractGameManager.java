@@ -1,11 +1,11 @@
 package Gnava.Core.Managers;
 
-import Gnava.Core.GameState;
+import Gnava.Core.TimeState;
 
 public abstract class AbstractGameManager {
-    protected final GameState gameState;
+    protected final TimeState timeState;
 
-    public AbstractGameManager(GameState gameState) {
-        this.gameState = gameState;
+    public AbstractGameManager(TimeState timeState) {
+        this.timeState = timeState;
     }
 }

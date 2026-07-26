@@ -1,6 +1,6 @@
 package Gnava.Core.Managers.Spells;
 
-import Gnava.Core.GameState;
+import Gnava.Core.TimeState;
 import Gnava.Core.Managers.AbstractGameManager;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.RaceNames.CreatureNameGenerator;
@@ -21,13 +21,13 @@ public final class SpellManager extends AbstractGameManager {
     private final PlayerBodyCountTallyService playerBodyCountTallyService;
 
     public SpellManager(
-        GameState gameState,
+        TimeState timeState,
         ISettlementProvider settlementProvider,
         SpellStatisticsManager spellStatisticsManager,
         CreatureNameGenerator creatureNameGenerator,
         PlayerBodyCountTallyService playerBodyCountTallyService
     ) {
-        super(gameState);
+        super(timeState);
         this.settlementProvider = settlementProvider;
         this.spellStatisticsManager = spellStatisticsManager;
         this.creatureNameGenerator = creatureNameGenerator;
@@ -39,7 +39,7 @@ public final class SpellManager extends AbstractGameManager {
 
         SpellOutcome spellOutcome = spell.cast(
             new SpellContext(
-                gameState,
+                    timeState,
                 target,
                 creatureNameGenerator,
                 playerBodyCountTallyService

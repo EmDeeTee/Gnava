@@ -2,7 +2,7 @@ package Gnava.Core.Events.Contexts.Providers;
 
 import Gnava.Core.Events.Contexts.SettlementEventContext;
 import Gnava.Core.Events.IGameEventDefinition;
-import Gnava.Core.GameState;
+import Gnava.Core.TimeState;
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 public class SettlementEventContextProvider implements IEventContextProvider<SettlementEventContext> {
-    private final GameState gameState;
+    private final TimeState timeState;
     private final SettlementManager settlementManager;
     private final WorldStatisticsProvider worldStatisticsProvider;
 
@@ -20,13 +20,13 @@ public class SettlementEventContextProvider implements IEventContextProvider<Set
     private final List<IGameEventDefinition<SettlementEventContext>> events;
 
     public SettlementEventContextProvider(
-        GameState gameState,
+        TimeState timeState,
         SettlementManager settlementManager,
         WorldStatisticsProvider worldStatisticsProvider,
         ISettlementProvider settlementProvider,
         List<IGameEventDefinition<SettlementEventContext>> events
     ) {
-        this.gameState = gameState;
+        this.timeState = timeState;
         this.settlementManager = settlementManager;
         this.worldStatisticsProvider = worldStatisticsProvider;
         this.settlementProvider = settlementProvider;
@@ -36,7 +36,7 @@ public class SettlementEventContextProvider implements IEventContextProvider<Set
     @Override
     public SettlementEventContext buildContext() {
         return new SettlementEventContext(
-            gameState,
+                timeState,
             settlementManager,
             worldStatisticsProvider,
             settlementProvider.getRandom()

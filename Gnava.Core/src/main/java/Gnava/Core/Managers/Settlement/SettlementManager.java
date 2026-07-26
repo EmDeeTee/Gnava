@@ -1,7 +1,7 @@
 package Gnava.Core.Managers.Settlement;
 
 import Gnava.Core.EventBus.Events.SettlementCreatedEvent;
-import Gnava.Core.GameState;
+import Gnava.Core.TimeState;
 import Gnava.Core.Managers.AbstractGameManager;
 import Gnava.Core.Managers.SettlementCreationResult;
 import Gnava.Core.Settlements.Requests.CreateSettlementRequest;
@@ -19,12 +19,12 @@ public final class SettlementManager extends AbstractGameManager {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public SettlementManager(
-        GameState gameState,
+        TimeState timeState,
         ISettlementRepository settlementRepository,
         SettlementCreationPolicy settlementCreationPolicy,
         ApplicationEventPublisher applicationEventPublisher
     ) {
-        super(gameState);
+        super(timeState);
         this.settlementRepository = settlementRepository;
         this.settlementCreationPolicy = settlementCreationPolicy;
         this.applicationEventPublisher = applicationEventPublisher;
