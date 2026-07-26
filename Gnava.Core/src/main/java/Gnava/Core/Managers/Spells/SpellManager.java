@@ -10,6 +10,7 @@ import Gnava.Core.Spells.SpellContext;
 import Gnava.Core.Spells.SpellOutcome;
 import Gnava.Core.Statistics.Services.PlayerBodyCountTallyService;
 import Gnava.Core.Statistics.Services.SpellStatisticsManager;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,11 +34,9 @@ public final class SpellManager extends AbstractGameManager {
         this.playerBodyCountTallyService = playerBodyCountTallyService;
     }
 
-    public SpellOutcome castSpell(AbstractSpell spell) {
-        return castSpell(spell, settlementProvider.getRandom());
-    }
+    public SpellOutcome castSpell(AbstractSpell spell, @Nullable Settlement target) {
+        target = target == null ? settlementProvider.getRandom() : target;
 
-    public SpellOutcome castSpell(AbstractSpell spell, Settlement target) {
         SpellOutcome spellOutcome = spell.cast(
             new SpellContext(
                 gameState,

@@ -1,16 +1,16 @@
 package Gnava.Desktop.Interface.Actions;
 
-import Gnava.Core.Commands.Command;
+import Gnava.Core.CommandHandlers.ICommand;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Optional;
 
 public abstract class CommandAction<I, O> extends AbstractAction {
-    protected final Command<I, O> command;
+    protected final ICommand<I, O> command;
 
     public CommandAction(
-        Command<I, O> command
+        ICommand<I, O> command
     ) {
         this.command = command;
     }

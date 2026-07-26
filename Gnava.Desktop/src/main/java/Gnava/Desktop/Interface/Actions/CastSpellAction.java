@@ -1,7 +1,7 @@
 package Gnava.Desktop.Interface.Actions;
 
-import Gnava.Core.Commands.CastSpellRequest;
-import Gnava.Core.Commands.Command;
+import Gnava.Core.CommandHandlers.Requests.CastSpellRequest;
+import Gnava.Core.CommandHandlers.ICommand;
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Spells.SpellOutcome;
@@ -17,7 +17,7 @@ public class CastSpellAction extends CommandAction<CastSpellRequest, SpellOutcom
     private final @Nullable Settlement target;
 
     public CastSpellAction(
-        Command<CastSpellRequest, SpellOutcome> command,
+        ICommand<CastSpellRequest, SpellOutcome> command,
         Window owner,
         AbstractSpell spell,
         @Nullable Settlement target

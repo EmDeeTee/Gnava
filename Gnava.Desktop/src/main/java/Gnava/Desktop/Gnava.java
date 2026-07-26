@@ -1,6 +1,6 @@
 package Gnava.Desktop;
 
-import Gnava.Core.Commands.CreateSettlementCommand;
+import Gnava.Core.CommandHandlers.CreateSettlementHandler;
 import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
 import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
 import Gnava.Core.Startup;
@@ -19,20 +19,20 @@ public class Gnava {
     private final MainFrame mainFrame;
     private final SettlementNameGenerator settlementNameGenerator;
     private final SettlementCreationPolicy settlementCreationPolicy;
-    private final CreateSettlementCommand createSettlementCommand;
+    private final CreateSettlementHandler createSettlementHandler;
     private final Startup startup;
 
     public Gnava(
         MainFrame mainFrame,
         SettlementNameGenerator settlementNameGenerator,
         SettlementCreationPolicy settlementCreationPolicy,
-        CreateSettlementCommand createSettlementCommand,
+        CreateSettlementHandler createSettlementHandler,
         Startup startup
     ) {
         this.mainFrame = mainFrame;
         this.settlementNameGenerator = settlementNameGenerator;
         this.settlementCreationPolicy = settlementCreationPolicy;
-        this.createSettlementCommand = createSettlementCommand;
+        this.createSettlementHandler = createSettlementHandler;
         this.startup = startup;
     }
 
@@ -50,7 +50,7 @@ public class Gnava {
             TranslationManager.getInstance().getTranslationTable().t(TranslationKey.WELCOME_MESSAGE)
         ).show();
 
-        createSettlementCommand.execute(
+        createSettlementHandler.execute(
             new CreateSettlementPopup(
                 mainFrame,
                 TranslationManager.getInstance().getTranslationTable().t(TranslationKey.CREATE_SETTLEMENT),

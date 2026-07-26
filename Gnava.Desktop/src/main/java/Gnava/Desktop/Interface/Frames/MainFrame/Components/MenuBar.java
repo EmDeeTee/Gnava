@@ -1,8 +1,7 @@
 package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 
-import Gnava.Core.Commands.CastSpellCommand;
-import Gnava.Core.Commands.CastSpellRequest;
-import Gnava.Core.Commands.CreateSettlementCommand;
+import Gnava.Core.CommandHandlers.CastSpellHandler;
+import Gnava.Core.CommandHandlers.CreateSettlementHandler;
 import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
 import Gnava.Core.Server.ApiServer;
 import Gnava.Core.Server.ServerStartResult;
@@ -21,7 +20,6 @@ import Gnava.Desktop.Interface.Actions.ShowWorldStatisticsAction;
 import Gnava.Desktop.Interface.Frames.ChartFrame.ChartFrame;
 import Gnava.Desktop.Interface.Frames.DetailsFrame.DetailsFrame;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
-import Gnava.Desktop.Interface.Popups.Presets.CreateSettlementPopup;
 import Gnava.Desktop.Interface.Popups.Presets.SettlementSelectionPopup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.Translator;
@@ -52,14 +50,14 @@ public class MenuBar extends JMenuBar {
 
     private final JMenu spellMenu = new JMenu(Translation.t(TranslationKey.MENU_SPELL_BOOK));
 
-    private final CastSpellCommand castSpellCommand;
+    private final CastSpellHandler castSpellHandler;
     private final List<AbstractSpell> spells;
 
     private final ISettlementProvider settlementProvider;
 
     public MenuBar(
-        CreateSettlementCommand createSettlementCommand,
-        CastSpellCommand castSpellCommand,
+        CreateSettlementHandler createSettlementHandler,
+        CastSpellHandler castSpellHandler,
         WorldStatisticsProvider worldStatisticsProvider,
         SpellStatisticsProvider spellStatisticsProvider,
         List<AbstractSpell> spells,
@@ -72,7 +70,7 @@ public class MenuBar extends JMenuBar {
         ApiServer apiServer
     ) {
         super();
-        this.castSpellCommand = castSpellCommand;
+        this.castSpellHandler = castSpellHandler;
         this.spells = spells;
         this.settlementProvider = settlementProvider;
         this.translator = translator;
@@ -113,7 +111,7 @@ public class MenuBar extends JMenuBar {
 
         createSettlementItem.setText(translator.t("ui.menus.actions.create_settlement"));
         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-        createSettlementItem.addActionListener(new CreateSettlementAction(createSettlementCommand, settlementNameGenerator, settlementCreationPolicy, frame));
+        createSettlementItem.addActionListener(new CreateSettlementAction(createSettlementHandler, settlementNameGenerator, settlementCreationPolicy, frame));
         showWorldStatisticsItem.addActionListener(new ShowWorldStatisticsAction(worldStatisticsProvider));
         showSpellStatisticsItem.addActionListener(new ShowSpellsStatisticsAction(spellStatisticsProvider));
         openDetailsWindowItem.setText(translator.t("ui.menus.actions.details"));
@@ -152,7 +150,7 @@ public class MenuBar extends JMenuBar {
 
     private void executeSpell(AbstractSpell spell, @Nullable Settlement target) {
         new CastSpellAction(
-            castSpellCommand,
+                castSpellHandler,
             SwingUtilities.getWindowAncestor(this),
             spell,
             target

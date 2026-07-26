@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Actions;
 
-import Gnava.Core.Commands.Command;
+import Gnava.Core.CommandHandlers.ICommand;
 import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
 import Gnava.Core.Managers.SettlementCreationResult;
 import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
@@ -16,7 +16,7 @@ public class CreateSettlementAction extends CommandAction<CreateSettlementReques
     private final Window owner;
 
     public CreateSettlementAction(
-        Command<CreateSettlementRequest, SettlementCreationResult> command,
+        ICommand<CreateSettlementRequest, SettlementCreationResult> command,
         SettlementNameGenerator settlementNameGenerator,
         SettlementCreationPolicy settlementCreationPolicy,
         Window owner

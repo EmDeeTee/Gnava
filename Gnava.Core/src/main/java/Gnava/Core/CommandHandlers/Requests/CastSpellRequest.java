@@ -1,4 +1,4 @@
-package Gnava.Core.Commands;
+package Gnava.Core.CommandHandlers.Requests;
 
 import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.Spells.AbstractSpell;
