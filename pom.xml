@@ -13,6 +13,7 @@
         <module>Gnava.Desktop</module>
         <module>Gnava.Persistence</module>
         <module>Gnava.Launcher</module>
+        <module>Gnava.ModApi</module>
     </modules>
 
     <properties>
@@ -62,6 +63,13 @@
             <dependency>
                 <groupId>Gnava</groupId>
                 <artifactId>Gnava.Desktop</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>Gnava</groupId>
+                <artifactId>Gnava.ModApi</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>
