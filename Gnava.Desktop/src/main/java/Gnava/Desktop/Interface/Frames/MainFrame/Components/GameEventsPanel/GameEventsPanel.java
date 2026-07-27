@@ -1,7 +1,7 @@
 package Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel;
 
-import Gnava.Core.Events.ExecutedGameEvent;
-import Gnava.Core.Events.TranslationData;
+import Gnava.Core.GameEvents.ExecutedGameEvent;
+import Gnava.Core.GameEvents.TranslationData;
 import Gnava.Desktop.Facades.Translation;
 import Gnava.Desktop.Interface.Elements.GnavaButton;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel.Options.FilterOptions;

@@ -2,9 +2,9 @@ package Gnava.Core.Managers;
 
 import Gnava.Core.EventBus.Events.ExecutedGameEventReceivedEvent;
 import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
-import Gnava.Core.Events.Contexts.EventContext;
-import Gnava.Core.Events.Contexts.Providers.IEventContextProvider;
-import Gnava.Core.Events.IGameEventDefinition;
+import Gnava.Core.GameEvents.Contexts.EventContext;
+import Gnava.Core.GameEvents.Contexts.Providers.IEventContextProvider;
+import Gnava.Core.GameEvents.IGameEventDefinition;
 import Gnava.Core.TimeState;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;

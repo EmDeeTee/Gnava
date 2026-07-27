@@ -1,5 +1,5 @@
 package Gnava.Core.EventBus.Events;
 
-import Gnava.Core.Events.Enums.GameOutcome;
+import Gnava.Core.GameEvents.Enums.GameOutcome;
 
 public record GameOutcomeReceivedEvent(GameOutcome gameOutcome) { }

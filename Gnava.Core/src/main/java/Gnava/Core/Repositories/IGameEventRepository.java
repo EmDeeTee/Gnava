@@ -1,6 +1,6 @@
 package Gnava.Core.Repositories;
 
-import Gnava.Core.Events.IGameEventDefinition;
+import Gnava.Core.GameEvents.IGameEventDefinition;
 
 import java.util.List;
 

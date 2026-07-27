@@ -1,9 +1,9 @@
 package Gnava.Core.Managers;
 
 import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
-import Gnava.Core.Events.Enums.GameOutcome;
+import Gnava.Core.GameEvents.Enums.GameOutcome;
 import Gnava.Core.EventBus.Events.GameOutcomeReceivedEvent;
-import Gnava.Core.Events.Registered.KEvent3;
+import Gnava.Core.GameEvents.Registered.KEvent3;
 import Gnava.Core.TimeState;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;

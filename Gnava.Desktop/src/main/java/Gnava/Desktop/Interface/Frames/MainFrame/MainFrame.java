@@ -3,7 +3,7 @@ package Gnava.Desktop.Interface.Frames.MainFrame;
 import Gnava.Core.EventBus.Events.ExecutedGameEventReceivedEvent;
 import Gnava.Core.EventBus.Events.SettlementCreatedEvent;
 import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
-import Gnava.Core.Events.Enums.GameOutcome;
+import Gnava.Core.GameEvents.Enums.GameOutcome;
 import Gnava.Core.EventBus.Events.GameOutcomeReceivedEvent;
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Managers.TimeManager;

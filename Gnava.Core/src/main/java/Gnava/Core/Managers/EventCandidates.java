@@ -1,7 +1,7 @@
 package Gnava.Core.Managers;
 
-import Gnava.Core.Events.Contexts.EventContext;
-import Gnava.Core.Events.IGameEventDefinition;
+import Gnava.Core.GameEvents.Contexts.EventContext;
+import Gnava.Core.GameEvents.IGameEventDefinition;
 
 import java.util.List;
 

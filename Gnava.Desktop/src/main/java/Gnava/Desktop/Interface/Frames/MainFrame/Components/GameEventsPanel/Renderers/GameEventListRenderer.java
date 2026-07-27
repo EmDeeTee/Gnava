@@ -1,6 +1,6 @@
 package Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel.Renderers;
 
-import Gnava.Core.Events.ExecutedGameEvent;
+import Gnava.Core.GameEvents.ExecutedGameEvent;
 import Gnava.Desktop.Interface.Frames.MainFrame.Components.GameEventsPanel.Renderers.Exceptions.UnexpectedObjectTypeException;
 import Gnava.Desktop.Interface.Translations.Translator;
 
