@@ -1,14 +1,12 @@
 package Gnava.Core.GameEvents.Contexts.Providers;
 
 import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
-import Gnava.Core.GameEvents.IGameEventDefinition;
 import Gnava.Core.TimeState;
 import Gnava.Core.Managers.Settlement.SettlementManager;
 import Gnava.Core.Repositories.ISettlementProvider;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Component
 public class SettlementEventContextProvider implements IEventContextProvider<SettlementEventContext> {
@@ -17,34 +15,26 @@ public class SettlementEventContextProvider implements IEventContextProvider<Set
     private final WorldStatisticsProvider worldStatisticsProvider;
 
     private final ISettlementProvider settlementProvider;
-    private final List<IGameEventDefinition<SettlementEventContext>> events;
 
     public SettlementEventContextProvider(
         TimeState timeState,
         SettlementManager settlementManager,
         WorldStatisticsProvider worldStatisticsProvider,
-        ISettlementProvider settlementProvider,
-        List<IGameEventDefinition<SettlementEventContext>> events
+        ISettlementProvider settlementProvider
     ) {
         this.timeState = timeState;
         this.settlementManager = settlementManager;
         this.worldStatisticsProvider = worldStatisticsProvider;
         this.settlementProvider = settlementProvider;
-        this.events = events;
     }
 
     @Override
     public SettlementEventContext buildContext() {
         return new SettlementEventContext(
-                timeState,
+            timeState,
             settlementManager,
             worldStatisticsProvider,
             settlementProvider.getRandom()
         );
-    }
-
-    @Override
-    public List<IGameEventDefinition<SettlementEventContext>> getEvents() {
-        return events;
     }
 }

@@ -1,16 +1,15 @@
 package Gnava.Core.GameEvents;
 
-import java.util.Objects;
+import Gnava.Core.GameEvents.Contexts.EventContext;
 
-public final class GameEventFactory {
-    public <T extends IGameEventDefinition<?>> T create(Class<T> gameEventType) {
-        Class<T> eventType = Objects.requireNonNull(gameEventType, "gameEventType");
-
+public final class GameEventFactory implements IGameEventFactory {
+    @Override
+    public <T extends AbstractGameEventDefinition<? extends EventContext>> T create(Class<T> gameEventType) {
         try {
-            return eventType.getConstructor().newInstance();
+            return gameEventType.getConstructor().newInstance();
         } catch (ReflectiveOperationException exception) {
             throw new IllegalArgumentException(
-                "Game events must have a public no-argument constructor: " + eventType.getName(),
+                "Game events must have a public no-argument constructor: " + gameEventType.getName(),
                 exception
             );
         }

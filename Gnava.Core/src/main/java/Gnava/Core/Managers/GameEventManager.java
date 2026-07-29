@@ -4,6 +4,7 @@ import Gnava.Core.EventBus.Events.ExecutedGameEventReceivedEvent;
 import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
 import Gnava.Core.GameEvents.Contexts.EventContext;
 import Gnava.Core.GameEvents.Contexts.Providers.IEventContextProvider;
+import Gnava.Core.GameEvents.EventRegistry;
 import Gnava.Core.GameEvents.IGameEventDefinition;
 import Gnava.Core.TimeState;
 import org.springframework.context.ApplicationEventPublisher;
@@ -18,16 +19,19 @@ public final class GameEventManager extends AbstractGameManager {
     // TODO/NOTE: Maybe just store .class of executed event types instead of the object
     private final Set<IGameEventDefinition<? extends EventContext>> executedGameEventTypes = new HashSet<>();
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final EventRegistry eventRegistry;
 
     private final List<IEventContextProvider<? extends EventContext>> eventContextProviders;
 
     public GameEventManager(
         TimeState timeState,
         ApplicationEventPublisher applicationEventPublisher,
+        EventRegistry eventRegistry,
         List<IEventContextProvider<? extends EventContext>> eventContextProviders
     ) {
         super(timeState);
         this.applicationEventPublisher = applicationEventPublisher;
+        this.eventRegistry = eventRegistry;
         this.eventContextProviders = eventContextProviders;
     }
 
@@ -45,6 +49,7 @@ public final class GameEventManager extends AbstractGameManager {
 
     private <T extends EventContext> void processProvider(IEventContextProvider<T> provider) {
         T context = provider.buildContext();
+        eventRegistry.
         List<IGameEventDefinition<T>> events = provider.getEvents();
 
         generateEventCandidates(events, context).ifPresent(candidates -> {
