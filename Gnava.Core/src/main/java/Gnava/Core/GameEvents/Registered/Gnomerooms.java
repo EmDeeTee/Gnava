@@ -1,6 +1,6 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEventDefinition;
+import Gnava.Core.GameEvents.AbstractGameEvent;
 import Gnava.Core.GameEvents.Conditions.EventCondition;
 import Gnava.Core.GameEvents.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.GameEvents.Conditions.Settlement.SettlementPopulationTypeCondition;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public final class Gnomerooms extends AbstractGameEventDefinition<SettlementEventContext> {
+public final class Gnomerooms extends AbstractGameEvent<SettlementEventContext> {
     private final CreatureNameGenerator creatureNameGenerator;
 
     public Gnomerooms(CreatureNameGenerator creatureNameGenerator) {

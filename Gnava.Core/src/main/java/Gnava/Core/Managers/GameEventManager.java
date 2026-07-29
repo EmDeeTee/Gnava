@@ -41,6 +41,7 @@ public final class GameEventManager extends AbstractGameManager {
 
     @EventListener
     private void onTimeAdvanced(TimeAdvancedEvent event) {
+
         // TODO: This would only select 1 event. But diff providers can cause more than 1 to be selected
         for (IEventContextProvider<? extends EventContext> provider : eventContextProviders) {
             processProvider(provider);
@@ -49,8 +50,7 @@ public final class GameEventManager extends AbstractGameManager {
 
     private <T extends EventContext> void processProvider(IEventContextProvider<T> provider) {
         T context = provider.buildContext();
-        eventRegistry.
-        List<IGameEventDefinition<T>> events = provider.getEvents();
+        List<IGameEventDefinition<? extends EventContext>> events = eventRegistry.getEventsForContext(context.getClass());
 
         generateEventCandidates(events, context).ifPresent(candidates -> {
             IGameEventDefinition<T> selectedEvent = selectEventFromCandidates(candidates);

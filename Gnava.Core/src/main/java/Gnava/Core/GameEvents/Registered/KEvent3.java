@@ -1,6 +1,6 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEventDefinition;
+import Gnava.Core.GameEvents.AbstractGameEvent;
 import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
 import Gnava.Core.GameEvents.IGameEventDefinition;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public final class KEvent3 extends AbstractGameEventDefinition<SettlementEventContext> {
+public final class KEvent3 extends AbstractGameEvent<SettlementEventContext> {
     @Override
     protected String getTitleTranslationKey() {
         return "events.k_event_3.title";

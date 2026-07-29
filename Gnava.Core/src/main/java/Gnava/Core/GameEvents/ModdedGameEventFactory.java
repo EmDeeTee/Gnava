@@ -1,36 +1,34 @@
 package Gnava.Core.GameEvents;
 
-import Gnava.ModApi.IModdedGameEvent;
-import Gnava.ModApi.IModdedGameEventFactory;
+import Gnava.Core.GameEvents.Contexts.EventContext;
+import Gnava.ModApi.GameEvents.IModdedGameEvent;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
-public final class ModdedGameEventFactory implements IModdedGameEventFactory {
-    private final EventRegistry eventRegistry;
+public final class ModdedGameEventFactory implements IGameEventFactory {
+    private final Class<? extends IModdedGameEvent> eventType;
 
-    public ModdedGameEventFactory(EventRegistry eventRegistry) {
-        this.eventRegistry = eventRegistry;
+    public ModdedGameEventFactory(Class<? extends IModdedGameEvent> eventType) {
+        this.eventType = eventType;
     }
 
     @Override
-    public void register(Class<? extends IModdedGameEvent> gameEventType) {
+    public IGameEventDefinition<EventContext> create() {
+        try {
+            IModdedGameEvent event = eventType.getDeclaredConstructor().newInstance();
 
-    }
+            return new ModdedGameEventAdapter(event);
 
-    @SuppressWarnings("unchecked")
-    private Class<? extends AbstractGameEventDefinition<?>> asCoreEventType(
-        Class<? extends IModdedGameEvent> gameEventType
-    ) {
-        Class<? extends IModdedGameEvent> eventType = Objects.requireNonNull(gameEventType, "gameEventType");
-
-        if (!AbstractGameEventDefinition.class.isAssignableFrom(eventType)) {
-            throw new IllegalArgumentException(
-                "Mod game events must extend AbstractGameEventDefinition: " + eventType.getName()
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(
+                "Failed to create mod event " + eventType.getName(),
+                e
             );
         }
+    }
 
-        return (Class<? extends AbstractGameEventDefinition<?>>) eventType;
+    @Override
+    public Class<EventContext> contextType() {
+        return EventContext.class;
     }
 }

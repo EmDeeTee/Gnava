@@ -1,6 +1,6 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEventDefinition;
+import Gnava.Core.GameEvents.AbstractGameEvent;
 import Gnava.Core.GameEvents.Conditions.EventCondition;
 import Gnava.Core.GameEvents.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.GameEvents.Conditions.Universal.MinimumWorldPopulationCondition;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public final class KEvent extends AbstractGameEventDefinition<WorldEventContext> {
+public final class KEvent extends AbstractGameEvent<WorldEventContext> {
     @Override
     protected List<EventCondition<WorldEventContext>> conditions() {
         return List.of(

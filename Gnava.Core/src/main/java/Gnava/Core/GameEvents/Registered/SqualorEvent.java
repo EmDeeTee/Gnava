@@ -1,6 +1,6 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEventDefinition;
+import Gnava.Core.GameEvents.AbstractGameEvent;
 import Gnava.Core.GameEvents.Conditions.EventCondition;
 import Gnava.Core.GameEvents.Conditions.Settlement.SettlementNotInSqualorCondition;
 import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
-public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEventContext> {
+public final class SqualorEvent extends AbstractGameEvent<SettlementEventContext> {
     @Override
     protected List<EventCondition<SettlementEventContext>> conditions() {
         return List.of(

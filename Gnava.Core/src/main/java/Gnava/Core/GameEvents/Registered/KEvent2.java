@@ -1,6 +1,6 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEventDefinition;
+import Gnava.Core.GameEvents.AbstractGameEvent;
 import Gnava.Core.GameEvents.Conditions.EventCondition;
 import Gnava.Core.GameEvents.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public final class KEvent2 extends AbstractGameEventDefinition<SettlementEventContext> {
+public final class KEvent2 extends AbstractGameEvent<SettlementEventContext> {
     @Override
     protected List<EventCondition<SettlementEventContext>> conditions() {
         return List.of(

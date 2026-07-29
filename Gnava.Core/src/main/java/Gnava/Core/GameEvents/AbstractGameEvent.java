@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractGameEventDefinition<C extends EventContext> implements IGameEventDefinition<C> {
+public abstract class AbstractGameEvent<C extends EventContext> implements IGameEventDefinition<C> {
     @Override
     public final ExecutedGameEvent happen(C context) {
         prepare(context);
