@@ -1,6 +1,6 @@
 package Gnava.ModApi.GameEvents;
 
-public interface IModdedGameEvent {
+public interface IModdedGameEvent<T extends IModEventContext> {
     String sayHelloFromMod();
 
     default float probability() {

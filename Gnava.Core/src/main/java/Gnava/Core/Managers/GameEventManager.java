@@ -16,8 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public final class GameEventManager extends AbstractGameManager {
-    // TODO/NOTE: Maybe just store .class of executed event types instead of the object
-    private final Set<IGameEventDefinition<? extends EventContext>> executedGameEventTypes = new HashSet<>();
+    private final Set<Class<? extends IGameEventDefinition<?>>> executedGameEventTypes = new HashSet<>();
     private final ApplicationEventPublisher applicationEventPublisher;
     private final EventRegistry eventRegistry;
 
@@ -36,7 +35,7 @@ public final class GameEventManager extends AbstractGameManager {
     }
 
     public boolean hasEventHappened(Class<? extends IGameEventDefinition<?>> eventType) {
-        return executedGameEventTypes.stream().anyMatch(t -> t.getClass() == eventType);
+        return executedGameEventTypes.contains(eventType);
     }
 
     @EventListener
@@ -50,12 +49,14 @@ public final class GameEventManager extends AbstractGameManager {
 
     private <T extends EventContext> void processProvider(IEventContextProvider<T> provider) {
         T context = provider.buildContext();
-        List<IGameEventDefinition<? extends EventContext>> events = eventRegistry.getEventsForContext(context.getClass());
+        Class<T> contextType = (Class<T>) context.getClass();
+        List<IGameEventDefinition<T>> events = eventRegistry.getEventsForContext(contextType);
+        //List<? extends IGameEventDefinition<? extends EventContext>> events = eventRegistry.getEventsForContext(context.getClass());
 
         generateEventCandidates(events, context).ifPresent(candidates -> {
             IGameEventDefinition<T> selectedEvent = selectEventFromCandidates(candidates);
 
-            executedGameEventTypes.add(selectedEvent);
+            executedGameEventTypes.add(eventTypeOf(selectedEvent));
             applicationEventPublisher.publishEvent(
                 new ExecutedGameEventReceivedEvent(selectedEvent.happen(candidates.context()))
             );
@@ -73,7 +74,7 @@ public final class GameEventManager extends AbstractGameManager {
             if (!event.canRun(context)) {
                 continue;
             }
-            if (executedGameEventTypes.contains(event) && event.firesOnce()) {
+            if (executedGameEventTypes.contains(eventTypeOf(event)) && event.firesOnce()) {
                 continue;
             }
             if (!prerequisitesMet(event)) {
@@ -112,8 +113,12 @@ public final class GameEventManager extends AbstractGameManager {
 
     private boolean prerequisitesMet(IGameEventDefinition<?> event) {
         return event.prerequisites().stream()
-            .allMatch(required ->
-                executedGameEventTypes.stream().anyMatch(executed -> executed.getClass().equals(required))
-            );
+            .allMatch(executedGameEventTypes::contains);
+    }
+
+    private Class<? extends IGameEventDefinition<?>> eventTypeOf(
+            IGameEventDefinition<?> event
+    ) {
+        return (Class<? extends IGameEventDefinition<?>>) event.getClass();
     }
 }

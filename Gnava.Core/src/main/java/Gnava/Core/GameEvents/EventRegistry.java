@@ -12,13 +12,13 @@ import java.util.List;
 public final class EventRegistry {
     private static final Logger LOGGER = LoggerFactory.getLogger(EventRegistry.class);
 
-    private final List<IGameEventFactory> factories = new ArrayList<>();
+    private final List<IGameEventFactory<? extends EventContext>> factories = new ArrayList<>();
 
-    public EventRegistry(List<IGameEventFactory> initialFactories) {
+    public EventRegistry(List<IGameEventFactory<? extends EventContext>> initialFactories) {
         initialFactories.forEach(this::register);
     }
 
-    public void register(IGameEventFactory factory) {
+    public void register(IGameEventFactory<? extends EventContext> factory) {
         factories.add(factory);
 
         LOGGER.debug(

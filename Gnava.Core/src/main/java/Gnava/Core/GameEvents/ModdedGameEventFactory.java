@@ -5,19 +5,21 @@ import Gnava.ModApi.GameEvents.IModdedGameEvent;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class ModdedGameEventFactory implements IGameEventFactory {
+public final class ModdedGameEventFactory<T extends EventContext> implements IGameEventFactory<T> {
     private final Class<? extends IModdedGameEvent> eventType;
+    private final Class<T> contextType;
 
-    public ModdedGameEventFactory(Class<? extends IModdedGameEvent> eventType) {
+    public ModdedGameEventFactory(Class<? extends IModdedGameEvent> eventType, Class<T> contextType) {
         this.eventType = eventType;
+        this.contextType = contextType;
     }
 
     @Override
-    public IGameEventDefinition<EventContext> create() {
+    public IGameEventDefinition<T> create() {
         try {
-            IModdedGameEvent event = eventType.getDeclaredConstructor().newInstance();
+            IModdedGameEvent<T> event = eventType.getDeclaredConstructor().newInstance();
 
-            return new ModdedGameEventAdapter(event);
+            return new ModdedGameEventAdapter<T>(event);
 
         } catch (ReflectiveOperationException e) {
             throw new IllegalStateException(
@@ -28,7 +30,7 @@ public final class ModdedGameEventFactory implements IGameEventFactory {
     }
 
     @Override
-    public Class<EventContext> contextType() {
-        return EventContext.class;
+    public Class<T> contextType() {
+        return contextType;
     }
 }

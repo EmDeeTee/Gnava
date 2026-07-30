@@ -1,9 +1,10 @@
 package Gnava.Core.GameEvents;
 
 import Gnava.Core.GameEvents.Contexts.EventContext;
+import Gnava.ModApi.GameEvents.IModEventContext;
 import Gnava.ModApi.GameEvents.IModdedGameEvent;
 
-public final class ModdedGameEventAdapter extends AbstractGameEvent<EventContext> {
+public final class ModdedGameEventAdapter<T extends IModEventContext> extends AbstractGameEvent<T> {
     private final IModdedGameEvent modEvent;
 
     public ModdedGameEventAdapter(IModdedGameEvent modEvent) {

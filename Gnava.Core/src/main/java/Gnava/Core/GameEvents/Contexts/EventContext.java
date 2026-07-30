@@ -3,12 +3,13 @@ package Gnava.Core.GameEvents.Contexts;
 import Gnava.Core.Statistics.Records.WorldStatistics;
 import Gnava.Core.TimeState;
 import Gnava.Core.Statistics.WorldStatisticsProvider;
+import Gnava.ModApi.GameEvents.IModEventContext;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class EventContext {
+public abstract class EventContext implements IModEventContext {
     private final TimeState timeState;
     private final Map<String, Object> attachments = new HashMap<>();
     private final WorldStatisticsProvider worldStatisticsProvider;
