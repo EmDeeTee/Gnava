@@ -7,6 +7,7 @@ import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,12 +15,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Service
 public final class EventRegistry {
     private static final Logger LOGGER = LoggerFactory.getLogger(EventRegistry.class);
 
     private final Map<GameEventId, IGameEvent<?>> events = new LinkedHashMap<>();
     private final List<IGameEvent<WorldEventContext>> worldEvents = new ArrayList<>();
     private final List<IGameEvent<SettlementEventContext>> settlementEvents = new ArrayList<>();
+
+    public EventRegistry(List<IGameEvent<?>> vanillaEvents) {
+        vanillaEvents.forEach(this::register);
+    }
 
     public synchronized void register(IGameEvent<?> event) {
         IGameEvent<?> previous = events.putIfAbsent(event.specification().id(), event);

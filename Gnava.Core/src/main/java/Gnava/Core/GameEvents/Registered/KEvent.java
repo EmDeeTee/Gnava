@@ -5,7 +5,9 @@ import Gnava.GameApi.GameEvents.EventSpecification;
 import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventScope;
 import Gnava.GameApi.GameEvents.IGameEvent;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class KEvent implements IGameEvent<WorldEventContext> {
     public static final GameEventId ID = new GameEventId("gnava", "k_event");
 

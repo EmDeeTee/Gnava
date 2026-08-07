@@ -126,7 +126,7 @@ public final class GameEventEngine {
             }
         }
 
-        return Optional.of(candidates.get(candidates.size() - 1));
+        return Optional.of(candidates.getLast());
     }
 
     private record EventCandidate<C extends IGameEventContext>(IGameEvent<C> event, C context) {

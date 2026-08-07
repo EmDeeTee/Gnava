@@ -10,10 +10,12 @@ import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventResult;
 import Gnava.GameApi.GameEvents.GameEventScope;
 import Gnava.GameApi.GameEvents.IGameEvent;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.random.RandomGenerator;
 
+@Component
 public final class Gnomerooms implements IGameEvent<SettlementEventContext> {
     public static final GameEventId ID = new GameEventId("gnava", "gnomerooms");
 
