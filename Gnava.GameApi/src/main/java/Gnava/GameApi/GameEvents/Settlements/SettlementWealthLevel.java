@@ -1,4 +1,4 @@
-package Gnava.Core.Settlements.Enums;
+package Gnava.GameApi.GameEvents.Settlements;
 
 public enum SettlementWealthLevel {
     AFFLUENT,

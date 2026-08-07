@@ -1,14 +1,14 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
 import Gnava.GameApi.GameEvents.EventSpecification;
 import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventScope;
 import Gnava.GameApi.GameEvents.IGameEvent;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class KEvent3 implements IGameEvent<SettlementEventContext> {
+public final class KEvent3 implements IGameEvent<ISettlementEventContext> {
     public static final GameEventId ID = new GameEventId("gnava", "k_event_3");
 
     private static final EventSpecification SPEC = EventSpecification.builder(

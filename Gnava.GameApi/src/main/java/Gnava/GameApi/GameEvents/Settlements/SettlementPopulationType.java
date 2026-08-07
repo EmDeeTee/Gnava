@@ -1,11 +1,10 @@
-package Gnava.Core.Settlements.Enums;
+package Gnava.GameApi.GameEvents.Settlements;
 
 public enum SettlementPopulationType {
     GNOME,
     DWARF,
     GOBLIN;
 
-    // TODO: That probably doesn't belong in Core
     public String plural() {
         return switch (this) {
             case GNOME -> "gnomes";

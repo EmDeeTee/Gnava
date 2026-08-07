@@ -1,10 +1,10 @@
 package Gnava.Core.GameEvents;
 
-import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
 import Gnava.Core.GameEvents.Contexts.WorldEventContext;
 import Gnava.GameApi.GameEvents.IGameEvent;
 import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public final class EventRegistry {
 
     private final Map<GameEventId, IGameEvent<?>> events = new LinkedHashMap<>();
     private final List<IGameEvent<WorldEventContext>> worldEvents = new ArrayList<>();
-    private final List<IGameEvent<SettlementEventContext>> settlementEvents = new ArrayList<>();
+    private final List<IGameEvent<ISettlementEventContext>> settlementEvents = new ArrayList<>();
 
     public EventRegistry(List<IGameEvent<?>> vanillaEvents) {
         vanillaEvents.forEach(this::register);
@@ -54,7 +54,7 @@ public final class EventRegistry {
         return List.copyOf(worldEvents);
     }
 
-    public synchronized List<IGameEvent<SettlementEventContext>> settlementEvents() {
+    public synchronized List<IGameEvent<ISettlementEventContext>> settlementEvents() {
         return List.copyOf(settlementEvents);
     }
 
@@ -64,7 +64,7 @@ public final class EventRegistry {
     }
 
     @SuppressWarnings("unchecked")
-    private IGameEvent<SettlementEventContext> asSettlementEvent(IGameEvent<?> event) {
-        return (IGameEvent<SettlementEventContext>) event;
+    private IGameEvent<ISettlementEventContext> asSettlementEvent(IGameEvent<?> event) {
+        return (IGameEvent<ISettlementEventContext>) event;
     }
 }

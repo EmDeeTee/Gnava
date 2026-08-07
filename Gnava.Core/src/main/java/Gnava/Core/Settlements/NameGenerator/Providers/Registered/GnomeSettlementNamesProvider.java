@@ -1,6 +1,6 @@
 package Gnava.Core.Settlements.NameGenerator.Providers.Registered;
 
-import Gnava.Core.Settlements.Enums.SettlementPopulationType;
+import Gnava.GameApi.GameEvents.Settlements.SettlementPopulationType;
 import Gnava.Core.Settlements.NameGenerator.Providers.ISettlementNamesProvider;
 import org.springframework.stereotype.Component;
 

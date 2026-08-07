@@ -1,6 +1,6 @@
 package Gnava.Core.Spells.Registered;
 
-import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
+import Gnava.GameApi.GameEvents.Settlements.SettlementWealthLevel;
 import Gnava.Core.Spells.AbstractSpell;
 import Gnava.Core.Spells.SpellContext;
 import Gnava.Core.Spells.SpellOutcome;

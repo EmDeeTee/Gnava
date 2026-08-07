@@ -1,20 +1,20 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
-import Gnava.Core.Settlements.AddPopulationResult;
-import Gnava.Core.Settlements.Settlement;
 import Gnava.GameApi.GameEvents.EventSpecification;
 import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventResult;
 import Gnava.GameApi.GameEvents.GameEventScope;
 import Gnava.GameApi.GameEvents.IGameEvent;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
+import Gnava.GameApi.GameEvents.Settlements.PopulationChange;
+import Gnava.GameApi.GameEvents.Settlements.SettlementView;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.random.RandomGenerator;
 
 @Component
-public final class PopulationGrowthEvent implements IGameEvent<SettlementEventContext> {
+public final class PopulationGrowthEvent implements IGameEvent<ISettlementEventContext> {
     public static final GameEventId ID = new GameEventId("gnava", "population_growth");
 
     private static final EventSpecification SPEC = EventSpecification.builder(
@@ -29,20 +29,20 @@ public final class PopulationGrowthEvent implements IGameEvent<SettlementEventCo
     }
 
     @Override
-    public boolean canTrigger(SettlementEventContext context) {
-        return context.settlement().getPopulationCapacityRemaining() > 0;
+    public boolean canTrigger(ISettlementEventContext context) {
+        return context.settlement().populationCapacityRemaining() > 0;
     }
 
     @Override
-    public GameEventResult trigger(SettlementEventContext context, RandomGenerator random) {
-        Settlement settlement = context.settlement();
-        int growth = settlement.getMaxPopulation() > 1000
+    public GameEventResult trigger(ISettlementEventContext context, RandomGenerator random) {
+        SettlementView settlement = context.settlement();
+        int growth = settlement.maxPopulation() > 1000
             ? random.nextInt(1, 175)
             : random.nextInt(1, 33);
-        AddPopulationResult result = settlement.addPopulation(growth);
+        PopulationChange result = context.addPopulation(growth);
 
         return GameEventResult.translated(Map.of(
-            "name", settlement.getName(),
+            "name", settlement.name(),
             "amount", String.valueOf(result.addedAmount()),
             "rejectedText",
             result.overflow() > 0

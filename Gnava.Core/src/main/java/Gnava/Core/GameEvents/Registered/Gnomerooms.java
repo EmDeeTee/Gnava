@@ -1,22 +1,22 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
 import Gnava.Core.RaceNames.CreatureNameGenerator;
 import Gnava.Core.RaceNames.DefaultCreatureName;
-import Gnava.Core.Settlements.Settlement;
-import Gnava.Core.Settlements.Enums.SettlementPopulationType;
 import Gnava.GameApi.GameEvents.EventSpecification;
 import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventResult;
 import Gnava.GameApi.GameEvents.GameEventScope;
 import Gnava.GameApi.GameEvents.IGameEvent;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
+import Gnava.GameApi.GameEvents.Settlements.SettlementPopulationType;
+import Gnava.GameApi.GameEvents.Settlements.SettlementView;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.random.RandomGenerator;
 
 @Component
-public final class Gnomerooms implements IGameEvent<SettlementEventContext> {
+public final class Gnomerooms implements IGameEvent<ISettlementEventContext> {
     public static final GameEventId ID = new GameEventId("gnava", "gnomerooms");
 
     private static final EventSpecification SPEC = EventSpecification.builder(
@@ -37,27 +37,27 @@ public final class Gnomerooms implements IGameEvent<SettlementEventContext> {
     }
 
     @Override
-    public boolean canTrigger(SettlementEventContext context) {
-        Settlement settlement = context.settlement();
+    public boolean canTrigger(ISettlementEventContext context) {
+        SettlementView settlement = context.settlement();
         return context.currentDay() >= 10
-            && settlement.getPopulationType() == SettlementPopulationType.GNOME
-            && settlement.getTotalPopulation() > 1;
+            && settlement.populationType() == SettlementPopulationType.GNOME
+            && settlement.totalPopulation() > 1;
     }
 
     @Override
-    public GameEventResult trigger(SettlementEventContext context, RandomGenerator random) {
-        Settlement settlement = context.settlement();
+    public GameEventResult trigger(ISettlementEventContext context, RandomGenerator random) {
+        SettlementView settlement = context.settlement();
         String person = creatureNameGenerator
-            .generate(settlement.getPopulationType(), random)
+            .generate(settlement.populationType(), random)
             .creatureName()
             .orElse(DefaultCreatureName.get())
             .fullName();
 
-        settlement.addPopulation(-1);
+        context.addPopulation(-1);
 
         return GameEventResult.translated(Map.of(
             "person", person,
-            "name", settlement.getName()
+            "name", settlement.name()
         ));
     }
 }

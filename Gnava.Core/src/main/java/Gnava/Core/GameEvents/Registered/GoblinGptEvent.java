@@ -1,20 +1,20 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
-import Gnava.Core.Settlements.Enums.SettlementPopulationType;
-import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
 import Gnava.GameApi.GameEvents.EventSpecification;
 import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventResult;
 import Gnava.GameApi.GameEvents.GameEventScope;
 import Gnava.GameApi.GameEvents.IGameEvent;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
+import Gnava.GameApi.GameEvents.Settlements.SettlementPopulationType;
+import Gnava.GameApi.GameEvents.Settlements.SettlementWealthLevel;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.random.RandomGenerator;
 
 @Component
-public final class GoblinGptEvent implements IGameEvent<SettlementEventContext> {
+public final class GoblinGptEvent implements IGameEvent<ISettlementEventContext> {
     public static final GameEventId ID = new GameEventId("gnava", "goblin");
 
     private static final EventSpecification SPEC = EventSpecification.builder(
@@ -29,16 +29,16 @@ public final class GoblinGptEvent implements IGameEvent<SettlementEventContext> 
     }
 
     @Override
-    public boolean canTrigger(SettlementEventContext context) {
+    public boolean canTrigger(ISettlementEventContext context) {
         return context.currentDay() >= 30
-            && context.settlement().getPopulationType() == SettlementPopulationType.GOBLIN;
+            && context.settlement().populationType() == SettlementPopulationType.GOBLIN;
     }
 
     @Override
-    public GameEventResult trigger(SettlementEventContext context, RandomGenerator random) {
-        context.settlement().setWealthLevel(SettlementWealthLevel.AFFLUENT);
-        context.settlement().setMaxPopulation(context.settlement().getMaxPopulation() + 350);
+    public GameEventResult trigger(ISettlementEventContext context, RandomGenerator random) {
+        context.setWealthLevel(SettlementWealthLevel.AFFLUENT);
+        context.expandPopulationCapacity(350);
 
-        return GameEventResult.translated(Map.of("name", context.settlement().getName()));
+        return GameEventResult.translated(Map.of("name", context.settlement().name()));
     }
 }

@@ -1,19 +1,19 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
-import Gnava.Core.Settlements.Settlement;
 import Gnava.GameApi.GameEvents.EventSpecification;
 import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventResult;
 import Gnava.GameApi.GameEvents.GameEventScope;
 import Gnava.GameApi.GameEvents.IGameEvent;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
+import Gnava.GameApi.GameEvents.Settlements.SettlementView;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.random.RandomGenerator;
 
 @Component
-public final class PopulationTotalGrowthEvent implements IGameEvent<SettlementEventContext> {
+public final class PopulationTotalGrowthEvent implements IGameEvent<ISettlementEventContext> {
     public static final GameEventId ID = new GameEventId("gnava", "population_total_growth");
 
     private static final EventSpecification SPEC = EventSpecification.builder(
@@ -28,13 +28,13 @@ public final class PopulationTotalGrowthEvent implements IGameEvent<SettlementEv
     }
 
     @Override
-    public GameEventResult trigger(SettlementEventContext context, RandomGenerator random) {
-        Settlement settlement = context.settlement();
+    public GameEventResult trigger(ISettlementEventContext context, RandomGenerator random) {
+        SettlementView settlement = context.settlement();
         int growth = random.nextInt(201);
-        settlement.setMaxPopulation(settlement.getMaxPopulation() + growth);
+        context.expandPopulationCapacity(growth);
 
         return GameEventResult.translated(Map.of(
-            "name", settlement.getName(),
+            "name", settlement.name(),
             "amount", String.valueOf(growth)
         ));
     }

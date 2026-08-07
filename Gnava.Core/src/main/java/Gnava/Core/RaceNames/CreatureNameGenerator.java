@@ -1,6 +1,6 @@
 package Gnava.Core.RaceNames;
 
-import Gnava.Core.Settlements.Enums.SettlementPopulationType;
+import Gnava.GameApi.GameEvents.Settlements.SettlementPopulationType;
 import Gnava.Core.RaceNames.Providers.ICreatureNamesProvider;
 import org.springframework.stereotype.Service;
 

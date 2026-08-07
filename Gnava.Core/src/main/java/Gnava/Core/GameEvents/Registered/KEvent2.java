@@ -1,18 +1,18 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
 import Gnava.GameApi.GameEvents.EventSpecification;
 import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventResult;
 import Gnava.GameApi.GameEvents.GameEventScope;
 import Gnava.GameApi.GameEvents.IGameEvent;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.random.RandomGenerator;
 
 @Component
-public final class KEvent2 implements IGameEvent<SettlementEventContext> {
+public final class KEvent2 implements IGameEvent<ISettlementEventContext> {
     public static final GameEventId ID = new GameEventId("gnava", "k_event_2");
 
     private static final EventSpecification SPEC = EventSpecification.builder(
@@ -31,16 +31,16 @@ public final class KEvent2 implements IGameEvent<SettlementEventContext> {
     }
 
     @Override
-    public boolean canTrigger(SettlementEventContext context) {
-        return context.settlement().getTotalPopulation() > 100;
+    public boolean canTrigger(ISettlementEventContext context) {
+        return context.settlement().totalPopulation() > 100;
     }
 
     @Override
-    public GameEventResult trigger(SettlementEventContext context, RandomGenerator random) {
-        context.settlement().addPopulation(-100);
+    public GameEventResult trigger(ISettlementEventContext context, RandomGenerator random) {
+        context.addPopulation(-100);
         return GameEventResult.translated(Map.of(
-            "name", context.settlement().getName(),
-            "plural", context.settlement().getPopulationType().plural()
+            "name", context.settlement().name(),
+            "plural", context.settlement().populationType().plural()
         ));
     }
 }

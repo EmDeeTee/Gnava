@@ -12,6 +12,7 @@ import Gnava.GameApi.GameEvents.IGameEvent;
 import Gnava.GameApi.GameEvents.IGameEventContext;
 import Gnava.GameApi.GameEvents.GameEventId;
 import Gnava.GameApi.GameEvents.GameEventResult;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +80,7 @@ public final class GameEventEngine {
         addEligible(candidates, registry.worldEvents(), worldContext);
 
         for (Settlement settlement : settlementProvider.getAll()) {
-            SettlementEventContext context = new SettlementEventContext(
+            ISettlementEventContext context = new SettlementEventContext(
                 timeState,
                 worldStatisticsProvider,
                 settlement
