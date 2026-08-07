@@ -66,7 +66,7 @@ public class GameEventsPanel extends JPanel {
     }
 
     public void addEvent(ExecutedGameEvent event) {
-        allEvents.addFirst(event);
+        allEvents.add(0, event);
         applyFilter(this.filterOptionsManager);
     }
 
@@ -80,9 +80,12 @@ public class GameEventsPanel extends JPanel {
             ExecutedGameEvent selected = eventList.getSelectedValue();
             if (selected != null) {
                 TranslationData translationData = selected.translationData();
+                String description = translator.hasTranslation(translationData.descriptionKey())
+                    ? translator.t(translationData.descriptionKey(), translationData.arguments())
+                    : selected.fallbackDescription();
                 new PlaintextPopup(
                     parent,
-                    translator.t(translationData.descriptionKey(), translationData.context()),
+                    description,
                     translator.t(
                         "ui.popups.event_details.title",
                         Map.of("day", String.valueOf(selected.happenedOnDay()))

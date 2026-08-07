@@ -1,64 +1,46 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEvent;
-import Gnava.Core.GameEvents.Conditions.EventCondition;
-import Gnava.Core.GameEvents.Conditions.Settlement.MinimumSettlementPopulationCondition;
-import Gnava.Core.GameEvents.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
 import Gnava.Core.Settlements.Settlement;
-import org.springframework.stereotype.Component;
+import Gnava.GameApi.GameEvents.EventSpecification;
+import Gnava.GameApi.GameEvents.GameEventId;
+import Gnava.GameApi.GameEvents.GameEventResult;
+import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.IGameEvent;
 
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
-@Component
-public final class NosferatuEvent extends AbstractGameEvent<SettlementEventContext> {
+public final class NosferatuEvent implements IGameEvent<SettlementEventContext> {
+    public static final GameEventId ID = new GameEventId("gnava", "nosferatu");
+
+    private static final EventSpecification SPEC = EventSpecification.builder(
+        ID,
+        GameEventScope.SETTLEMENT,
+        "events.nosferatu"
+    ).weight(0.1).build();
+
     @Override
-    protected String getTitleTranslationKey() {
-        return "events.nosferatu.title";
+    public EventSpecification specification() {
+        return SPEC;
     }
 
     @Override
-    protected String getDescriptionTranslationKey() {
-        return "events.nosferatu.description";
+    public boolean canTrigger(SettlementEventContext context) {
+        return context.currentDay() >= 30
+            && context.settlement().getTotalPopulation() > 100;
     }
 
     @Override
-    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
-        Settlement targetSettlement = context.getRandomTargetSettlement();
+    public GameEventResult trigger(SettlementEventContext context, RandomGenerator random) {
+        Settlement settlement = context.settlement();
+        int damage = random.nextInt(1, Math.min(200, settlement.getTotalPopulation()) + 1);
+        settlement.addPopulation(-damage);
 
-        return Map.ofEntries(
-            Map.entry("name", targetSettlement.getName()),
-            Map.entry("amount", String.valueOf(context.get("damage", Integer.class).orElseThrow())),
-            Map.entry("plural", targetSettlement.getPopulationType().plural())
-        );
-    }
-
-    @Override
-    public float probability() {
-        return 0.1f;
-    }
-
-    @Override
-    protected List<EventCondition<SettlementEventContext>> conditions() {
-        return List.of(
-            new MinimumSettlementPopulationCondition(100),
-            new MinimumGameDayCondition<>(30)
-        );
-    }
-
-    @Override
-    protected void prepare(SettlementEventContext context) {
-        Settlement targetSettlement = context.getRandomTargetSettlement();
-        context.set("damage", ThreadLocalRandom.current().nextInt(1, Math.min(200, targetSettlement.getTotalPopulation())) + 1);
-    }
-
-    @Override
-    protected void apply(SettlementEventContext context) {
-        int damage = context.get("damage", Integer.class).orElseThrow();
-        Settlement target = context.getRandomTargetSettlement();
-
-        target.addPopulation(-damage);
+        return GameEventResult.translated(Map.of(
+            "name", settlement.getName(),
+            "amount", String.valueOf(damage),
+            "plural", settlement.getPopulationType().plural()
+        ));
     }
 }

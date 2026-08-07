@@ -1,5 +1,6 @@
 package Gnava.Core.Mod;
 
+import Gnava.Core.Mod.Context.LoadedMod;
 import Gnava.ModApi.IMod;
 import Gnava.ModApi.IModContext;
 import org.slf4j.Logger;
@@ -17,10 +18,12 @@ import java.util.stream.Stream;
 @Service
 public final class Modloader {
     private final IModContext modContext;
+    private final ModRegistry modRegistry;
     private static final Logger LOGGER = LoggerFactory.getLogger(Modloader.class);
     
-    public Modloader(IModContext modContext) {
+    public Modloader(IModContext modContext, ModRegistry modRegistry) {
         this.modContext = modContext;
+        this.modRegistry = modRegistry;
     }
 
     public void initialize() throws IOException {
@@ -58,10 +61,16 @@ public final class Modloader {
 
             for (IMod mod : loader) {
                 mod.initialise(modContext);
+                modRegistry.add(new LoadedMod(
+                    path.toString(),
+                    classLoader
+                ));
                 LOGGER.info("Loaded mod '{}'", mod.getClass().getName());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        LOGGER.info("Mod registry contains the following mods: {}", modRegistry.getLoadedMods());
     }
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
+import java.util.random.RandomGenerator;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +25,13 @@ public final class CreatureNameGenerator {
     }
 
     public CreatureNameGenerationResult generate(SettlementPopulationType targetPopulationType) {
+        return generate(targetPopulationType, ThreadLocalRandom.current());
+    }
+
+    public CreatureNameGenerationResult generate(
+        SettlementPopulationType targetPopulationType,
+        RandomGenerator random
+    ) {
         if (!creatureNamesProviders.containsKey(targetPopulationType)) {
             return new CreatureNameGenerationResult(
                 Optional.empty(),
@@ -42,7 +50,7 @@ public final class CreatureNameGenerator {
         }
 
         return new CreatureNameGenerationResult(
-            Optional.of(possibleCreatureNames.get(ThreadLocalRandom.current().nextInt(possibleCreatureNames.size()))),
+            Optional.of(possibleCreatureNames.get(random.nextInt(possibleCreatureNames.size()))),
             targetPopulationType
         );
     }

@@ -1,9 +1,9 @@
 package Gnava.ModApi;
 
-import Gnava.ModApi.GameEvents.IModdedGameEventFactory;
+import Gnava.GameApi.GameEvents.IGameEventRegistrar;
 
 public interface IModContext {
     ISettlementApi settlements();
     IGameTimeApi time();
-    IModdedGameEventFactory moddedEvents();
+    IGameEventRegistrar gameEventRegistrar();
 }

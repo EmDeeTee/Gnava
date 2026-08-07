@@ -1,8 +1,9 @@
 package Gnava.Core.Mod.Context;
 
+import Gnava.Core.GameEvents.GameEventRegistrar;
+import Gnava.GameApi.GameEvents.IGameEventRegistrar;
 import Gnava.ModApi.IModContext;
 import Gnava.ModApi.IGameTimeApi;
-import Gnava.ModApi.GameEvents.IModdedGameEventFactory;
 import Gnava.ModApi.ISettlementApi;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +11,16 @@ import org.springframework.stereotype.Service;
 public class ModContext implements IModContext {
     private final SettlementApi settlementApi;
     private final GameTimeApi gameTimeApi;
-    private final IModdedGameEventFactory moddedGameEventFactory;
+    private final GameEventRegistrar gameEventRegistrar;
 
     public ModContext(
         SettlementApi settlementApi,
         GameTimeApi gameTimeApi,
-        IModdedGameEventFactory moddedGameEventFactory
+        GameEventRegistrar gameEventRegistrar
     ) {
         this.settlementApi = settlementApi;
         this.gameTimeApi = gameTimeApi;
-        this.moddedGameEventFactory = moddedGameEventFactory;
+        this.gameEventRegistrar = gameEventRegistrar;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class ModContext implements IModContext {
     }
 
     @Override
-    public IModdedGameEventFactory moddedEvents() {
-        return moddedGameEventFactory;
+    public IGameEventRegistrar gameEventRegistrar() {
+        return gameEventRegistrar;
     }
 }

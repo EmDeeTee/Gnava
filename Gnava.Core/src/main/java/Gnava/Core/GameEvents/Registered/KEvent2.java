@@ -1,64 +1,44 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEvent;
-import Gnava.Core.GameEvents.Conditions.EventCondition;
-import Gnava.Core.GameEvents.Conditions.Settlement.MinimumSettlementPopulationCondition;
 import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
-import Gnava.Core.GameEvents.IGameEventDefinition;
-import org.springframework.stereotype.Component;
+import Gnava.GameApi.GameEvents.EventSpecification;
+import Gnava.GameApi.GameEvents.GameEventId;
+import Gnava.GameApi.GameEvents.GameEventResult;
+import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.IGameEvent;
 
-import java.util.List;
 import java.util.Map;
+import java.util.random.RandomGenerator;
 
-@Component
-public final class KEvent2 extends AbstractGameEvent<SettlementEventContext> {
+public final class KEvent2 implements IGameEvent<SettlementEventContext> {
+    public static final GameEventId ID = new GameEventId("gnava", "k_event_2");
+
+    private static final EventSpecification SPEC = EventSpecification.builder(
+        ID,
+        GameEventScope.SETTLEMENT,
+        "events.k_event_2"
+    ).weight(0.04)
+        .oneTime()
+        .storyEvent()
+        .requires(KEvent.ID)
+        .build();
+
     @Override
-    protected List<EventCondition<SettlementEventContext>> conditions() {
-        return List.of(
-            new MinimumSettlementPopulationCondition(100)
-        );
+    public EventSpecification specification() {
+        return SPEC;
     }
 
     @Override
-    protected void apply(SettlementEventContext context) {
-        context.getRandomTargetSettlement().addPopulation(-100);
+    public boolean canTrigger(SettlementEventContext context) {
+        return context.settlement().getTotalPopulation() > 100;
     }
 
     @Override
-    protected String getTitleTranslationKey() {
-        return "events.k_event_2.title";
-    }
-
-    @Override
-    protected String getDescriptionTranslationKey() {
-        return "events.k_event_2.description";
-    }
-
-    @Override
-    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
-        return Map.ofEntries(
-            Map.entry("name", context.getRandomTargetSettlement().getName()),
-            Map.entry("plural", context.getRandomTargetSettlement().getPopulationType().plural())
-        );
-    }
-
-    @Override
-    public boolean isStoryEvent() {
-        return true;
-    }
-
-    @Override
-    public boolean firesOnce() {
-        return true;
-    }
-
-    @Override
-    public float probability() {
-        return 0.04f;
-    }
-
-    @Override
-    public List<Class<? extends IGameEventDefinition<?>>> prerequisites() {
-        return List.of(KEvent.class);
+    public GameEventResult trigger(SettlementEventContext context, RandomGenerator random) {
+        context.settlement().addPopulation(-100);
+        return GameEventResult.translated(Map.of(
+            "name", context.settlement().getName(),
+            "plural", context.settlement().getPopulationType().plural()
+        ));
     }
 }

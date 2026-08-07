@@ -1,15 +1,20 @@
 package Gnava.Core.GameEvents;
 
-import org.jspecify.annotations.Nullable;
-
 import java.util.Map;
 
 public record TranslationData(
-    String titleKey,
-    String descriptionKey,
-    @Nullable Map<String, String> context
+    String key,
+    Map<String, String> arguments
 ) {
     public TranslationData {
-        context = context == null ? null : Map.copyOf(context);
+        arguments = Map.copyOf(arguments);
+    }
+
+    public String titleKey() {
+        return key + ".title";
+    }
+
+    public String descriptionKey() {
+        return key + ".description";
     }
 }

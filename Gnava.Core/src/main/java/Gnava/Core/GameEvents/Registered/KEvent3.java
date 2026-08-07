@@ -1,41 +1,26 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEvent;
 import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
-import Gnava.Core.GameEvents.IGameEventDefinition;
-import org.springframework.stereotype.Component;
+import Gnava.GameApi.GameEvents.EventSpecification;
+import Gnava.GameApi.GameEvents.GameEventId;
+import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.IGameEvent;
 
-import java.util.List;
+public final class KEvent3 implements IGameEvent<SettlementEventContext> {
+    public static final GameEventId ID = new GameEventId("gnava", "k_event_3");
 
-@Component
-public final class KEvent3 extends AbstractGameEvent<SettlementEventContext> {
-    @Override
-    protected String getTitleTranslationKey() {
-        return "events.k_event_3.title";
-    }
-
-    @Override
-    protected String getDescriptionTranslationKey() {
-        return "events.k_event_3.description";
-    }
-
-    @Override
-    public boolean isStoryEvent() {
-        return true;
-    }
+    private static final EventSpecification SPEC = EventSpecification.builder(
+        ID,
+        GameEventScope.SETTLEMENT,
+        "events.k_event_3"
+    ).weight(0.03)
+        .oneTime()
+        .storyEvent()
+        .requires(KEvent2.ID)
+        .build();
 
     @Override
-    public boolean firesOnce() {
-        return true;
-    }
-
-    @Override
-    public float probability() {
-        return 0.03f;
-    }
-
-    @Override
-    public List<Class<? extends IGameEventDefinition<?>>> prerequisites() {
-        return List.of(KEvent2.class);
+    public EventSpecification specification() {
+        return SPEC;
     }
 }

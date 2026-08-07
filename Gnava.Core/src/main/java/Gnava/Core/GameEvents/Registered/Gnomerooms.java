@@ -1,22 +1,28 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEvent;
-import Gnava.Core.GameEvents.Conditions.EventCondition;
-import Gnava.Core.GameEvents.Conditions.Settlement.MinimumSettlementPopulationCondition;
-import Gnava.Core.GameEvents.Conditions.Settlement.SettlementPopulationTypeCondition;
-import Gnava.Core.GameEvents.Conditions.Universal.MinimumGameDayCondition;
 import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
-import Gnava.Core.Settlements.Enums.SettlementPopulationType;
-import Gnava.Core.Settlements.Settlement;
 import Gnava.Core.RaceNames.CreatureNameGenerator;
 import Gnava.Core.RaceNames.DefaultCreatureName;
-import org.springframework.stereotype.Component;
+import Gnava.Core.Settlements.Settlement;
+import Gnava.Core.Settlements.Enums.SettlementPopulationType;
+import Gnava.GameApi.GameEvents.EventSpecification;
+import Gnava.GameApi.GameEvents.GameEventId;
+import Gnava.GameApi.GameEvents.GameEventResult;
+import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.IGameEvent;
 
-import java.util.List;
 import java.util.Map;
+import java.util.random.RandomGenerator;
 
-@Component
-public final class Gnomerooms extends AbstractGameEvent<SettlementEventContext> {
+public final class Gnomerooms implements IGameEvent<SettlementEventContext> {
+    public static final GameEventId ID = new GameEventId("gnava", "gnomerooms");
+
+    private static final EventSpecification SPEC = EventSpecification.builder(
+        ID,
+        GameEventScope.SETTLEMENT,
+        "events.gnomerooms"
+    ).weight(0.04).build();
+
     private final CreatureNameGenerator creatureNameGenerator;
 
     public Gnomerooms(CreatureNameGenerator creatureNameGenerator) {
@@ -24,49 +30,32 @@ public final class Gnomerooms extends AbstractGameEvent<SettlementEventContext> 
     }
 
     @Override
-    protected void prepare(SettlementEventContext context) {
-        context.set("person", creatureNameGenerator
-            .generate(context.getRandomTargetSettlement().getPopulationType())
+    public EventSpecification specification() {
+        return SPEC;
+    }
+
+    @Override
+    public boolean canTrigger(SettlementEventContext context) {
+        Settlement settlement = context.settlement();
+        return context.currentDay() >= 10
+            && settlement.getPopulationType() == SettlementPopulationType.GNOME
+            && settlement.getTotalPopulation() > 1;
+    }
+
+    @Override
+    public GameEventResult trigger(SettlementEventContext context, RandomGenerator random) {
+        Settlement settlement = context.settlement();
+        String person = creatureNameGenerator
+            .generate(settlement.getPopulationType(), random)
             .creatureName()
             .orElse(DefaultCreatureName.get())
-            .fullName());
-    }
+            .fullName();
 
-    @Override
-    protected String getTitleTranslationKey() {
-        return "events.gnomerooms.title";
-    }
+        settlement.addPopulation(-1);
 
-    @Override
-    protected String getDescriptionTranslationKey() {
-        return "events.gnomerooms.description";
-    }
-
-    @Override
-    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
-        return Map.ofEntries(
-            Map.entry("person", context.get("person", String.class).orElseThrow()),
-            Map.entry("name", context.getRandomTargetSettlement().getName())
-        );
-    }
-
-    @Override
-    public float probability() {
-        return 0.04f;
-    }
-
-    @Override
-    protected List<EventCondition<SettlementEventContext>> conditions() {
-        return List.of(
-            new SettlementPopulationTypeCondition(SettlementPopulationType.GNOME),
-            new MinimumSettlementPopulationCondition(1),
-            new MinimumGameDayCondition<>(10)
-        );
-    }
-
-    @Override
-    protected void apply(SettlementEventContext context) {
-        Settlement target = context.getRandomTargetSettlement();
-        target.addPopulation(-1);
+        return GameEventResult.translated(Map.of(
+            "person", person,
+            "name", settlement.getName()
+        ));
     }
 }

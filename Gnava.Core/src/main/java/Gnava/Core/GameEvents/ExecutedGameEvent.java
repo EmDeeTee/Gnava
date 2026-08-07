@@ -1,8 +1,11 @@
 package Gnava.Core.GameEvents;
 
+import Gnava.GameApi.GameEvents.GameEventId;
+
 public record ExecutedGameEvent(
-    @Deprecated String title,
-    @Deprecated String description,
+    GameEventId id,
+    String fallbackTitle,
+    String fallbackDescription,
     boolean storyEvent,
     int happenedOnDay,
     boolean isMinor,
@@ -10,6 +13,6 @@ public record ExecutedGameEvent(
 ) {
     @Override
     public String toString() {
-        return title;
+        return fallbackTitle;
     }
 }

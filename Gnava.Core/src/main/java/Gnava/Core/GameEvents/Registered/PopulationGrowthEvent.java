@@ -1,73 +1,51 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEvent;
-import Gnava.Core.GameEvents.Conditions.EventCondition;
-import Gnava.Core.GameEvents.Conditions.Settlement.SettlementHasFreePopulationCapacityCondition;
-import Gnava.Core.GameEvents.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
 import Gnava.Core.Settlements.AddPopulationResult;
 import Gnava.Core.Settlements.Settlement;
-import org.springframework.stereotype.Component;
+import Gnava.GameApi.GameEvents.EventSpecification;
+import Gnava.GameApi.GameEvents.GameEventId;
+import Gnava.GameApi.GameEvents.GameEventResult;
+import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.IGameEvent;
 
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
-@Component
-public final class PopulationGrowthEvent extends AbstractGameEvent<SettlementEventContext> {
+public final class PopulationGrowthEvent implements IGameEvent<SettlementEventContext> {
+    public static final GameEventId ID = new GameEventId("gnava", "population_growth");
+
+    private static final EventSpecification SPEC = EventSpecification.builder(
+        ID,
+        GameEventScope.SETTLEMENT,
+        "events.population_growth"
+    ).minor().build();
+
     @Override
-    protected List<EventCondition<SettlementEventContext>> conditions() {
-        return List.of(
-            new MinimumWorldSettlementsCountCondition<>(1),
-            new SettlementHasFreePopulationCapacityCondition()
-        );
+    public EventSpecification specification() {
+        return SPEC;
     }
 
     @Override
-    protected void prepare(SettlementEventContext context) {
-        Settlement settlement = context.getRandomTargetSettlement();
+    public boolean canTrigger(SettlementEventContext context) {
+        return context.settlement().getPopulationCapacityRemaining() > 0;
+    }
 
+    @Override
+    public GameEventResult trigger(SettlementEventContext context, RandomGenerator random) {
+        Settlement settlement = context.settlement();
         int growth = settlement.getMaxPopulation() > 1000
-            ? ThreadLocalRandom.current().nextInt(1, 175)
-            : ThreadLocalRandom.current().nextInt(1, 33);
-        context.set("growth", growth);
-    }
-
-    @Override
-    protected String getTitleTranslationKey() {
-        return "events.population_growth.title";
-    }
-
-    @Override
-    protected String getDescriptionTranslationKey() {
-        return "events.population_growth.description";
-    }
-
-    @Override
-    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
-        AddPopulationResult result = context.get("addResult", AddPopulationResult.class).orElseThrow();
-
-        return Map.ofEntries(
-            Map.entry("name", context.getRandomTargetSettlement().getName()),
-            Map.entry("amount", String.valueOf(result.addedAmount())),
-            Map.entry(
-                "rejectedText",
-                result.overflow() > 0 ? "(%d population rejected due to lack of space)".formatted(result.overflow()) : "" // TODO: This text should also be a UI concern
-            )
-        );
-    }
-
-    @Override
-    protected void apply(SettlementEventContext context) {
-        Settlement settlement = context.getRandomTargetSettlement();
-        Integer growth = context.get("growth", Integer.class).orElseThrow(RuntimeException::new);
-
+            ? random.nextInt(1, 175)
+            : random.nextInt(1, 33);
         AddPopulationResult result = settlement.addPopulation(growth);
-        context.set("addResult", result);
-    }
 
-    @Override
-    public boolean isMinor() {
-        return true;
+        return GameEventResult.translated(Map.of(
+            "name", settlement.getName(),
+            "amount", String.valueOf(result.addedAmount()),
+            "rejectedText",
+            result.overflow() > 0
+                ? "(%d population rejected due to lack of space)".formatted(result.overflow())
+                : ""
+        ));
     }
 }
