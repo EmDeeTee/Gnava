@@ -20,7 +20,9 @@ public final class PopulationTotalGrowthEvent implements IGameEvent<ISettlementE
         ID,
         GameEventScope.SETTLEMENT,
         "events.population_total_growth"
-    ).weight(0.25).minor().build();
+    ).weight(0.25)
+        .minor()
+        .build();
 
     @Override
     public EventSpecification specification() {

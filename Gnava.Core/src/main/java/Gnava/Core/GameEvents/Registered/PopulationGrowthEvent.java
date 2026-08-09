@@ -21,7 +21,8 @@ public final class PopulationGrowthEvent implements IGameEvent<ISettlementEventC
         ID,
         GameEventScope.SETTLEMENT,
         "events.population_growth"
-    ).minor().build();
+    ).minor()
+        .build();
 
     @Override
     public EventSpecification specification() {

@@ -15,7 +15,9 @@ public final class KEvent implements IGameEvent<WorldEventContext> {
         ID,
         GameEventScope.WORLD,
         "events.k_event"
-    ).oneTime().storyEvent().build();
+    ).oneTime()
+        .storyEvent()
+        .build();
 
     @Override
     public EventSpecification specification() {

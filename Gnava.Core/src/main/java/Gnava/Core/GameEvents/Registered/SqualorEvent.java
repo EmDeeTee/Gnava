@@ -21,7 +21,8 @@ public final class SqualorEvent implements IGameEvent<ISettlementEventContext> {
         ID,
         GameEventScope.SETTLEMENT,
         "events.squalor"
-    ).weight(0.05).build();
+    ).weight(0.05)
+        .build();
 
     @Override
     public EventSpecification specification() {

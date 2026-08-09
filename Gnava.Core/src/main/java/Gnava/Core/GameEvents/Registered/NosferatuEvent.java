@@ -20,7 +20,8 @@ public final class NosferatuEvent implements IGameEvent<ISettlementEventContext>
         ID,
         GameEventScope.SETTLEMENT,
         "events.nosferatu"
-    ).weight(0.1).build();
+    ).weight(0.1)
+        .build();
 
     @Override
     public EventSpecification specification() {

@@ -21,7 +21,9 @@ public final class GoblinGptEvent implements IGameEvent<ISettlementEventContext>
         ID,
         GameEventScope.SETTLEMENT,
         "events.goblin"
-    ).weight(0.02).oneTime().build();
+    ).weight(0.02)
+        .oneTime()
+        .build();
 
     @Override
     public EventSpecification specification() {
@@ -30,8 +32,7 @@ public final class GoblinGptEvent implements IGameEvent<ISettlementEventContext>
 
     @Override
     public boolean canTrigger(ISettlementEventContext context) {
-        return context.currentDay() >= 30
-            && context.settlement().populationType() == SettlementPopulationType.GOBLIN;
+        return context.currentDay() >= 30 && context.settlement().populationType() == SettlementPopulationType.GOBLIN;
     }
 
     @Override

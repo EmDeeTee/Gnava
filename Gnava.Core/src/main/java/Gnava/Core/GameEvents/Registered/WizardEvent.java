@@ -19,7 +19,8 @@ public final class WizardEvent implements IGameEvent<ISettlementEventContext> {
         ID,
         GameEventScope.SETTLEMENT,
         "events.wizard"
-    ).oneTime().build();
+    ).oneTime()
+        .build();
 
     @Override
     public EventSpecification specification() {

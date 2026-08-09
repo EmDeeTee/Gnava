@@ -1,7 +1,6 @@
 package Gnava.GameApi.GameEvents;
 
 import java.util.Map;
-import java.util.Objects;
 
 public record GameEventResult(
     Map<String, String> translationArguments,
@@ -12,8 +11,6 @@ public record GameEventResult(
 
     public GameEventResult {
         translationArguments = Map.copyOf(translationArguments);
-        fallbackTitle = Objects.requireNonNull(fallbackTitle, "fallbackTitle");
-        fallbackDescription = Objects.requireNonNull(fallbackDescription, "fallbackDescription");
     }
 
     public static GameEventResult empty() {

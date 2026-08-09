@@ -23,7 +23,8 @@ public final class Gnomerooms implements IGameEvent<ISettlementEventContext> {
         ID,
         GameEventScope.SETTLEMENT,
         "events.gnomerooms"
-    ).weight(0.04).build();
+    ).weight(0.04)
+        .build();
 
     private final CreatureNameGenerator creatureNameGenerator;
 

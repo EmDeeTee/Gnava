@@ -2,7 +2,6 @@ package Gnava.GameApi.GameEvents;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public record EventSpecification(
     GameEventId id,
@@ -15,7 +14,7 @@ public record EventSpecification(
     List<GameEventId> prerequisites
 ) {
     public EventSpecification {
-        translationKey = Objects.requireNonNull(translationKey, "translationKey").trim();
+        translationKey = translationKey.trim();
         prerequisites = List.copyOf(prerequisites);
 
         if (translationKey.isEmpty()) {
