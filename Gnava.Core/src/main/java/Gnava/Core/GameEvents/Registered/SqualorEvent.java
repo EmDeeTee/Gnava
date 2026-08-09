@@ -1,65 +1,52 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEventDefinition;
-import Gnava.Core.GameEvents.Conditions.EventCondition;
-import Gnava.Core.GameEvents.Conditions.Settlement.SettlementNotInSqualorCondition;
-import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
-import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
+import Gnava.GameApi.GameEvents.EventSpecification;
+import Gnava.GameApi.GameEvents.GameEventId;
+import Gnava.GameApi.GameEvents.GameEventResult;
+import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.IGameEvent;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
+import Gnava.GameApi.GameEvents.Settlements.SettlementView;
+import Gnava.GameApi.GameEvents.Settlements.SettlementWealthLevel;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
 @Component
-public final class SqualorEvent extends AbstractGameEventDefinition<SettlementEventContext> {
+public final class SqualorEvent implements IGameEvent<ISettlementEventContext> {
+    public static final GameEventId ID = new GameEventId("gnava", "squalor");
+
+    private static final EventSpecification SPEC = EventSpecification.builder(
+        ID,
+        GameEventScope.SETTLEMENT,
+        "events.squalor"
+    ).weight(0.05)
+        .build();
+
     @Override
-    protected List<EventCondition<SettlementEventContext>> conditions() {
-        return List.of(
-            new SettlementNotInSqualorCondition()
-        );
+    public EventSpecification specification() {
+        return SPEC;
     }
 
     @Override
-    protected void prepare(SettlementEventContext context) {
-        context.set("reason", getReason(context));
+    public boolean canTrigger(ISettlementEventContext context) {
+        return context.settlement().wealthLevel() != SettlementWealthLevel.DESTITUTE;
     }
 
     @Override
-    protected void apply(SettlementEventContext context) {
-        context.getRandomTargetSettlement().setWealthLevel(SettlementWealthLevel.DESTITUTE);
-    }
-
-    @Override
-    protected String getTitleTranslationKey() {
-        return "events.squalor.title";
-    }
-
-    @Override
-    protected String getDescriptionTranslationKey() {
-        return "events.squalor.description";
-    }
-
-    @Override
-    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
-        return Map.ofEntries(
-            Map.entry("name", context.getRandomTargetSettlement().getName()),
-            Map.entry("reason", context.get("reason", String.class).orElseThrow())
-        );
-    }
-
-    private String getReason(SettlementEventContext context) {
-        // TODO: This should also not be here and be translated by the UI
+    public GameEventResult trigger(ISettlementEventContext context, RandomGenerator random) {
+        SettlementView settlement = context.settlement();
         String[] reasons = {
-            "Because of bad budget management, %s is now in squalor".formatted(context.getRandomTargetSettlement()),
-            "%s got hit with a Squalormelon".formatted(context.getRandomTargetSettlement())
+            "Because of bad budget management, %s is now in squalor".formatted(settlement.name()),
+            "%s got hit with a Squalormelon".formatted(settlement.name())
         };
 
-        return reasons[ThreadLocalRandom.current().nextInt(reasons.length)];
-    }
+        context.setWealthLevel(SettlementWealthLevel.DESTITUTE);
 
-    @Override
-    public float probability() {
-        return 0.050f;
+        return GameEventResult.translated(Map.of(
+            "name", settlement.name(),
+            "reason", reasons[random.nextInt(reasons.length)]
+        ));
     }
 }

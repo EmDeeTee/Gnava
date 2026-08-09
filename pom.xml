@@ -9,18 +9,20 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
     <modules>
-        <module>Gnava.Core</module>
-        <module>Gnava.Desktop</module>
-        <module>Gnava.Persistence</module>
-        <module>Gnava.Launcher</module>
+        <module>Gnava.GameApi</module>
         <module>Gnava.ModApi</module>
+        <module>Gnava.Core</module>
+        <module>Gnava.Persistence</module>
+        <module>Gnava.Desktop</module>
+        <module>Gnava.Launcher</module>
     </modules>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <revision>1.0.1</revision>
+        <revision>1.1.0</revision>
+        <api.version>1.0.0</api.version>
     </properties>
 
     <dependencies>
@@ -50,6 +52,18 @@
         <dependencies>
             <dependency>
                 <groupId>Gnava</groupId>
+                <artifactId>Gnava.GameApi</artifactId>
+                <version>${api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>Gnava</groupId>
+                <artifactId>Gnava.ModApi</artifactId>
+                <version>${api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>Gnava</groupId>
                 <artifactId>Gnava.Core</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -63,13 +77,6 @@
             <dependency>
                 <groupId>Gnava</groupId>
                 <artifactId>Gnava.Desktop</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>Gnava</groupId>
-                <artifactId>Gnava.ModApi</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>

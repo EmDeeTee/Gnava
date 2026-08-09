@@ -3,6 +3,8 @@ package Gnava.Desktop.Interface.Frames.MainFrame.Components;
 import Gnava.Core.CommandHandlers.CastSpellHandler;
 import Gnava.Core.CommandHandlers.CreateSettlementHandler;
 import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
+import Gnava.Core.Mod.Context.LoadedMod;
+import Gnava.Core.Mod.ModRegistry;
 import Gnava.Core.Server.ApiServer;
 import Gnava.Core.Server.ServerStartResult;
 import Gnava.Core.Server.ServerStopResult;
@@ -20,6 +22,7 @@ import Gnava.Desktop.Interface.Actions.ShowWorldStatisticsAction;
 import Gnava.Desktop.Interface.Frames.ChartFrame.ChartFrame;
 import Gnava.Desktop.Interface.Frames.DetailsFrame.DetailsFrame;
 import Gnava.Desktop.Interface.Frames.MainFrame.MainFrame;
+import Gnava.Desktop.Interface.Popups.Presets.PlaintextPopup;
 import Gnava.Desktop.Interface.Popups.Presets.SettlementSelectionPopup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;
 import Gnava.Desktop.Interface.Translations.Translator;
@@ -39,6 +42,7 @@ public class MenuBar extends JMenuBar {
     private final JMenu statisticsMenu = new JMenu(Translation.t(TranslationKey.MENU_STATISTICS));
     private final JMenu viewMenu = new JMenu(Translation.t(TranslationKey.MENU_VIEW));
     private final JMenu serverMenu = new JMenu("Server");
+    private final JMenu modsMenu = new JMenu("Mods");
 
     private final JMenuItem showWorldStatisticsItem = new JMenuItem();
     private final JMenuItem showSpellStatisticsItem = new JMenuItem();
@@ -47,6 +51,7 @@ public class MenuBar extends JMenuBar {
     private final JMenuItem startServer = new JMenuItem("Start");
     private final JMenuItem stopServer = new JMenuItem("Stop");
     private final JMenuItem serverStatus = new JCheckBoxMenuItem("Server running?");
+    private final JMenuItem modList = new JMenuItem("Show all mods");
 
     private final JMenu spellMenu = new JMenu(Translation.t(TranslationKey.MENU_SPELL_BOOK));
 
@@ -67,7 +72,8 @@ public class MenuBar extends JMenuBar {
         SettlementNameGenerator settlementNameGenerator,
         Translator translator,
         SettlementCreationPolicy settlementCreationPolicy,
-        ApiServer apiServer
+        ApiServer apiServer,
+        ModRegistry modRegistry
     ) {
         super();
         this.castSpellHandler = castSpellHandler;
@@ -122,11 +128,23 @@ public class MenuBar extends JMenuBar {
             });
         });
 
+        modList.addActionListener(a -> {
+            StringBuilder sb = new StringBuilder();
+            for (LoadedMod mod : modRegistry.getLoadedMods()) {
+                sb.append(mod.name()).append("<br>").append(mod.classLoader());
+                sb.append("<br>----------<br>");
+            }
+
+            new PlaintextPopup(frame, sb.toString()).show();
+        });
+        modsMenu.add(modList);
+
         add(actionsMenu);
         add(spellMenu);
         add(statisticsMenu);
         add(viewMenu);
         add(serverMenu);
+        add(modsMenu);
     }
 
     private void registerSpellMenuItems() {

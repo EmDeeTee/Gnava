@@ -1,42 +1,33 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEventDefinition;
-import Gnava.Core.GameEvents.Conditions.EventCondition;
-import Gnava.Core.GameEvents.Conditions.Universal.MinimumGameDayCondition;
-import Gnava.Core.GameEvents.Conditions.Universal.MinimumWorldPopulationCondition;
-import Gnava.Core.GameEvents.Conditions.Universal.MinimumWorldSettlementsCountCondition;
 import Gnava.Core.GameEvents.Contexts.WorldEventContext;
+import Gnava.GameApi.GameEvents.EventSpecification;
+import Gnava.GameApi.GameEvents.GameEventId;
+import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.IGameEvent;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
-public final class KEvent extends AbstractGameEventDefinition<WorldEventContext> {
+public final class KEvent implements IGameEvent<WorldEventContext> {
+    public static final GameEventId ID = new GameEventId("gnava", "k_event");
+
+    private static final EventSpecification SPEC = EventSpecification.builder(
+        ID,
+        GameEventScope.WORLD,
+        "events.k_event"
+    ).oneTime()
+        .storyEvent()
+        .build();
+
     @Override
-    protected List<EventCondition<WorldEventContext>> conditions() {
-        return List.of(
-            new MinimumWorldPopulationCondition<>(2000),
-            new MinimumWorldSettlementsCountCondition<>(2),
-            new MinimumGameDayCondition<>(100)
-        );
+    public EventSpecification specification() {
+        return SPEC;
     }
 
     @Override
-    public boolean firesOnce() {
-        return true;
-    }
-
-    @Override
-    public boolean isStoryEvent() {
-        return true;
-    }
-    @Override
-    protected String getTitleTranslationKey() {
-        return "events.k_event.title";
-    }
-
-    @Override
-    protected String getDescriptionTranslationKey() {
-        return "events.k_event.description";
+    public boolean canTrigger(WorldEventContext context) {
+        return context.currentDay() >= 100
+            && context.worldStatistics().population() >= 2000
+            && context.worldStatistics().settlementCount() >= 2;
     }
 }

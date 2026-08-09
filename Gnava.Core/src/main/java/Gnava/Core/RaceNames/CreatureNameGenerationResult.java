@@ -1,6 +1,6 @@
 package Gnava.Core.RaceNames;
 
-import Gnava.Core.Settlements.Enums.SettlementPopulationType;
+import Gnava.GameApi.GameEvents.Settlements.SettlementPopulationType;
 
 import java.util.Optional;
 

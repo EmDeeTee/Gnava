@@ -37,6 +37,10 @@ public final class Translator {
         return translation;
     }
 
+    public boolean hasTranslation(String key) {
+        return key != null && !key.isBlank() && bundle.containsKey(key);
+    }
+
     private String getBundleString(String key) {
         return bundle.containsKey(key) ? bundle.getString(key) : "Key not found";
     }

@@ -37,9 +37,9 @@ public class GameEventListRenderer extends DefaultListCellRenderer {
         }
 
         String titleKey = executedGameEvent.translationData().titleKey();
-        String text = (titleKey == null || titleKey.isBlank())
-            ? executedGameEvent.title()
-            : translator.t(titleKey, executedGameEvent.translationData().context());
+        String text = !translator.hasTranslation(titleKey)
+            ? executedGameEvent.fallbackTitle()
+            : translator.t(titleKey, executedGameEvent.translationData().arguments());
 
         setText(text);
 

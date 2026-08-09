@@ -1,6 +1,6 @@
 package Gnava.Core.Settlements.NameGenerator.Providers;
 
-import Gnava.Core.Settlements.Enums.SettlementPopulationType;
+import Gnava.GameApi.GameEvents.Settlements.SettlementPopulationType;
 
 import java.util.List;
 

@@ -1,63 +1,43 @@
 package Gnava.Core.GameEvents.Registered;
 
-import Gnava.Core.GameEvents.AbstractGameEventDefinition;
-import Gnava.Core.GameEvents.Conditions.EventCondition;
-import Gnava.Core.GameEvents.Conditions.Universal.MinimumWorldSettlementsCountCondition;
-import Gnava.Core.GameEvents.Contexts.SettlementEventContext;
-import Gnava.Core.Settlements.Settlement;
+import Gnava.GameApi.GameEvents.EventSpecification;
+import Gnava.GameApi.GameEvents.GameEventId;
+import Gnava.GameApi.GameEvents.GameEventResult;
+import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.IGameEvent;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
+import Gnava.GameApi.GameEvents.Settlements.SettlementView;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.random.RandomGenerator;
 
-// TODO: Wealthy settlements should expand its total and max population faster
 @Component
-public final class PopulationTotalGrowthEvent extends AbstractGameEventDefinition<SettlementEventContext> {
+public final class PopulationTotalGrowthEvent implements IGameEvent<ISettlementEventContext> {
+    public static final GameEventId ID = new GameEventId("gnava", "population_total_growth");
+
+    private static final EventSpecification SPEC = EventSpecification.builder(
+        ID,
+        GameEventScope.SETTLEMENT,
+        "events.population_total_growth"
+    ).weight(0.25)
+        .minor()
+        .build();
+
     @Override
-    protected List<EventCondition<SettlementEventContext>> conditions() {
-        return List.of(
-            new MinimumWorldSettlementsCountCondition<>(1)
-        );
+    public EventSpecification specification() {
+        return SPEC;
     }
 
     @Override
-    protected String getTitleTranslationKey() {
-        return "events.population_total_growth.title";
-    }
+    public GameEventResult trigger(ISettlementEventContext context, RandomGenerator random) {
+        SettlementView settlement = context.settlement();
+        int growth = random.nextInt(201);
+        context.expandPopulationCapacity(growth);
 
-    @Override
-    protected String getDescriptionTranslationKey() {
-        return "events.population_total_growth.description";
-    }
-
-    @Override
-    protected Map<String, String> getTranslationContext(SettlementEventContext context) {
-        return Map.ofEntries(
-            Map.entry("name", context.getRandomTargetSettlement().getName()),
-            Map.entry("amount", String.valueOf(context.get("growth", Integer.class).orElseThrow()))
-        );
-    }
-
-    @Override
-    protected void prepare(SettlementEventContext context) {
-        context.set("growth", ThreadLocalRandom.current().nextInt(0, 200 + 1));
-    }
-
-    @Override
-    protected void apply(SettlementEventContext context) {
-        Settlement target = context.getRandomTargetSettlement();
-
-        target.setMaxPopulation(target.getMaxPopulation() + context.get("growth", Integer.class).orElseThrow());
-    }
-
-    @Override
-    public float probability() {
-        return 0.25f;
-    }
-
-    @Override
-    public boolean isMinor() {
-        return true;
+        return GameEventResult.translated(Map.of(
+            "name", settlement.name(),
+            "amount", String.valueOf(growth)
+        ));
     }
 }

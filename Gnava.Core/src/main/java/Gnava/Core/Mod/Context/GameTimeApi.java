@@ -1,12 +1,11 @@
 package Gnava.Core.Mod.Context;
 
-import Gnava.ModApi.IGameDayListener;
-import Gnava.ModApi.IGameTimeApi;
+import Gnava.GameApi.IGameDayListener;
+import Gnava.GameApi.IGameTimeApi;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public final class GameTimeApi implements IGameTimeApi {
@@ -14,7 +13,7 @@ public final class GameTimeApi implements IGameTimeApi {
 
     @Override
     public void onDayAdvanced(IGameDayListener listener) {
-        dayAdvancedListeners.add(Objects.requireNonNull(listener, "listener"));
+        dayAdvancedListeners.add(listener);
     }
 
     public void publishDayAdvanced(int currentDay) {

@@ -2,10 +2,10 @@ package Gnava.Desktop.Interface.Popups.Presets;
 
 import Gnava.Core.Managers.Settlement.SettlementCreationPolicy;
 import Gnava.Core.Managers.SettlementCreationResult;
-import Gnava.Core.Settlements.Enums.SettlementWealthLevel;
+import Gnava.GameApi.GameEvents.Settlements.SettlementWealthLevel;
 import Gnava.Core.Settlements.NameGenerator.SettlementNameGenerator;
 import Gnava.Core.Settlements.Requests.CreateSettlementRequest;
-import Gnava.Core.Settlements.Enums.SettlementPopulationType;
+import Gnava.GameApi.GameEvents.Settlements.SettlementPopulationType;
 import Gnava.Desktop.Interface.Elements.GnavaButton;
 import Gnava.Desktop.Interface.Popups.Popup;
 import Gnava.Desktop.Interface.Translations.TranslationKey;

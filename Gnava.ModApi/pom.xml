@@ -10,6 +10,14 @@
     </parent>
 
     <artifactId>Gnava.ModApi</artifactId>
+    <version>${api.version}</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>Gnava</groupId>
+            <artifactId>Gnava.GameApi</artifactId>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

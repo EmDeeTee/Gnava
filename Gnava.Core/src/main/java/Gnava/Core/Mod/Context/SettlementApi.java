@@ -1,7 +1,7 @@
 package Gnava.Core.Mod.Context;
 
 import Gnava.Core.Repositories.ISettlementProvider;
-import Gnava.ModApi.ISettlementApi;
+import Gnava.GameApi.ISettlementApi;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,41 +1,70 @@
 package Gnava.Core.GameEvents;
 
-import Gnava.Core.EventBus.Events.TimeAdvancedEvent;
-import org.springframework.context.event.EventListener;
+import Gnava.Core.GameEvents.Contexts.WorldEventContext;
+import Gnava.GameApi.GameEvents.IGameEvent;
+import Gnava.GameApi.GameEvents.GameEventId;
+import Gnava.GameApi.GameEvents.GameEventScope;
+import Gnava.GameApi.GameEvents.Settlements.ISettlementEventContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public final class EventRegistry {
-    private final List<AbstractGameEventDefinition<?>> gameEventDefinitions = new ArrayList<>();
-    private final GameEventFactory gameEventFactory = new GameEventFactory();
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventRegistry.class);
 
-    public EventRegistry() {
-        registerCoreGameEvents();
+    private final Map<GameEventId, IGameEvent<?>> events = new LinkedHashMap<>();
+    private final List<IGameEvent<WorldEventContext>> worldEvents = new ArrayList<>();
+    private final List<IGameEvent<ISettlementEventContext>> settlementEvents = new ArrayList<>();
+
+    public EventRegistry(List<IGameEvent<?>> vanillaEvents) {
+        vanillaEvents.forEach(this::register);
     }
 
-    public void register(AbstractGameEventDefinition<?> gameEventDefinition) {
-        gameEventDefinitions.add(Objects.requireNonNull(gameEventDefinition, "gameEventDefinition"));
+    public synchronized void register(IGameEvent<?> event) {
+        IGameEvent<?> previous = events.putIfAbsent(event.specification().id(), event);
+        if (previous != null) {
+            throw new IllegalArgumentException("Duplicate game event id: " + event.specification().id());
+        }
+
+        if (event.specification().scope() == GameEventScope.WORLD) {
+            worldEvents.add(asWorldEvent(event));
+        } else {
+            settlementEvents.add(asSettlementEvent(event));
+        }
+
+        LOGGER.debug("Registered new game event: {}", event.specification().id());
     }
 
-    public <T extends AbstractGameEventDefinition<?>> void register(Class<T> gameEventType) {
-        register(gameEventFactory.create(gameEventType));
+    public synchronized Optional<IGameEvent<?>> find(GameEventId id) {
+        return Optional.ofNullable(events.get(id));
     }
 
-    public List<AbstractGameEventDefinition<?>> getRegisteredEvents() {
-        return List.copyOf(gameEventDefinitions);
+    public synchronized List<IGameEvent<?>> allEvents() {
+        return List.copyOf(events.values());
     }
 
-    private void registerCoreGameEvents() {
-        register(TestEvent.class);
+    public synchronized List<IGameEvent<WorldEventContext>> worldEvents() {
+        return List.copyOf(worldEvents);
     }
 
-    @EventListener
-    private void tmp(TimeAdvancedEvent e) {
-        AbstractGameEventDefinition<?> g = getRegisteredEvents().stream().filter(f -> f.getClass() == TestEvent.class).findFirst().get();
-        System.out.println(g.getTitleTranslationKey());
+    public synchronized List<IGameEvent<ISettlementEventContext>> settlementEvents() {
+        return List.copyOf(settlementEvents);
+    }
+
+    @SuppressWarnings("unchecked")
+    private IGameEvent<WorldEventContext> asWorldEvent(IGameEvent<?> event) {
+        return (IGameEvent<WorldEventContext>) event;
+    }
+
+    @SuppressWarnings("unchecked")
+    private IGameEvent<ISettlementEventContext> asSettlementEvent(IGameEvent<?> event) {
+        return (IGameEvent<ISettlementEventContext>) event;
     }
 }
