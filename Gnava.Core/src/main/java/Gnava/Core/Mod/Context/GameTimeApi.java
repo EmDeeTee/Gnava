@@ -1,7 +1,7 @@
 package Gnava.Core.Mod.Context;
 
-import Gnava.ModApi.IGameDayListener;
-import Gnava.ModApi.IGameTimeApi;
+import Gnava.GameApi.IGameDayListener;
+import Gnava.GameApi.IGameTimeApi;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

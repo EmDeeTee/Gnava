@@ -3,8 +3,8 @@ package Gnava.Core.Mod.Context;
 import Gnava.Core.GameEvents.GameEventRegistrar;
 import Gnava.GameApi.GameEvents.IGameEventRegistrar;
 import Gnava.ModApi.IModContext;
-import Gnava.ModApi.IGameTimeApi;
-import Gnava.ModApi.ISettlementApi;
+import Gnava.GameApi.IGameTimeApi;
+import Gnava.GameApi.ISettlementApi;
 import org.springframework.stereotype.Service;
 
 @Service

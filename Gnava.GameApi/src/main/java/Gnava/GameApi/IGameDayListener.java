@@ -1,4 +1,4 @@
-package Gnava.ModApi;
+package Gnava.GameApi;
 
 @FunctionalInterface
 public interface IGameDayListener {
